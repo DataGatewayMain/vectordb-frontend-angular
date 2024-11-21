@@ -1,0 +1,9 @@
+{
+    "/api": {
+      "target": "https://api.vectordb.app/v1",
+      "secure": false,
+      "changeOrigin": true,
+      "logLevel": "debug"
+    }
+  }
+  
