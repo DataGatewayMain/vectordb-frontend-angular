@@ -1,0 +1,60 @@
+
+<div class="main-banner wow fadeIn" id="top" data-wow-duration="1s" data-wow-delay="0.5s">
+
+  <div class="container">
+    <div style="margin-bottom: 25px; margin-top: 10px" routerLink="/main">
+      <img
+        src="./assets/data.png"
+        style="margin-left: 0px;margin-top: 0px; width: 70px; margin-bottom: 0px;"
+      />
+    </div>
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="row">
+          
+          <div class="col-lg-6 align-self-center">
+            <div class="left-content header-text wow fadeInLeft" data-wow-duration="1s" data-wow-delay="1s">
+              
+              <h2>Sign up for DataGateway — Free Forever</h2>
+              <h1>Find, contact, and close your ideal buyers with over 20M contacts and streamlined engagement workflows powered by AI.</h1>
+              <form id="search"  method="post" (ngSubmit)="submitForm()" #signupForm="ngForm">
+                <fieldset>
+                  <input type="email" name="address" class="email" placeholder="Email..." [(ngModel)]="email" required>
+                </fieldset>
+              
+                <div *ngIf="signupForm.submitted && !signupForm.controls['address'].valid" class="error-message">
+                  Please enter a valid email address.
+                </div>
+              
+                <div *ngIf="signupForm.submitted && !signupForm.valid && signupForm.controls['address'].valid" class="error-message">
+                  You must accept the terms in order to proceed.
+                </div>
+              
+                <div *ngIf="signupForm.submitted && signupForm.valid" class="success-message">
+                  Email is sent successfully! Thank you for signing up.
+                </div>
+              
+                <fieldset class="checkbox-fieldset">
+                  <input id="agreeTerms" name="agreeTerms" type="checkbox" [(ngModel)]="agreeTerms" required>
+                  <label for="agreeTerms">By signing up, I agree to Datagateway's <b>Terms of Service</b> and <b>Privacy Policy</b>.</label>
+                </fieldset>
+              
+                <fieldset>
+                  <button type="submit" class="main-button">Sign Up for Free</button>
+                </fieldset>
+              </form>
+            
+              <p class="login-text"> or </p>
+              
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="right-image wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.5s">
+              <img src="https://app.datagateway.in/assets/data_apollo.png" alt="team meeting">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

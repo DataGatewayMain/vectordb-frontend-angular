@@ -1,0 +1,17 @@
+
+ <!-- <app-demo *ngIf="!showHeaderB()"></app-demo> -->
+
+ 
+<router-outlet></router-outlet>
+<!-- <app-footer  *ngIf="!showHeaderB()"></app-footer>   -->
+
+
+ <asl-google-signin-button ></asl-google-signin-button>
+<div *ngIf="user">
+<p>{{user.name}}</p>
+<p>{{user.email}}</p>
+
+</div>
+
+
+

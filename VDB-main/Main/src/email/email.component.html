@@ -1,0 +1,176 @@
+<div *ngIf="isLoading" class="container" style="text-align: center; padding: 20px; width: 80%; height: 80%;">
+    <div style="display: flex; justify-content: center; align-items: center; height: 100%;">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" style="width: 100px; height: 100px;">
+        <rect fill="#030350" stroke="#030350" stroke-width="15" width="30" height="30" x="25" y="85">
+          <animate attributeName="opacity" calcMode="spline" dur="2" values="1;0;1;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="-.4"></animate>
+        </rect>
+        <rect fill="#030350" stroke="#030350" stroke-width="15" width="30" height="30" x="85" y="85">
+          <animate attributeName="opacity" calcMode="spline" dur="2" values="1;0;1;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="-.2"></animate>
+        </rect>
+        <rect fill="#030350" stroke="#030350" stroke-width="15" width="30" height="30" x="145" y="85">
+          <animate attributeName="opacity" calcMode="spline" dur="2" values="1;0;1;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="0"></animate>
+        </rect>
+      </svg>
+    </div>
+  </div>
+  <div *ngIf="!hasEmailSenders" class="container" style="
+      text-align: center;
+      padding: 20px;
+      width: 80%;
+      height: 80%;
+  ">
+
+    <div class="main-content" style="
+      margin-top: 40px;
+      align-items: center;
+    ">
+      <img src="../assets/emailSend.svg" alt="email img" style="
+      max-width: 500px; 
+      margin-left: 370px;
+      margin-bottom: 20px;
+    ">
+      <h1 style="
+        font-size: 24px;
+        margin-bottom: 10px;
+      ">Send emails with VectorDB</h1>
+      <p style="
+        font-size: 16px;
+        color: #666;
+        margin: 10px 0;
+      ">Track email opens & clicks, save time with templates & automations, and sync everything with your CRM.</p>
+      <p style="
+        font-size: 16px;
+        color: #666;
+        margin: 10px 0;
+      ">In order to get started, you must first link your mailbox.</p>
+      <a style="
+        display: inline-block;
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px 20px;
+        text-decoration: none;
+        border-radius: 6px;
+        margin-top: 10px;
+        margin-right: 10px;
+      " class="link-mailbox-center" (click)="openDialog()">Link Email</a>
+    </div>
+  </div>
+  
+  <div *ngIf="hasEmailSenders" style="display: flex; width: 80vw; height: 100vh; margin-left: 0px;">
+    <div *ngIf="updateDialogOpen" style="
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    width: 50vw;
+    z-index: 1000; 
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2); 
+  ">
+    <h2>Update Mailbox Configuration</h2>
+    <form (ngSubmit)="onUpdateSubmit()">
+      <div style="margin-bottom: 15px;">
+        <label for="host" style="display: block; margin-bottom: 5px;">Host</label>
+        <input type="text" id="host" [(ngModel)]="emailData.smtp.host" name="host" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" required>
+      </div>
+      <div style="margin-bottom: 15px;">
+        <label for="password" style="display: block; margin-bottom: 5px;">Password</label>
+        <input type="password" id="password" [(ngModel)]="emailData.smtp.password" name="password" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" required>
+      </div>
+      <div style="text-align: right;">
+        <button type="submit" style="padding: 10px 20px; background-color: #007BFF; color: #FFFFFF; border: none; border-radius: 5px; cursor: pointer;">Update</button>
+      </div>
+    </form>
+  </div>
+  
+  
+    <div style="background-color: #1a2a48; color: white; width: 250px; padding: 20px;">
+      <h2 style="font-size: 18px;">Mailbox!</h2>
+      <ul style="list-style-type: none; padding: 0;">
+        <li (click)="showSection('inbox')" style="padding: 10px 0; font-weight: bold; cursor: pointer;">Inbox</li>
+        <li (click)="showSection('senders')" style="padding: 10px 0; cursor: pointer;">Senders</li>
+        <!-- <li (click)="showSection('link')" style="padding: 10px 0; cursor: pointer;">link email</li> -->
+      </ul>
+    </div>
+    <div style="padding: 20px; width: 70vw;">
+      <div *ngIf="activeSection === 'inbox'">
+        <h4 style="margin: 1rem;">Inbox</h4>
+        <div *ngFor="let email of inboxDetails" class="messages-container" style="overflow-x: hidden; background: var(--bs-white); cursor: pointer; margin: 1rem;" (click)="viewEmailDetails(email)">
+          <a class="message-wrapper border-bottom p-3" style="all: unset; display: grid; grid-template-columns: 60px auto 10ch; transition: transform 0.3s; position: relative;">
+            <div class="thumbnail me-3" style="align-self: center; grid-row: 1/3; aspect-ratio: 1; border-radius: 50%; background: var(--bs-info); color: var(--bs-light); display: flex; align-items: center; justify-content: center;">
+              {{ getInitial(email.to_name) }}
+            </div>
+            <div class="name h5 m-0" style="align-self: center; color: var(--bs-dark);">
+              {{ email.to_name }}
+            </div>
+            <div class="ago-time" style="justify-self: start; color: var(--bs-secondary);">
+              {{ getTimeAgo(email.sent_at) }}
+            </div>
+            <div class="message-text" style="grid-column: 2/4; color: var(--bs-secondary); text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">
+              {{ email.subject }}
+            </div>
+            <div class="delete-btn" style="position: absolute; top: 0; bottom: 0; right: -80px; width: 80px; background: var(--bs-danger); display: flex; justify-content: center; align-items: center; color: white;">
+              <span class="material-icons-round">delete</span>
+            </div>
+          </a>
+        </div>
+      
+        <!-- Display email details -->
+        <div *ngIf="selectedEmail" class="email-details" style="padding: 20px; background: var(--bs-light); border: 1px solid var(--bs-secondary); border-radius: 5px;">
+          <h4>Details for {{ selectedEmail.subject }}</h4>
+          <p><strong>From:</strong> {{ selectedEmail.fromName }} &lt;{{ selectedEmail.sender }}&gt;</p>
+          <p><strong>To:</strong> {{ selectedEmail.to_name }} &lt;{{ selectedEmail.recipient }}&gt;</p>
+          <p><strong>Sent At:</strong> {{ selectedEmail.sent_at | date:'short' }}</p>
+          <p><strong>Message:</strong></p>
+          <div [innerHTML]="selectedEmail.message" style="border: 1px solid #ddd; padding: 10px; border-radius: 5px;"></div>
+          <button (click)="selectedEmail = null" style="background-color: #007bff; color: white; padding: 10px; border: none; border-radius: 5px; cursor: pointer;">Close</button>
+        </div>      
+      </div>
+      
+  
+      <div *ngIf="activeSection === 'senders'" class="row">
+        
+   
+        <div style="text-align: right;">
+          <a class="" (click)="openDialog()" 
+             style="background-color: #1a2a48; color: white; width: 250px; padding: 10px; margin-bottom: 20px; border-radius: 12px;">
+            Link Email
+          </a>
+        </div>      
+      
+        <h1 style="font-size: 24px; margin-top: 20px;margin-left: 500px; font-weight: bolder; ">Senders</h1>
+        <div *ngIf="emailSenders.length === 0">No email senders found.</div>
+        <div *ngFor="let sender of emailSenders" style="border: 1px solid #E0E0E0; border-radius: 5px; padding: 15px; margin-bottom: 10px;">
+          <div style="display: flex; align-items: center; margin-bottom: 10px;">
+            <div style="background-color: #E0FFE0; padding: 10px; border-radius: 50%; margin-right: 10px;">
+              <img src="../assets/verifyHuman.svg" alt="Verified Icon" style="width: 24px; height: 24px;">
+            </div>
+            <div>
+              <strong style="font-size: 16px;">{{ sender.first_name }} {{ sender.last_name }} &lt;{{ sender.username }}&gt;</strong><br>
+              <span style="color: #28A745; font-size: 14px;">Verified</span>
+            </div>
+          </div>
+          <div style="margin-top: 10px;">
+            <a [ngStyle]="{
+                  'color': sender.password && sender.host ? 'blue' : 'red',
+                  'text-decoration': 'none',
+                  'margin-right': '10px'
+                }" (click)="activateEmail(sender)">
+              {{ sender.password && sender.host ? 'Update' : 'Activate' }}
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  
+  
+  
+  
+  
+  
+  

@@ -1,0 +1,46 @@
+<div class="profile-card">
+  <div class="profile-header">
+    <h1 class="name">{{ selectedUserDetails?.userDetails?.First_Name }} {{ selectedUserDetails?.userDetails?.last_name }} <a href="{{selectedUserDetails?.userDetails?.Prospect_Link}}" class="linkedin" style="text-decoration: none; color: #808080;"><i class="fab fa-linkedin"></i></a></h1>
+    <h2 class="job-title">{{ selectedUserDetails?.userDetails?.job_title }} &#64; {{ selectedUserDetails?.userDetails?.company_name }}</h2>
+    <p class="location" style="color: #000000; font-size: 14px;  margin-top: 10px;"><i class="fas fa-map-marker-alt" style="color: #808080; font-size: 14px; margin-top: 10px;"></i> {{ selectedUserDetails?.userDetails?.State }} {{ selectedUserDetails?.userDetails?.country }}</p>
+  </div>
+  <div class="contact-info">
+    <img src="https://app.datagateway.in/image/darkgreen2.svg" alt="Email Icon" class="icon">
+    <p class="email">{{ selectedUserDetails?.userDetails?.email_address }}</p>
+
+    <img src="https://app.datagateway.in/image/verified1.svg" alt="Email Icon" class="icon">
+    <p class="phone">{{selectedUserDetails?.userDetails?.Telephone_Number }}</p>
+  </div>
+  <hr class="divider"> 
+  <p style="margin-top: 5px; margin-bottom: 15px;"><strong>Company</strong></p>
+  <div class="company-logo-and-name" style="margin-top: 5px;">
+    <div class="logo-container">
+      <img src="https://logo.clearbit.com/{{selectedUserDetails?.userDetails?.company_domain}}?size=150" alt="Company Logo" class="logo">
+      <div class="company-name">
+        <p style="font-size: 18px; margin-left: 5px;  color: #000; "><strong>  {{ selectedUserDetails?.userDetails?.company_name }}</strong></p>
+        <p style="color: rgb(43, 43, 107); cursor: pointer; margin-top: 5px; margin-left: 5px;">
+          <strong>{{ selectedUserDetails?.userDetails?.company_domain }}</strong>
+        </p>
+        
+      </div>
+    </div>
+  </div>
+  <div class="company-details">
+    <div class="company-detail" style="margin-top: 15px;">
+      <i class="fas fa-industry icon"></i>
+      <p style="margin-left: 15px; margin-top: 15px;"><strong></strong>  {{ selectedUserDetails?.userDetails?.Industry }}</p>
+    </div>
+    <div class="company-detail">
+      <i class="fas fa-users icon"></i>
+      <p style="margin-left: 15px; margin-top: 15px;"><strong></strong> {{ selectedUserDetails?.userDetails?.employee_size }}</p>
+    </div>
+    <div class="company-detail">
+      <i class="fas fa-globe-americas icon"></i>
+      <p style="margin-left: 15px; margin-top: 15px;"><strong></strong> {{ selectedUserDetails?.userDetails?.region }}</p>
+    </div>
+    <div class="company-detail">
+      <i class="fas fa-handshake icon"></i>
+      <p style="margin-left: 15px; margin-top: 15px;"><strong></strong> {{ selectedUserDetails?.userDetails?.job_level }}</p>
+    </div>
+  </div>
+</div>

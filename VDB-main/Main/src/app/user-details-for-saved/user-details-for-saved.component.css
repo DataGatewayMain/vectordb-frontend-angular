@@ -1,0 +1,136 @@
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
+
+body {
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.profile-card {
+  width: 100%;
+  max-width: 450px; /* Set maximum width */
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.profile-header {
+  text-align: center;
+}
+
+.name {
+  margin: 0;
+  font-size: 34px;
+  color: #000; /* Very black color */
+  font-weight: 700; /* Bold */
+}
+
+.job-title {
+  margin: 5px 0;
+  font-size: 18px;
+}
+
+.company {
+  margin: 0;
+  /* margin-top: 5px; */
+  font-size: 16px;
+}
+
+.contact-info {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.icon {
+  font-size: 20px;
+  width: 20px;
+  margin-right: 10px;
+  align-items: center;
+  padding: auto;
+  margin-left: 25px;
+  color: #808080;
+}
+
+.profile-header .location i {
+  margin-right: 5px; 
+}
+
+.divider {
+  border: 1px solid #1a1a1a; /* Change border style and color as needed */
+  margin: 20px 0; /* Adjust margin as needed */
+}
+
+
+
+.email, .phone {
+  margin: 0;
+}
+
+.company-details {
+  margin-top: 20px;
+}
+
+.company-details .company-detail {
+  display: flex;
+  align-items: center;
+}
+
+.company-details .company-detail i {
+  margin-right: 10px;
+}
+
+.company-details p {
+  margin: 5px 0;
+  text-transform: capitalize;
+  font-size: 18px;
+}
+
+.social-links {
+  margin-top: 20px;
+}
+
+.social-links a {
+  text-decoration: none;
+  color: #000;
+  margin-right: 10px;
+}
+
+.linkedin, .company-domain {
+  font-size: 20px;
+  text-decoration: none;
+}
+
+.logo img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.company-logo-and-name {
+  display: flex;
+  align-items: center;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  width: 60px; /* Set width for the logo */
+  height: 60px; /* Set height for the logo */
+  margin-right: 10px; /* Adjust margin as needed */
+}
+
+.company-name {
+  flex-grow: 1; /* Allow company name to fill remaining space */
+}
+
+.company-name p {
+  margin: 0; /* Remove default margin */
+  white-space: normal; /* Allow text to wrap */
+  word-wrap: break-word; /* Break long words */
+}

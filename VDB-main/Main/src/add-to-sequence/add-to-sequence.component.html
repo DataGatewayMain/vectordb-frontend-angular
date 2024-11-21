@@ -1,0 +1,123 @@
+
+
+<div *ngIf="isLoading" class="loading-container">
+
+    <button (click)="closeUserDialog()" class="text-white hover:text-gray-200 focus:outline-none">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+      <div style="display: flex; justify-content: center; align-items: center; height: 100%;">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" style="width: 100px; height: 100px;">
+          <rect fill="#030350" stroke="#030350" stroke-width="15" width="30" height="30" x="25" y="85">
+            <animate attributeName="opacity" calcMode="spline" dur="2" values="1;0;1;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="-.4"></animate>
+          </rect>
+          <rect fill="#030350" stroke="#030350" stroke-width="15" width="30" height="30" x="85" y="85">
+            <animate attributeName="opacity" calcMode="spline" dur="2" values="1;0;1;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="-.2"></animate>
+          </rect>
+          <rect fill="#030350" stroke="#030350" stroke-width="15" width="30" height="30" x="145" y="85">
+            <animate attributeName="opacity" calcMode="spline" dur="2" values="1;0;1;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="0"></animate>
+          </rect>
+        </svg>
+      </div>
+    </div>
+    
+    <!-- Warning if no email sender is linked -->
+    <div *ngIf="!isLoading && !hasEmailSenders" class="div">
+      <div class="warning" style="
+          color: #d9534f;
+          background-color: #f9f2f4;
+          border: 1px solid #ebccd1;
+          padding: 10px;
+          border-radius: 6px;
+          margin-bottom: 30px;
+          margin-top: 30px;
+          margin-left: 30px;
+          margin-right: 30px;">
+        <p>⚠️ You have no Email linked. Please connect your email account to start managing and sending emails via VectorDB.</p>
+        <a style="
+            display: inline-block;
+            background-color: #007bff;
+            color: #ffffff;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 6px;
+            margin-top: 10px;
+            margin-right: 5px;" 
+          class="link-mailbox" href="home/email">Link Email</a>
+      </div>
+    </div>
+    
+    <!-- Email form when email sender is linked -->
+    <div *ngIf="!isLoading && hasEmailSenders" class="email-form-container">
+      <mat-form-field appearance="fill" class="full-width-form-field">
+        <mat-label>Sender</mat-label>
+        <mat-select [(value)]="selectedSender" class="full-width-select">
+          <mat-option *ngFor="let sender of emailSenders" [value]="sender">
+            {{ getDisplayValue(sender) }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <div *ngIf="sequenceSteps.length > 0">
+        <div *ngFor="let step of sequenceSteps; let i = index">
+          <button (click)="assignContactsToSequence(step, newRecipient)">Add Contact to Sequence</button>
+        </div>
+      </div>
+    
+
+      <!-- <mat-form-field appearance="fill" class="full-width-form-field">
+        <mat-label>Subject</mat-label>
+        <input matInput [(ngModel)]="emailSubject" />
+      </mat-form-field> -->
+    
+      <mat-form-field appearance="fill" class="full-width-form-field">
+        <mat-label>Recipients</mat-label>
+        <div class="recipients-container">
+          <input matInput [(ngModel)]="newRecipient" placeholder="" /> 
+        </div>
+        <div class="recipients-list">
+          <div *ngFor="let recipient of emailData.recipients" class="recipient-item">
+            {{ recipient }} 
+            <button mat-icon-button (click)="removeRecipient(recipient)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </div>
+      </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width-form-field">
+            <mat-label>Sequence overview</mat-label>
+            <mat-select [(value)]="sequence" class="full-width-select">
+              <mat-option *ngFor="let email of preformattedEmails" [value]="email">
+                {{ email.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          
+<!-- ////////////////
+        <div class="main-sequence-container"> -->
+            <!-- <h2>Sequence</h2>
+            <div *ngIf="sequenceSteps.length > 0; else noSteps" class="steps-list">
+              <div *ngFor="let step of sequenceSteps; let i = index" class="step">
+                <div class="step-header">
+                  <h4>Sequence {{ i + 1 }}: {{ step.type }}</h4> -->
+                  <!-- <p>Day {{ step.day }}</p> -->
+                <!-- </div>
+                <div class="step-content">
+                  <strong>Subject:</strong> {{ step.subject }} -->
+                  <!-- <p>{{ step.content }}</p> -->
+                <!-- </div>
+              </div>
+            </div>
+            <ng-template #noSteps>
+              <p>No sequences here! Check again later or clear any applied filters.
+                You can also create a new sequence.</p>
+            </ng-template>
+            <button (click)="openDialog()" class="btn btn-primary">Create sequence</button> --> 
+          <!-- </div> -->
+        
+                <!-- <ckeditor [(ngModel)]="editorData" [editor]="Editor" [config]="editorConfig" class="ckeditor"></ckeditor>
+      <button mat-raised-button color="primary" (click)="sendBulkEmails()">Send Bulk Emails</button> -->
+    </div>
+    

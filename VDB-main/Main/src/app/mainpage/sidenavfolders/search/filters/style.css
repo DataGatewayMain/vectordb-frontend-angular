@@ -1,0 +1,586 @@
+
+body {
+  background-color: #0083e9;
+}
+.accordion {
+  width: 300px; /* Set the width to your desired value */
+  height: 400px; /* Set the height to your desired value */
+  position: absolute;
+  transform: translate(-50%, -50%);
+  left: 50%;
+  top: 80%;
+  margin-top: 50px; /* Set the top margin to your desired value */
+}
+
+input[type="checkbox"] {
+  display: none;
+  appearance: none;
+}
+.accordion-item {
+  padding: 1em;
+  background-color: #ffffff;
+  border-radius: 0.5em;
+}
+.accordion-item:not(:last-child) {
+  margin-bottom: 1em;
+}
+.accordion-content {
+  color: #606060;
+  font-size: 0.8em;
+  line-height: 1.8em;
+}
+label {
+  font-size: 1em;
+  display: flex;
+  justify-content: space-between;
+  color: #000000;
+  cursor: pointer;
+  font-weight: 500;
+  padding: 1em 0;
+}
+input[type="checkbox"] ~ label .arrow {
+  display: inline-block;
+  transition: 1s;
+}
+
+input[type="checkbox"]:checked ~ label .arrow {
+  transform: rotate(90deg);
+}
+input[type="checkbox"]:checked ~ label {
+  color: #0083e9;
+}
+input[type="checkbox"] ~ .accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: 1s;
+}
+input[type="checkbox"]:checked ~ .accordion-content {
+  max-height: 100vh;
+
+  transition: 1s;
+}
+
+
+
+
+.clearfix {
+  &:after {
+    content: "";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    height: 0;
+  }
+}
+.form_wrapper {
+  background: #fff;
+  width: 400px;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: 25px;
+  margin: 8% auto 0;
+  position: relative;
+  z-index: 1;
+  border-top: 5px solid $yellow;
+  -webkit-box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
+    -webkit-transform-origin: 50% 0%;
+    transform-origin: 50% 0%;
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+    -webkit-transition: none;
+    transition: none;
+    -webkit-animation: expand 0.8s 0.6s ease-out forwards;
+    animation: expand 0.8s 0.6s ease-out forwards;
+    opacity: 0;
+  h2 {
+    font-size: 1.5em;
+    line-height: 1.5em;
+    margin: 0;
+  }
+  .title_container {
+    text-align: center;
+    padding-bottom: 15px;
+  }
+  h3 {
+    font-size: 1.1em;
+    font-weight: normal;
+    line-height: 1.5em;
+    margin: 0;
+  }
+    label {
+        font-size: 12px;
+    }
+  .row {
+    margin: 10px -15px;
+    >div {
+      padding: 0 15px;
+      box-sizing: border-box;
+    }
+  }
+  .col_half {
+    width: 50%;
+    float: left;
+  }
+  .input_field {
+    position: relative;
+    margin-bottom: 20px;
+        -webkit-animation: bounce 0.6s ease-out;
+         animation: bounce 0.6s ease-out;
+    >span {
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: #333;
+      height: 100%;
+      border-right: 1px solid $grey;
+      text-align: center;
+      width: 30px;
+      >i {
+        padding-top: 10px;
+      }
+    }
+  }
+  .textarea_field {
+    >span {
+      >i {
+        padding-top: 10px;
+      }
+    }
+  }
+  input {
+    &[type="text"], &[type="email"], &[type="password"] {
+      width: 100%;
+      padding: 8px 10px 9px 35px;
+      height: 35px;
+      border: 1px solid $grey;
+      box-sizing: border-box;
+      outline: none;
+      -webkit-transition: all 0.30s ease-in-out;
+      -moz-transition: all 0.30s ease-in-out;
+      -ms-transition: all 0.30s ease-in-out;
+      transition: all 0.30s ease-in-out;
+    }
+    &[type="text"]:hover, &[type="email"]:hover, &[type="password"]:hover {
+      background: #fafafa;
+    }
+    &[type="text"]:focus, &[type="email"]:focus, &[type="password"]:focus {
+      -webkit-box-shadow: 0 0 2px 1px rgba(255, 169, 0, 0.5);
+      -moz-box-shadow: 0 0 2px 1px rgba(255, 169, 0, 0.5);
+      box-shadow: 0 0 2px 1px rgba(255, 169, 0, 0.5);
+      border: 1px solid $yellow;
+      background: #fafafa;
+    }
+    &[type="submit"] {
+    background: $yellow;
+    height: 35px;
+    line-height: 35px;
+    width: 100%;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    color: #fff;
+    font-size: 1.1em;
+    margin-bottom: 10px;
+    -webkit-transition: all 0.30s ease-in-out;
+    -moz-transition: all 0.30s ease-in-out;
+    -ms-transition: all 0.30s ease-in-out;
+    transition: all 0.30s ease-in-out;
+    &:hover {
+      background: darken($yellow,7%);
+    }
+    &:focus {
+      background: darken($yellow,7%);
+    }
+  }    
+    &[type="checkbox"], &[type="radio"] {
+      border: 0;
+      clip: rect(0 0 0 0);
+      height: 1px;
+      margin: -1px;
+      overflow: hidden;
+      padding: 0;
+      position: absolute;
+      width: 1px;
+    }
+  }
+}
+.form_container {
+  .row {
+    .col_half.last {
+      border-left: 1px solid $grey;
+    }
+  }
+}
+.checkbox_option{
+    label{
+        margin-right: 1em;
+        position: relative;
+        &:before {
+          content: "";
+          display: inline-block;
+          width: 0.5em;
+          height: 0.5em;
+          margin-right: 0.5em;
+          vertical-align: -2px;
+          border: 2px solid $grey;
+          padding: 0.12em;
+          background-color: transparent;
+          background-clip: content-box;
+          transition: all 0.2s ease;
+        }
+        &:after {
+          border-right: 2px solid $black;
+          border-top: 2px solid $black;
+          content: "";
+          height: 20px;
+          left: 2px;
+          position: absolute;
+          top: 7px;
+          transform: scaleX(-1) rotate(135deg);
+          transform-origin: left top;
+          width: 7px;
+          display: none;
+        }
+    }
+    input {
+    &:hover + label:before {
+      border-color: $black;
+    }
+    &:checked + label {
+      &:before {
+        border-color: $black;
+      }
+      &:after {
+        -moz-animation: check 0.8s ease 0s running;
+        -webkit-animation: check 0.8s ease 0s running;
+        animation: check 0.8s ease 0s running;
+        display: block;
+        width: 7px;
+        height: 20px;
+        border-color: $black;
+      }
+    }
+  }
+}
+.radio_option {
+  label {
+      margin-right: 1em;
+    &:before {
+      content: "";
+      display: inline-block;
+      width: 0.5em;
+      height: 0.5em;
+      margin-right: 0.5em;
+      border-radius: 100%;
+      vertical-align: -3px;
+      border: 2px solid $grey;
+      padding: 0.15em;
+      background-color: transparent;
+      background-clip: content-box;
+      transition: all 0.2s ease;
+    }
+  }
+  input {
+    &:hover + label:before {
+      border-color: $black;
+    }
+    &:checked + label:before {
+      background-color: $black;
+      border-color: $black;
+    }
+  }
+}
+.select_option {
+  position: relative;
+  width: 100%;
+  select {
+    display: inline-block;
+    width: 100%;
+    height: 35px;
+    padding: 0px 15px;
+    cursor: pointer;
+    color: #7b7b7b;
+    border: 1px solid $grey;
+    border-radius: 0;
+    background: #fff;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    transition: all 0.2s ease;
+    &::-ms-expand {
+      display: none;
+    }
+    &:hover, &:focus {
+      color: $black;
+      background: #fafafa;
+      border-color: $black;
+      outline: none;
+    }
+  }
+}
+.select_arrow {
+  position: absolute;
+  top: calc(50% - 4px);
+  right: 15px;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  border-width: 8px 5px 0 5px;
+  border-style: solid;
+  border-color: #7b7b7b transparent transparent transparent;
+}
+
+.select_option select {
+  &:hover + .select_arrow, &:focus + .select_arrow {
+    border-top-color: $black;
+  }
+}
+.credit {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 15px;
+  color: $yellow;
+  a {
+    color: darken($yellow,7%);
+  }
+}
+@-webkit-keyframes check {
+  0% { height: 0; width: 0; }
+  25% { height: 0; width: 7px; }
+  50% { height: 20px; width: 7px; }
+}
+
+@keyframes check {
+  0% { height: 0; width: 0; }
+  25% { height: 0; width: 7px; }
+  50% { height: 20px; width: 7px; }
+}
+
+@-webkit-keyframes expand { 
+  0% { -webkit-transform: scale3d(1,0,1); opacity:0; }
+  25% { -webkit-transform: scale3d(1,1.2,1); }
+  50% { -webkit-transform: scale3d(1,0.85,1); }
+  75% { -webkit-transform: scale3d(1,1.05,1); }
+  100% { -webkit-transform: scale3d(1,1,1);  opacity:1; }
+}
+
+@keyframes expand { 
+  0% { -webkit-transform: scale3d(1,0,1); transform: scale3d(1,0,1);  opacity:0; }
+  25% { -webkit-transform: scale3d(1,1.2,1); transform: scale3d(1,1.2,1); }
+  50% { -webkit-transform: scale3d(1,0.85,1); transform: scale3d(1,0.85,1); }
+  75% { -webkit-transform: scale3d(1,1.05,1); transform: scale3d(1,1.05,1); }
+  100% { -webkit-transform: scale3d(1,1,1); transform: scale3d(1,1,1);  opacity:1; }
+}
+
+
+@-webkit-keyframes bounce { 
+  0% { -webkit-transform: translate3d(0,-25px,0); opacity:0; }
+  25% { -webkit-transform: translate3d(0,10px,0); }
+  50% { -webkit-transform: translate3d(0,-6px,0); }
+  75% { -webkit-transform: translate3d(0,2px,0); }
+  100% { -webkit-transform: translate3d(0,0,0); opacity: 1; }
+}
+
+@keyframes bounce { 
+  0% { -webkit-transform: translate3d(0,-25px,0); transform: translate3d(0,-25px,0); opacity:0; }
+  25% { -webkit-transform: translate3d(0,10px,0); transform: translate3d(0,10px,0); }
+  50% { -webkit-transform: translate3d(0,-6px,0); transform: translate3d(0,-6px,0); }
+  75% { -webkit-transform: translate3d(0,2px,0); transform: translate3d(0,2px,0); }
+  100% { -webkit-transform: translate3d(0,0,0); transform: translate3d(0,0,0); opacity: 1; }
+}
+@media (max-width: 600px) {
+  .form_wrapper {
+    .col_half {
+      width: 100%;
+      float: none;
+    }
+  }
+  .bottom_row {
+    .col_half {
+      width: 50%;
+      float: left;
+    }
+  }
+  .form_container {
+    .row {
+      .col_half.last {
+        border-left: none;
+      }CREATE TABLE `mytable_for_all` (
+  `First_Name` text DEFAULT NULL,
+  `last_name` text DEFAULT NULL,
+  `email_address` text DEFAULT NULL,
+  `company_name` text DEFAULT NULL,
+  `company_domain` text DEFAULT NULL,
+  `job_title` text DEFAULT NULL,
+  `job_function` text DEFAULT NULL,
+  `job_level` text DEFAULT NULL,
+  `Company_Address` text DEFAULT NULL,
+  `city` text DEFAULT NULL,
+  `State` text DEFAULT NULL,
+  `Zip_Code` text DEFAULT NULL,
+  `country` text DEFAULT NULL,
+  `Telephone_Number` bigint(20) DEFAULT NULL,
+  `Employee_Size` text DEFAULT NULL,
+  `Industry` text DEFAULT NULL,
+  `Company_Link` text DEFAULT NULL,
+  `Prospect_Link` text DEFAULT NULL,
+  `pid` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `mytable_for_all`
+--
+
+
+
+
+INSERT INTO `mytable_for_all` (`First_Name`, `last_name`, `email_address`, `company_name`, `company_domain`, `job_title`, `job_function`, `job_level`, `Company_Address`, `city`, `State`, `Zip_Code`, `country`, `Telephone_Number`, `Employee_Size`, `Industry`, `Company_Link`, `Prospect_Link`, `pid`) VALUES
+('Mohamed', 'Mahjoubi', 'mmahjoubi@jonesday.com', 'Jones Day', 'jonesday.com', 'Of Counsel', 'Any', 'Individual', 'Al Fattan Currency Tower, Floor 33, Dubai International Financial Centre', 'Dubai', 'Dubai', ' ', 'United Arab Emirates', 97147098484, '5001-10000', 'Law Practice', 'http://www.linkedin.com/company/jones-day', 'linkedin.com/in/mohamed-mahjoubi-272972152', '540519183471y922829299782w'),
+('Robbie', 'Nakarmi', 'robbie.nakarmi@binance.com', 'Binance', 'binance.com', 'Senior Counsel   M&A Ventures and Investments', 'Finance', 'Individual', 'adcb metro exit 2,villa no.55,Room number 4 -', 'Dubai', 'Dubai', ' ', 'United Arab Emirates', 972000000000, '1001-5000', 'Software Development', 'http://www.linkedin.com/company/binance', 'linkedin.com/in/robbienakarmi', '868575483317v619760426261n'),
+('Reid', 'Grund', 'reidgrund@aecom.com', 'AECOM', 'aecom.com', 'Chief Counsel   Middle East & Africa', 'Any', 'C - Level', 'Ubora Tower, Level 43. Al Abraj St. Business Bay', 'Dubai', 'Dubai', ' ', 'United Arab Emirates', 97144391000, '10001+', 'Civil Engineering', 'http://www.linkedin.com/company/aecom', 'linkedin.com/in/reid-grund-b8472b29', '804880407825a369853820477a'),
+('Beulah', 'Ramjith', 'beulah.ramjith@dbschenker.com', 'DB Schenker', 'dbschenker.com', 'Legal Manager', 'Legal', 'Manager', '1 & 2 Shiraz Close, job_title Ross Park  Plumbago 3, Witfontein Ext 54,', 'Kempton Park', 'Kempton Park', '1620', 'South Africa', 27119718400, '10001+', 'Truck Transportation', 'http://www.linkedin.com/company/dbschenker', 'linkedin.com/in/beulah-ramjith-801b3b161', '821015190775l316436971029o'),
+('Peter', 'Norris', 'peter.norris@lw.com', 'Latham & Watkins', 'lw.com', 'Counsel', 'Any', 'Individual', 'ICD Brookfield Place, Level 16 - 312 Al Mustaqbal St - Trade CentreDIFC', 'Dubai', 'Dubai', ' ', 'United Arab Emirates', 97147046300, '1001-5000', 'Law Practice', 'http://www.linkedin.com/company/latham-&-watkins', 'linkedin.com/in/peter-norris-865694a', '397323292020m727725690225h'),
+('Habeeb', 'Rahman', 'habeeb.rahman@whitecase.com', 'White & Case LLP', 'whitecase.com', 'Counsel', 'Any', 'Individual', 'Global Market Square, Sowwah Square Tower 1 - 16th Floor - Abu', 'Dhabi', 'Dubai', ' ', 'United Arab Emirates', 97126113400, '1001-5000', 'Law Practice', 'http://www.linkedin.com/company/white-&-case', 'linkedin.com/in/habeeb-rahman-a0852739', '321238841799f524754232712l'),
+('Florian', 'Koemm', 'florian.koemm@siemens.com', 'Siemens', 'siemens.com', 'Vice President and General Counsel Siemens Energy Middle East', 'Any', 'VP', 'Sheikh Zayed Rd - Downtown Jabel Ali', 'Dubai', 'Dubai', ' ', 'United Arab Emirates', 97143660000, '10001+', 'Automation Machinery Manufacturing', 'https://www.linkedin.com/company/siemens/about/', 'linkedin.com/in/floriankoemm/', '999596565454v245690967020x'),
+('Tarek', 'Naoum', 'tarek.naoum@chalhoubgroup.com', 'Chalhoub Group', 'chalhoubgroup.com', 'Legal Manager', 'Legal', 'Manager', 'Gate 4 - Roundabout 6 - Mina Jebel AliJebel Ali - Jebel Ali Freezone', 'Dubai', 'Dubai', ' ', 'United Arab Emirates', 97148045000, '10001+', 'Retail Luxury Goods and Jewelry', 'https://www.linkedin.com/company/chalhoubgroup/about/', 'linkedin.com/in/tarek-naoum-a6767b51/', '849895578270v318750334483q'),
+('Shwetambara', 'Mani', 'shwetambara.mani@cepheid.com', 'Cepheid', 'cepheid.com', 'Legal & Compliance Counsel  Regional Lead for Africa', 'Legal', 'Manager', 'Famous Grouse House Kildrummy Office Park, Cnr Witkoppen Road & Umhlanga Avenue', 'Paulshof Sandton', 'Sandton', '2191', 'South Africa', 27112349636, '1001-5000', 'Biotechnology Research', 'http://www.linkedin.com/company/cepheid', 'linkedin.com/in/shwetambara-mani-92765628', '173193857801g934864743342a'),
+('Derek', 'McKinley', 'derek.mckinley@lw.com', 'Latham & Watkins', 'lw.com', 'Counsel', 'Any', 'Individual', 'ICD Brookfield Place, Level 16 - 312 Al Mustaqbal St - Trade CentreDIFC', 'Dubai', 'Dubai', ' ', 'United Arab Emirates', 97147046300, '1001-5000', 'Law Practice', 'http://www.linkedin.com/company/latham-&-watkins', 'linkedin.com/in/mckinleyderek', '447726322009e529490792354j'),
+('Sean', 'Boyce', 'sboyce@jonesday.com', 'Jones Day', 'jonesday.com', 'Of Counsel', 'Any', 'Individual', 'Al Fattan Currency Tower, Floor 33, Dubai International Financial Centre', 'Dubai', 'Dubai', ' ', 'United Arab Emirates', 97147098484, '5001-10000', 'law practice', 'http://www.linkedin.com/company/jones-day', 'linkedin.com/in/sean-boyce-8a618848', '589676504990j642765143170x'),
+('Sundeep', 'Haridas', 'sundeep.haridas@bakerhughes.com', 'Baker Hughes', 'bakerhughes.com', 'Senior Contracts Counsel   Eastern Hemisphere', 'Any', 'Individual', 'Sheikh Mohammed Bin Zayed Road (E311 Road) Near Modern Emirates Heavy Cranes', 'Dubai', 'Dubai', ' ', 'United Arab Emirates', 97148114000, '10001+', 'oil & energy', 'http://www.linkedin.com/company/bakerhughes', 'linkedin.com/in/sundeep-haridas-a7b7834', '687680949788z843326089422a'),
+('Stefan', 'Mrozinski', 'stefan.mrozinski@whitecase.com', 'White & Case LLP', 'whitecase.com', 'Counsel', 'Any', 'Individual', 'Level 6, Burj Daman - Al Mustaqbal St - DIFC', 'Dubai', 'Dubai', ' ', 'United Arab Emirates', 97143816200, '1001-5000', 'law practice', 'http://www.linkedin.com/company/white-&-case', 'linkedin.com/in/stefanmrozinski', '488978689758u585000526400d'),
+('Alankrati', 'Khare', 'akhare@larsentoubro.com', 'Larsen & Toubro', 'larsentoubro.com', 'Legal & Contracts Manager', 'Legal', 'Manager', '785H+QWM - Al Khabaisi', 'Dubai', 'Dubai', ' ', 'United Arab Emirates', 97142828946, '10001+', 'Construction', 'http://www.linkedin.com/company/larsen-&-toubro-limited', 'linkedin.com/in/alankrati-khare-33591265', '261905696169u655856208492z'),
+('Nisreen', 'Al-Shaker', 'nisreen.alshaker@nokia.com', 'Nokia', 'nokia.com', 'Head of Legal Operations and Strategy for Legal and Compliance   Global', 'Legal', 'Head', '4549+38P - Al Sufouh - Al Sufouh 2', 'Dubai', 'Dubai', ' ', 'United Arab Emirates', 97143630700, '10001+', 'telecommunications', 'http://www.linkedin.com/company/nokia', 'linkedin.com/in/nisreen-al-shaker-9aba099a', '142342021393w314426551987x'),
+('Shibishi', 'Maruatona', 'smaruatona@ford.com', 'Ford Motor Company', 'ford.com', 'General Counsel', 'Any', 'Individual', 'Simon Vermooten Rd,', 'Silverton', 'Pretoria', '2191', 'South Africa', 27128422911, '10001+', 'Motor Vehicle Manufacturing', 'http://www.linkedin.com/company/ford-motor-company', 'linkedin.com/in/shibishi-maruatona-9848849', '676385148719u128558053429r'),
+('Jo-Ann', 'David', 'joann.david@mondelezinternational.com', 'Mondel?z International', 'mondelezinternational.com', 'Chief Counsel Sub Saharan Africa Mondelez International', 'Any', 'C - Level', 'Unit 6 Woodmead EState, 1 Woodmead Dr,', 'Woodmead', 'Sandton', '2191', 'South Africa', 27112534000, '10001+', 'Food and Beverage Manufacturing', 'http://www.linkedin.com/company/mondelezinternational', 'linkedin.com/in/jo-ann-david-a8004622', '278011402594h424881315379t'),
+('Thierry', 'Thuault', 'tthuault@fugro.com', 'Fugro', 'fugro.com', 'Head of Legal', 'Legal', 'Head', '9GMC+95P - 6th Street - Musaffah - Musaffah Industrial', 'Abu Dhabi', 'Abu Dhabi', ' ', 'United Arab Emirates', 97125547811, '10001+', 'Civil Engineering', 'http://www.linkedin.com/company/fugro', 'linkedin.com/in/thierry-thuault-9960a916', '417429840976c137760017262y'),
+('Jay-Ann', 'Jacobs', 'jayann.jacobs@pepsico.com', 'PepsiCo', 'pepsico.com', 'Vice President & General Counsel', 'Any', 'VP', 'Parow Industrial,', 'Cape Town', 'Cape Town', '7493', 'South Africa', 9360521265, '10001+', 'food & beverages', 'http://www.linkedin.com/company/pepsico', 'linkedin.com/in/jay-ann-jacobs-5a847b2', '878958672740g581107583533g'),
+('Kasendra', 'Moodley', 'kasendra.moodley@multichoice.co.za', 'MultiChoice Group', 'multichoice.co.za', 'Legal Counsel Contract Manager SA Admitted Attorney', 'Legal', 'Manager', '144 Bram Fischer Dr, Ferndale,', 'Randburg', 'Randburg', '2194', 'South Africa', 27112893000, '5001-10000', 'Broadcast Media Production and Distribution', 'http://www.linkedin.com/company/multichoicegroup', 'linkedin.com/in/kasendra-c-moodley-375a09101', '821264222070g755778303086f'),
+('Halil', 'Kardicali', 'Halilkardicali@mmm.com', '3M', 'mmm.com', 'South East Europe Region Senior Legal Counsel I Government Affairs Manager', 'Legal', 'Manager', 'Dubai Festival City', 'Dubai', 'Dubai', ' ', 'United Arab Emirates', 972000000000, '10001+', 'Industrial Machinery Manufacturing', 'http://www.linkedin.com/company/3m', 'linkedin.com/in/halilibrahimkardicali', '895356047692z267350988374j'),
+('Slayde', 'Baker', 'slayde@aramex.com', 'Aramex', 'aramex.com', 'Contracts Manager and Commercial Legal Counsel', 'Legal', 'Manager', 'Dubai Internet City, HP Building 13, Ground Floor Exit 34 from Sheikh Zayed Road, Service road off - Al Falak St', 'Dubai', 'Dubai', ' ', 'United Arab Emirates', 972000000000, '10001+', 'Transportation, Logistics, Supply Chain and Storage', 'http://www.linkedin.com/company/aramex', 'linkedin.com/in/slayde-baker', '257948075029d759035229631g'),
+('Stefka', 'Bratoevska', 'stefka.bratoevska@credit-suisse.com', 'Credit Suisse', 'credit-suisse.com', 'Director   General Counsel Department ME&T', 'Any', 'Director', 'East Wing? The Gateway Building - 9th Floor - Sheikh Zayed Rd', 'Dubai', 'Dubai', ' ', 'United Arab Emirates', 97143620000, '10001+', 'banking', 'http://www.linkedin.com/company/credit-suisse', 'linkedin.com/in/stefka-bratoevska', '890758836850r236333632734s'),
+('Gayathri', 'Das', 'gdas@slb.com', 'Schlumberger', 'slb.com', 'Iraq Legal Counsel & Contracts Manager', 'Legal', 'Manager', 'Level 5, 6, & 7 Building C1 One Central Dubai World Trade Centre', 'Dubai', 'Dubai', ' ', 'United Arab Emirates', 97142742222, '10001+', 'Oil and Gas', 'http://www.linkedin.com/company/schlumberger', 'linkedin.com/in/gayathri-das-04526b18', '381936508163l418234374975g'),
+('Beyana', 'Maluegha', 'beyana.maluegha@weatherford.com', 'Weatherford', 'weatherford.com', 'Legal Counsel   Contracts Management', 'Legal', 'Individual', '4th Interchange, Al Barsha Sheikh Zayed Road, Al-Khaimah Building II', 'Dubai', 'Dubai', ' ', 'United Arab Emirates', 97143125000, '10001+', 'Oil and Gas', 'http://www.linkedin.com/company/weatherford', 'linkedin.com/in/beyana-maluegha-a52669150', '540111849484k666625957770m'),
+('Neeta', 'Thakur', 'neeta.thakur@boeing.com', 'Boeing', 'boeing.com', 'Regional Counsel   India Middle East Africa and Turkey', 'Any', 'Individual', '155 Al Quds St - Dubai Airport Free Zone', 'Dubai', 'Dubai', ' ', 'United Arab Emirates', 97142134700, '10001+', 'Aviation and Aerospace Component Manufacturing', 'http://www.linkedin.com/company/boeing', 'linkedin.com/in/neeta-thakur-39b45211', '443676072447g399650002881c'),
+
+    }
+  }
+  .remember_me {
+    padding-bottom: 20px;
+  }
+}
+
+/* Google Fonts - Poppins */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+
+.container{
+    position: relative;
+    max-width: 320px;
+    width: 100%;
+    /*margin: 80px auto 30px;*/
+}
+
+.select-btn{
+    display: flex;
+    height: 50px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: #fff;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.select-btn .btn-text{
+    font-size: 17px;
+    font-weight: 400;
+    color: #333;
+}
+
+.select-btn .arrow-dwn{
+    display: flex;
+    height: 21px;
+    width: 21px;
+    color: #fff;
+    font-size: 14px;
+    border-radius: 50%;
+    background: #6e93f7;
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s;
+}
+
+.select-btn.open .arrow-dwn{
+    transform: rotate(-180deg);
+}
+
+.list-items{
+    position: relative;
+    margin-top: 15px;
+    border-radius: 8px;
+    padding: 8px 16px; /* Adjusted padding */
+    background-color: #fff;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    display: none;
+    max-height: 150px; /* Adjusted max-height */
+    overflow-y: auto; /* Added overflow-y to enable scrolling if needed */
+    transition: max-height 0.3s ease-in-out; /* Added transition */
+}
+
+.select-btn.open ~ .list-items{
+    display: block;
+    max-height: 300px; /* Adjusted max-height */
+}
+
+.list-items .item{
+    display: flex;
+    align-items: center;
+    list-style: none;
+    height: 36px; /* Adjusted height */
+    cursor: pointer;
+    transition: 0.3s;
+    padding: 0 12px; /* Adjusted padding */
+    border-radius: 8px;
+}
+
+.list-items .item:hover{
+    background-color: #e7edfe;
+}
+
+.item .item-text{
+    font-size: 16px;
+    font-weight: 400;
+    color: #333;
+}
+
+.item .checkbox{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 16px;
+    width: 16px;
+    border-radius: 4px;
+    margin-right: 12px;
+    border: 1.5px solid #c0c0c0;
+    transition: all 0.3s ease-in-out;
+}
+
+.item.checked .checkbox{
+    background-color: #4070f4;
+    border-color: #4070f4;
+}
+
+.checkbox .check-icon{
+    color: #fff;
+    font-size: 11px;
+    transform: scale(0);
+    transition: all 0.2s ease-in-out;
+}
+
+.item.checked .check-icon{
+    transform: scale(1);
+}

@@ -1,0 +1,37 @@
+<div class="sequence-container">
+    <!-- Sidebar Section -->
+    <aside class="sidebar">
+      <h3>Finalize your content</h3>
+      <p>Review and edit your emails, then save your sequence.</p>
+    </aside>
+  
+    <!-- Sequence Details Section -->
+    <section class="sequence-details">
+      <h2>{{ sequenceTitle }}</h2>
+      <p>{{ steps.length }} steps | {{ totalDays }} days in sequence</p>
+  
+      <ul class="steps-list">
+        <li *ngFor="let step of steps; let i = index" class="step-item">
+          <div class="step-summary">
+            <span>{{ i + 1 }}</span>
+            <div class="step-info">
+              <p>Day {{ step.day }} • {{ step.name }}</p>
+              <span>{{ step.type }}</span>
+            </div>
+            <button (click)="toggleDetails(i)">▼</button>
+          </div>
+  
+          <div *ngIf="step.expanded" class="step-details">
+            <p><strong>Content:</strong></p>
+            <textarea [(ngModel)]="step.content"></textarea>
+          </div>
+        </li>
+      </ul>
+  
+      <div class="action-buttons">
+        <button (click)="editInformation()">Edit my information</button>
+        <button (click)="saveSequence()" class="save-button">Save sequence</button>
+      </div>
+    </section>
+  </div>
+  

@@ -1,0 +1,58 @@
+<form accept-charset="UTF-8" class="form" [formGroup]="myReactiveForm" (ngSubmit)="OnSubmit()" style="margin-top: 30px; margin-bottom: 30px; padding: 50px">
+<h1>Apply for position</h1>
+    <div class="form-group my-3" style="margin-bottom: 20px;">
+      <label for="exampleInputName" class="my-2"><b>Full Name</b></label>
+      <input type="text" name="fullname" class="form-control" formControlName="name" id="fName" placeholder="Enter your name and surname" required="required">
+    </div>
+    <div class="form-group my-3 " style="margin-bottom: 10px;">
+      <label for="exampleInputEmail1" class="my-2" required="required"><b>Email address</b></label>
+      <input type="email" formControlName="email" name="email"
+   
+  class="form-control"
+   
+  id="email"
+   
+  aria-describedby="emailHelp"
+   
+  placeholder="Enter your email address">
+  
+    
+  </div>
+  
+  
+    
+  <div
+   
+  class="form-group my-3" style="margin-bottom: 10px;">
+      <label for="exampleInputEmail1" class="my-1" required="required"><b>Phone No</b></label>
+      <input type="number" formControlName="number" name="numbers" class="form-control" id="phone" aria-describedby="emailHelp" placeholder="Enter your mobile no">
+    </div>
+  
+    <br>
+    <div class="form-group my-2" style="margin-bottom: 5px;">
+      <label for="exampleInputEmail1"  required="required">
+        <div><b  class="my-2">Application for</b> *</div>
+        <select name="Application" required id="applications" formControlName="position">
+          <option>Select Here!</option>
+          <option *ngFor="let p of departments">{{p.departments}}</option>
+        </select>
+      </label>
+    </div>
+    <br>
+    <div class="form-group" style="margin-bottom: 10px;">
+      <label for="inputAddress" class="my-1"><b>Location</b></label>
+      <input type="text" name="location" class="form-control" formControlName="location" id="location" placeholder="Pune/New-York/Dubai">
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-6" style="margin-bottom: 10px;">
+        <label for="inputCity"><b>City</b></label>
+        <input type="text" name="city" formControlName="city" class="form-control" id="city" placeholder="your current place">
+      </div>
+    </div>
+  
+    <div class="form-group mt-3" style="margin-bottom: 10px;">
+      <label class="mr-4"><b>Upload your CV:</b></label>
+      <div class="my-2"><input type="file" formControlName="cv" name="file" id="file"></div>
+    </div>
+  
+    <button type="submit" class="btn btn-outline-dark"  name="">submit</button>

@@ -1,0 +1,25 @@
+.container {
+    width: 50%;
+    margin: 0 auto;
+  }
+  
+  form {
+    margin-bottom: 20px;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 2px;
+  }
+  
+  button {
+    padding: 10px 20px;
+  }
+  

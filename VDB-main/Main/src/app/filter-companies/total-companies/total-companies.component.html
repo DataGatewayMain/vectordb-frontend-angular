@@ -1,0 +1,246 @@
+<ngx-loading-bar></ngx-loading-bar>
+<div >
+  <div *ngIf="results?.length > 0; else blankTable">
+    <div class="container">
+      <div style="margin-bottom: px">
+        <!-- <button [disabled]="selectedRows.length === 0" (click)="exportToCSV()" class="btn btn-close-white mx-2">Export Selected to CSV</button> -->
+        <!-- <button (click)="saveDataToUserAccount()"  class="btn btn-close-white mx-1">Save Data</button> -->
+        <!-- <button (click)="selectAllRows()" class="btn btn-close-white">Select All</button> -->
+    
+        <nav aria-label="..." style="margin-left: 0px">
+          <ul class="pagination pgbutton my-1">
+            <li class="page-item" >
+              <button
+              style="padding: 12px;"
+             
+                class="btn btn-close-white btnexport   text-black"
+                [disabled]="selectedRows.length === 0"
+                (click)="exportToCSV()"
+                tabindex="-1"
+              >
+               <img style="width: 20px;"  src="https://app.datagateway.in/image/file.png " alt=""> Export
+              </button>
+            </li>
+    
+            <li class="page-item">
+
+              <button
+              style="padding: 12px;"
+             
+                class="btn btn-close-white btnexport   text-black"
+                [disabled]="selectedRows.length === 0"
+                (click)="saveDataToUserAccount()"
+                tabindex="-1"
+              >
+              <img style="width: 20px;"  src="https://app.datagateway.in/image/savefile.png " alt="">  Save Data
+              </button>
+
+
+            
+            </li>
+            <li class="page-item mx-1 selectAll d-lg-none">
+             
+              <a class="page-link" style="padding: 12px; background: #E1EBEE; color: black;" (click)="selectAllRows()" tabindex="+1">
+                Select All
+              </a>
+            </li>
+            
+          </ul>
+        </nav>
+      </div>
+      <div class="scroll-container" style="max-height: 500px;  max-width: 10000px;  overflow-y: auto; overflow-x: auto;">
+      <div class="row row--top-0 container">
+        <div class="col-md-12">
+          <h2 class="row__title"></h2>
+        </div>
+      </div>
+      <div class="row row--top-20">
+        <div class="col-md-12">
+          <div class="table-container">
+            <table class="table">
+              <thead class="table__thead">
+                <tr>
+                  <th class="table__th">
+                    <input  (click)="selectAllRows()"
+                      id="selectAll"
+                      type="checkbox"
+                      class="table__select-row"
+                    />
+                  </th>
+                  <th class="table__th">Name</th>
+                  <th class="table__th">Company</th>
+                  <th class="table__th">Quick Action</th>
+                  <th class="table__th">Title</th>
+                  <th class="table__th">Location</th>
+                  <th class="table__th">Employees</th>
+                  <th class="table__th">Industry</th>
+                </tr>
+              </thead>
+              <tbody class="table__tbody">
+                <tr
+                  class="table-row table-row--chris"
+                  *ngFor="let item of results"
+                  (click)="onUserNameClick(item.Prospect_Link)"
+                >
+                  <td class="table-row__td">
+                    <input
+                      id=""
+                      type="checkbox"
+                      class="table__select-row"
+                      [checked]="isRowSelected(item)"
+                      (change)="toggleRowSelection(item)"
+                    />
+                  </td>
+                  <td class="table-row__td newclass" >
+                    <div class="table-row__img"   (click)="openUserDialog(item.Prospect_Link)"></div>
+                    <div class="table-row__info">
+                      <p class="table-row__name"  (click)="openUserDialog(item.Prospect_Link)">
+                        <!-- <input id="" type="checkbox" class="table__select-row" [checked]="isRowSelected(item)" (change)="toggleRowSelection(item)"> -->
+                        {{ item.First_Name }}
+                      </p>
+                      <span class="table-row__name"  (click)="openUserDialog(item.Prospect_Link)">{{ item.last_name }}</span>
+                    </div>
+                  </td>
+                  <td data-column="Company" class="table-row__td">
+                    <div class="" style="display: inline-flex; flex-direction: row;">
+                      <p class="table-row__policy"><img class="table-row__imgg   " src="https://logo.clearbit.com/{{item.company_domain}}" alt="img"> </p>
+                      <p
+                        (click)="openUserDialog(item.Prospect_Link)">
+                      {{ item.company_name }} 
+                    </div>
+                    <div style="padding-left: 32px; padding-top: 0px;"> 
+                     
+                      <span style="margin-right: 12px;"> 
+                   
+                      <a 
+                      href="https://www.{{ item.company_domain }}"
+                      target="_blank"
+                    >
+                    <img  style="width: 17px; padding-left: 2px;" src="https://app.datagateway.in/image/link2.png  " alt="img"> 
+                    </a>
+                    </span> 
+                    <span>  
+                      <a href="{{ item.Company_Link }}" target="_blank">
+                        <img  style="width: 17px;" src="https://app.datagateway.in/image/linkedin.png " alt="img">
+                      </a>
+                    </span>
+                    </div>
+                  </td>
+                  <td data-column="Quick Action" class="table-row__td">
+                    <p class="table-row__p-status"></p>
+                    <div>  
+                      <div *ngIf="getStoredValidationStatus(item.email_address) !== null && getStoredValidationStatus(item.email_address) !== undefined" style="width: 200px">
+                        <!-- Display the validation status based on the stored value -->
+                        <p class="table-row__p-status status--green status" *ngIf="getStoredValidationStatus(item.email_address) === 'VALID'">
+                          <img src="https://app.datagateway.in/image/darkgreen2.svg" width="27px" height="50px" alt="">   <span style="font-weight: bold; margin-left: 5px;"> Verified email {{ item.email_address }} </span>
+                        </p>
+                        <p class="table-row__p-status status--red  status" *ngIf="getStoredValidationStatus(item.email_address) === 'INVALID'">
+                        
+                         <img src="https://app.datagateway.in/image/unverfied.svg" width="31px" height="50px" alt="">    <span  style="font-weight: bold; margin-left: 7px;">Unverified email {{ item.email_address }} </span>
+                        </p>
+                        <p class="table-row__p-status status--blue status" *ngIf="getStoredValidationStatus(item.email_address) === 'UNKNOWN'">
+                          <img src="https://app.datagateway.in/image/unknown.svg" width="35px" height="50px" alt="">   <span style="margin-left: 10px; font-weight: bold;">Unknown {{ item.email_address }} </span>
+                        </p>
+                        <p class="table-row__p-status status--yellow status" *ngIf="getStoredValidationStatus(item.email_address) === 'ACCEPT_ALL'">
+                          <img src="https://app.datagateway.in/image/yellow.svg" width="34px" height="50px" alt="">    <span style="font-weight: bold;"> Accept all {{ item.email_address }}</span>
+                        </p>
+                        <p *ngIf="getStoredValidationStatus(item.email_address) === null">
+                            Email Not available <span>{{ item.email_address }} </span>
+                        </p>
+                    </div>
+                    
+                
+                    <ng-container *ngIf="getStoredValidationStatus(item.email_address) === null || getStoredValidationStatus(item.email_address) === undefined">
+                        <button 
+                            class="btn"
+                            (click)="validateEmail(item.email_address, item)"
+                        >
+                            <span *ngIf="showButton" role="status" aria-hidden="false"></span>
+                            <span aria-hidden="true" style="padding-right: 23px;" ><img src="https://app.datagateway.in/image/letter.png" width="32px" height="50px" alt=""> Access Email</span>
+                        </button> 
+                    </ng-container>
+                    
+                
+
+                  
+                    </div>
+                  </td>
+                  
+                  <td
+                    data-column="Job Title"
+                    class="table-row__td"
+                    (click)="openUserDialog(item.Prospect_Link)"
+                  >
+                    {{ item.job_title }}
+                  </td>
+                  <td
+                    data-column="Location"
+                    class="table-row__td"
+                    (click)="openUserDialog(item.Prospect_Link)"
+                  >
+                    <p class="">
+                      <img  style="width: 20px;" src="https://app.datagateway.in/image/gps.png " alt="img"> {{ item.city }} {{ item.country }}
+                    </p>
+                  </td>
+                  <td data-column="Employee Size" class="table-row__td  ">
+                    <p class="">
+                      {{ item.Employee_Size }}
+                    </p>
+                  </td>
+    
+                  <td class="table-row__td" data-column="Industry">
+                    {{ item.Industry }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+       
+    <ul class="pagination my-4 ">
+      <li class="page-item " *ngIf="currentPage > 1">
+        <a class="page-link" (click)="goToPage(currentPage - 1)" tabindex="-1">
+          <img src="https://app.datagateway.in/image/backward.png" alt="Previous" class="icon "> Previous
+        </a>
+      </li>
+      
+      <li class="page-item" *ngFor="let page of getPages()">
+        <a class="page-link" [class.active]="page === currentPage" (click)="goToPage(page)">{{ page }}</a>
+      </li>
+      
+      <li class="page-item" *ngIf="currentPage < totalPages">
+        <a class="page-link" (click)="goToPage(currentPage + 1)" tabindex="+1">
+          Next <img src="https://app.datagateway.in/image/next.png" alt="Next" class="icon">
+        </a>
+      </li>
+    </ul>
+    
+     
+      </div>
+  </div>
+
+  <ng-container> <router-outlet></router-outlet> </ng-container>
+  <ng-template #blankTable>
+    <div style="margin-left: 235px; margin-top: 90px">
+      <img src="./assets/contact.png" alt="dfas" />
+      <span style="margin-left: 15px; padding-left: 0px">
+        Initiate your people search by utilizing
+        
+      </span>
+      <div style="margin-left: 20px">filters available in the left panel.</div>
+    </div>
+    <div style="margin-top: 20px">
+      <img  style="width: 20px; padding-left: 5px;" src="https://app.datagateway.in/image/next.png  " alt="img"> 
+      <p>Try to add filters to initiate your search.</p>
+    </div>
+    <!-- <button class="btn btn-dark" style="margin-left: 700px;" (click)="openGuideDialog()">?</button> -->
+  </ng-template>
+</div>
+
+
+
+
+

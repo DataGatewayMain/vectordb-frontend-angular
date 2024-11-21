@@ -1,0 +1,13 @@
+
+
+<a (click)="closeUserDialog()" style="color: gray; width: 123px; padding-left: 342px;">×</a>
+<div style="padding-left: 10px;">
+    <strong > Save a new search</strong>
+
+<div style="padding-left: 30px;padding-bottom: 20px; padding-top: 12px;"><mat-form-field  class="mx-4">
+    <mat-label>Enter new search name</mat-label>
+    <input   matInput placeholder="Enter name for your search" #searchNameInput  >
+</mat-form-field>
+<button   class="btn btn-dark col-5  mx-4 " (click)="onSaveSearch(searchNameInput.value)">Save Search</button>
+</div>
+</div>

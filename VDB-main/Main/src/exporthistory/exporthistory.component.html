@@ -1,0 +1,80 @@
+
+<div *ngIf="exportHistory.length > 0">
+  <div class="container  d-flex justify-content-center font-weight-bold ">Export History</div>
+  <div class="container  d-flex justify-content-center">
+ 
+    <div class="table-responsive">
+      <table class="table custom-table">
+        <thead class="table__thead" >
+          <tr>
+            <!-- <th>Sr.no</th> -->
+            <th class="table__th">Exported On</th>
+            <th class="table__th">Total Records</th>
+            <th class="table__th" >Download</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let record of exportHistory">
+            <!-- <td>{{ record.id }}</td> -->
+            <td>{{ record.created_at | date: 'short' : '+0000' }}</td> <!-- UTC time -->
+
+            <td>{{ record.exportedrecordscount }}</td>
+            <td >
+              <!-- <button class="download-btn" (click)="downloadCsv(record.id)" >
+                <svg class="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                  <polyline points="7 10 12 15 17 10" />
+                  <line x1="12" y1="15" x2="12" y2="3" />
+              </svg> Download
+              </button> -->
+           
+              <button  (click)="downloadCsv(record.id)"  
+              class="custom-button btn  px-3 py-2 text-xs font-medium text-center inline-flex items-center border border-gray-300 hover:bg-blue-500 hover:border-blue-700 hover:text-white ">
+              <svg class="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" y1="15" x2="12" y2="3" />
+            </svg> 
+            Download
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<p *ngIf="exportHistory.length === 0" class="text-center mt-4">No data available.</p>
+
+<!-- <table class="table w-100" style="font-family: Calibri;" >
+  <thead class="table__thead" style="display: table; width: 100%; table-layout: fixed;">
+    <tr>
+      <th class="table__th" >
+      Exported On
+      </th>
+      <th class="table__th" > 
+        Total Records
+    </th>
+      <th class="table__th" > 
+        Download
+    </th>
+    </tr>
+</thead>
+<tbody>
+  <tr *ngFor="let record of exportHistory">
+    <td class="table-row__td">{{ record.created_at | date: 'short' : '+0000' }}</td> 
+    <td class="table-row__td">{{ record.exportedrecordscount }}</td>
+    <td class="table-row__td">
+      <button  (click)="downloadCsv(record.id)"  
+      class="custom-button btn  px-3 py-2 text-xs font-medium text-center inline-flex items-center border border-gray-300 hover:bg-blue-500 hover:border-blue-700 hover:text-white ">
+      <svg class="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+        <polyline points="7 10 12 15 17 10" />
+        <line x1="12" y1="15" x2="12" y2="3" />
+    </svg> 
+    Download
+      </button>
+    </td>
+  </tr>
+</tbody>
+  </table> -->

@@ -1,0 +1,10 @@
+.shadow{
+    padding: 40px;
+    margin: 100px;
+}
+.form-group,.btn{
+    margin-top: 20px;
+}
+label{
+    margin-bottom: 5px;
+}

@@ -1,0 +1,52 @@
+<div style="font-family: Calibri; width: 500px; height: 700px; border: 1px solid #ffffff; border-radius: 8px; box-shadow: none; padding: 16px; background-color: #fff; display: flex; flex-direction: column;">
+    <div style="flex: 1; overflow-y: auto;">
+        <div style="margin-bottom: 12px;">
+            <span style="font-size: 18px; font-weight: bold;">Drafted Email</span>
+            <span style="float: right; color: blue; cursor: pointer;">Load existing Templates</span>
+            <span style="float: right; margin-right: 8px; color: blue; cursor: pointer;">Save as new template</span>
+        </div>
+        <hr>
+        <div style="margin-bottom: 12px; margin-top: 15px;">
+            <label for="from" style="display: block; margin-bottom: 4px;">From</label>
+            <select id="from" [(ngModel)]="selectedSender" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                <option *ngIf="!hasEmailSenders" disabled>Activate email!</option>
+                <option *ngFor="let sender of emailSenders" [ngValue]="sender">
+                    {{ getDisplayValue(sender) }}
+                </option>
+            </select>
+        </div>
+        
+        <div style="margin-bottom: 12px;">
+            <label for="to" style="display: block; margin-bottom: 4px;">To</label>
+            <input
+                type="text"
+                id="to"
+                [value]="data.first_name + ' ' + data.last_name + ' <' + data.email + '>'"
+                style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" disabled
+            />
+        </div>
+        
+        <div style="margin-bottom: 12px;">
+            <label for="subject" style="display: block; margin-bottom: 4px;">Subject</label>
+            <input
+                type="text"
+                id="subject"
+                [(ngModel)]="emailSubject"
+                style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;"
+            />
+        </div>
+        
+        <div style="position: relative; width: 100%; height: 300px; margin-bottom: 12px;">
+            <ckeditor
+                [editor]="Editor"
+                [(ngModel)]="editorData"
+                [config]="editorConfig"
+                style="width: 100%; height: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; display: flex; flex-direction: column;">
+            </ckeditor>
+        </div>
+    </div>
+    
+    <div style="display: flex; justify-content: center; gap: 8px; padding-top: 16px;">
+        <button (click)="sendEmail()" style="padding: 8px 16px; background-color: #007bff; color: #fff; border: none; border-radius: 4px; cursor: pointer;">Send Now</button>
+    </div>        
+</div>

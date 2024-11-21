@@ -1,0 +1,466 @@
+<div style="font-family: Calibri;">
+  <div *ngIf="results?.length > 0; else blankTable" class="border border-gray-500 rounded-md p-2">
+    <div class="flex items-center justify-between gap-4 mb-4">
+      <ul class="flex gap-2">
+        <li>
+          <button
+          class="border border-gray-500 rounded-md p-2 px-3 py-2 text-xs font-medium text-center inline-flex items-center text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-300 h-10"
+          (click)="selectAllRows()"
+          tabindex="+1" >
+          <input
+            type="checkbox"
+            [checked]="selectedRows.length > 0" 
+            class="mr-2" />
+          <svg
+            class="h-5 w-5 text-gray-500 mr-2"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+            stroke="currentColor"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path stroke="none" d="M0 0h24v24H0z" />
+            <path d="M18 15l-6-6l-6 6h12" transform="rotate(180 12 12)" />
+          </svg>
+          <span
+            class="text-gray-500"
+            *ngIf="selectedRowsCount > 0"
+            style="color: darkblue; font-weight: bold;"
+          >
+            {{ selectedRowsCount }}
+          </span>
+        </button>
+        
+        </li>
+        
+        <li>
+          <button type="button" [ngClass]="{ 'text-white bg-blue-500 hover:bg-blue-600': isSelected(),  'text-gray-500 bg-white border-gray-300 hover:bg-gray-100': !isSelected() }" class="px-3 py-2 text-xs font-medium text-center inline-flex items-center border border-gray-300 rounded-lg h-10"
+          [disabled]="selectedRows.length === 0"
+          (click)="saveData()"
+          tabindex="-1">
+          <svg
+            [ngClass]="{
+              'text-white': isSelected(),
+              'text-gray-500': !isSelected()
+            }"
+            fill="currentColor"
+            width="20px"
+            height="20px"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M12,20a1,1,0,0,1-1-1V13H5a1,1,0,0,1,0-2h6V5a1,1,0,0,1,2,0v6h6a1,1,0,0,1,0,2H13v6A1,1,0,0,1,12,20Z"
+            />
+          </svg>
+          Save
+        </button>
+        
+        </li>
+    
+        <li   >
+          <button type="button" (click)="sendEmail(results.email_address, results.first_name, results.last_name)"   [ngClass]="{'font-bold text-black': isSelected(), 'text-gray-500': !isSelected()}" class="px-3 py-2 text-xs font-medium text-center inline-flex items-center border border-gray-300 rounded-lg h-10">
+          <svg class="w-5 h-5 text-gray-500 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 16">
+          <path d="m10.036 8.278 9.258-7.79A1.979 1.979 0 0 0 18 0H2A1.987 1.987 0 0 0 .641.541l9.395 7.737Z" />
+          <path d="M11.241 9.817c-.36.275-.801.425-1.255.427-.428 0-.845-.138-1.187-.395L0 2.6V14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2.5l-8.759 7.317Z" />
+          </svg>
+          Email
+          </button>
+
+        </li>
+        <li>
+          <button type="button" [ngClass]="{'font-bold text-black': isSelected(), 'text-gray-500': !isSelected()}" class="px-3 py-2 text-xs font-medium text-center inline-flex items-center border border-gray-300 rounded-lg h-10">
+            <svg class="h-5 w-5 text-gray-500 mr-2" width="12" height="12" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" />
+              <line x1="10" y1="14" x2="21" y2="3" />
+              <path d="M21 3L14.5 21a.55 .55 0 0 1 -1 0L10 14L3 10.5a.55 .55 0 0 1 0 -1L21 3" />
+            </svg>
+            Sequence
+          </button>
+        </li>
+        <li>
+          <button type="button" [ngClass]="{'font-bold text-black': isSelected(), 'text-gray-500': !isSelected()}" class="px-3 py-2 text-xs font-medium text-center inline-flex items-center border border-gray-300 rounded-lg h-10">
+            <svg class="h-5 w-5 text-gray-500 mr-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" />
+              <path d="M3.5 5.5l1.5 1.5l2.5-2.5" />
+              <path d="M3.5 11.5l1.5 1.5l2.5-2.5" />
+              <path d="M3.5 17.5l1.5 1.5l2.5-2.5" />
+              <line x1="11" y1="6" x2="20" y2="6" />
+              <line x1="11" y1="12" x2="20" y2="12" />
+              <line x1="11" y1="18" x2="20" y2="18" />
+            </svg>
+            List
+          </button>
+        </li>
+        <li>
+          <button
+            type="button"
+            (click)="openExportDialogue()"
+            [disabled]="!isSelected()"
+            [ngClass]="{'text-white bg-blue-500 hover:bg-blue-600': isSelected(), 'text-gray-500 bg-white border-gray-300 hover:bg-gray-100': !isSelected()}"
+            class="px-3 py-2 text-xs font-medium text-center inline-flex items-center border border-gray-300 rounded-lg h-10"
+          >
+            <svg
+              class="h-5 w-5 mr-2"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="7 10 12 15 17 10" />
+              <line x1="12" y1="15" x2="12" y2="3" />
+            </svg>
+            Export
+          </button>
+        </li>
+        <li>
+          <button [routerLink]="['/home', 'dataEnrichment']"  type="button" [ngClass]="{'font-bold text-black': isSelected(), 'text-gray-500': !isSelected()}" class="px-3 py-2 text-xs font-medium text-center inline-flex items-center border border-gray-300 rounded-lg h-10">
+            <svg class="h-5 w-5 text-gray-500 mr-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" />
+              <path d="M12 17l-2 2l2 2m-2-2h9a2 2 0 0 0 1.75-2.75l-.55-1" />
+              <path d="M12 17l-2 2l2 2m-2-2h9a2 2 0 0 0 1.75-2.75l-.55-1" transform="rotate(120 12 13)" />
+              <path d="M12 17l-2 2l2 2m-2-2h9a2 2 0 0 0 1.75-2.75l-.55-1" transform="rotate(240 12 13)" />
+            </svg>
+            Enrich
+          </button>
+        </li>
+      </ul>
+      <div class="flex items-center gap-4">    
+        <button type="button" class="px-3 py-2 text-xs font-medium text-center inline-flex items-center text-black bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:bg-gray-700 dark:text-black dark:border-gray-600 dark:hover:bg-gray-600 dark:focus:ring-gray-800 h-10">
+          <div>
+            <div><label for="sortCriteria">Sort by:</label>
+              <select id="sortCriteria" (change)="onSortCriteriaChange($event)">
+                <option value="Relevance">Relevance</option>
+                <option value="Name">Name</option>
+                <option value="Company">Company</option>
+                <option value="Location">Location</option>
+                <option value="Industry">Industry</option>
+                <option value="Employees">Employees</option>
+              </select></div> 
+          <div>  <label for="sortOrder">Order:</label>
+            <select id="sortOrder" (change)="onSortOrderChange($event)">
+              <option value="Ascending">Ascending</option>
+              <option value="Descending">Descending</option>
+            </select></div>   
+          </div>     
+        </button>
+
+      
+        
+      </div>
+    </div>
+    
+    <div class="container border border-gray-500 rounded-md p-0" style="margin-top: -15px;">
+      <div class="scroll-container" style="min-height: 100%; overflow-y: auto; overflow-x: auto;">
+        <div class="row row--top-0 container">
+          <div class="col-md-12">
+            <h2 class="row__title"></h2>
+          </div>
+        </div>
+        
+      <div class="row row--top-20">
+        <div class="col-md-12">
+          <div class="table-container mx-auto">
+            <table class="table w-100" style="font-family: Calibri;">
+              <thead class="table__thead" style="display: table; width: 100%; table-layout: fixed;">
+                  <tr>
+                    <th class="table__th" style="width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><div class="d-flex  align-items-center justify-content-center">Name
+                      <div class="px-2">   
+                        <svg class="w-5 text-gray-500" width="24" (click)="sortByNameAsc()" height="24" viewBox="0 9 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" transform="matrix(1,0,0,-1,0,0)" >
+                            <path stroke="none" d="M0 0h24v24H0z"></path>
+                            <path d="M18 15l-6-6l-6 6h12" transform="rotate(180 12 12)"></path>
+                        </svg>
+                        <svg class="w-5 text-gray-500" (click)="sortByNameDesc()" width="24" height="24" viewBox="0 5 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" >
+                            <path stroke="none" d="M0 0h24v24H0z" />
+                            <path d="M18 15l-6-6l-6 6h12" transform="rotate(180 12 12)" />
+                        </svg>
+                    </div>
+                    </div>
+
+                    </th>
+                    <th class="table__th" style="width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><div class="d-flex align-items-center justify-content-center"> Company  
+                      <div class="px-2">   <svg class="w-5 text-gray-500" width="24" (click)="sortByCompanyAsc()" height="24" viewBox="0 9 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" transform="matrix(1,0,0,-1,0,0)" >
+                       <path stroke="none" d="M0 0h24v24H0z"></path>
+                       <path d="M18 15l-6-6l-6 6h12" transform="rotate(180 12 12)"></path>
+                   </svg>
+                   <svg class="w-5 text-gray-500" (click)="sortByCompanyDesc()" width="24" height="24" viewBox="0 5 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" >
+                       <path stroke="none" d="M0 0h24v24H0z" />
+                       <path d="M18 15l-6-6l-6 6h12" transform="rotate(180 12 12)" />
+                   </svg> </div>  </div></th>
+                    <th class="table__th" style="width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"> <div class="d-flex align-items-center justify-content-center"> Email 
+                       
+                      <div class="px-2">    <svg class="w-5 text-gray-500" width="24" (click)="sortByEmailAsc()" height="24" viewBox="0 9 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" transform="matrix(1,0,0,-1,0,0)" >
+                        <path stroke="none" d="M0 0h24v24H0z"></path>
+                        <path d="M18 15l-6-6l-6 6h12" transform="rotate(180 12 12)"></path>
+                    </svg>
+                    <svg class="w-5 text-gray-500" (click)="sortByEmailDesc()" width="24" height="24" viewBox="0 5 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" >
+                        <path stroke="none" d="M0 0h24v24H0z" />
+                        <path d="M18 15l-6-6l-6 6h12" transform="rotate(180 12 12)" />
+                    </svg> </div>  </div></th>
+                    <th class="table__th" style="width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"> <div class="d-flex align-items-center justify-content-center"> Title   
+                         
+                      <div class="px-2">    <svg class="w-5 text-gray-500" width="24" (click)="sortByTitleAsc()" height="24" viewBox="0 9 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" transform="matrix(1,0,0,-1,0,0)" >
+                        <path stroke="none" d="M0 0h24v24H0z"></path>
+                        <path d="M18 15l-6-6l-6 6h12" transform="rotate(180 12 12)"></path>
+                    </svg>
+                    <svg class="w-5 text-gray-500" (click)="sortByTitleDesc()" width="24" height="24" viewBox="0 5 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" >
+                        <path stroke="none" d="M0 0h24v24H0z" />
+                        <path d="M18 15l-6-6l-6 6h12" transform="rotate(180 12 12)" />
+                    </svg> </div>  </div></th>
+                    <th class="table__th" style="width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"> <div class="d-flex align-items-center justify-content-center">  Location    
+                      
+                      <div class="px-2">    <svg class="w-5 text-gray-500" width="24" (click)="sortByCountryCityAsc()" height="24" viewBox="0 9 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" transform="matrix(1,0,0,-1,0,0)" >
+                        <path stroke="none" d="M0 0h24v24H0z"></path>
+                        <path d="M18 15l-6-6l-6 6h12" transform="rotate(180 12 12)"></path>
+                    </svg>
+                    <svg class="w-5 text-gray-500" (click)="sortByCountryCityDesc()"  width="24" height="24" viewBox="0 5 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" >
+                        <path stroke="none" d="M0 0h24v24H0z" />
+                        <path d="M18 15l-6-6l-6 6h12" transform="rotate(180 12 12)" />
+                    </svg> </div>  </div></th>
+                    <th class="table__th" style="width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><div class="d-flex align-items-center justify-content-center"> Employees 
+                      
+                      <div class="px-2">     <svg class="w-5 text-gray-500" width="24" (click)="sortByemployee_sizeAsc()" height="24" viewBox="0 9 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" transform="matrix(1,0,0,-1,0,0)" >
+                        <path stroke="none" d="M0 0h24v24H0z"></path>
+                        <path d="M18 15l-6-6l-6 6h12" transform="rotate(180 12 12)"></path>
+                    </svg>
+                    <svg class="w-5 text-gray-500" (click)="sortByemployee_sizeDesc()"  width="24" height="24" viewBox="0 5 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" >
+                        <path stroke="none" d="M0 0h24v24H0z" />
+                        <path d="M18 15l-6-6l-6 6h12" transform="rotate(180 12 12)" />
+                    </svg> </div>  </div></th>
+                    <th class="table__th" style="width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"> <div class="d-flex align-items-center justify-content-center"> Industry 
+                       
+                      <div class="px-2">    <svg class="w-5 text-gray-500" width="24" (click)="sortByindustryAsc()" height="24" viewBox="0 9 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" transform="matrix(1,0,0,-1,0,0)" >
+                        <path stroke="none" d="M0 0h24v24H0z"></path>
+                        <path d="M18 15l-6-6l-6 6h12" transform="rotate(180 12 12)"></path>
+                    </svg>
+                    <svg class="w-5 text-gray-500" (click)="sortByindustryDesc()"  width="24" height="24" viewBox="0 5 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" >
+                        <path stroke="none" d="M0 0h24v24H0z" />
+                        <path d="M18 15l-6-6l-6 6h12" transform="rotate(180 12 12)" />
+                    </svg> </div>  </div></th>
+                  </tr>
+              </thead>
+              <tbody class="table__tbody" style="max-height: 400px; overflow-y: auto; display: block; width: 100%;  text-align: right; color: black;">
+                <tr class="table-row table-row--chris" *ngFor="let item of results" (click)="(item.prospect_link)" style="display: flex; width: 100%;">
+                  <td class="table-row__td newclass flex items-center" style="width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                    <input id="" type="checkbox" class="mr-2 text-gray-500" [checked]="isRowSelected(item)" (change)="toggleRowSelection(item)" />
+                    <div class="table-row__info flex-1">
+                      <p class="table-row__name" (click)="openUserDialog(item.prospect_link)" style="overflow: hidden; text-overflow: ellipsis; white-space: wrap;">
+                        {{ item.first_name }}
+                        <span class="table-row__name" (click)="openUserDialog(item.prospect_link)" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                          {{ item.last_name }}
+                        </span>
+                      </p>
+                    </div>
+                  </td>
+                  <td data-column="Company" class="table-row__td" style="width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                    <div style="display: flex; align-items: center; justify-content: flex-start; overflow: hidden;">
+                      <div style="display: flex; align-items: center; justify-content: flex-start;">
+                        <img
+                          class="table-row__imgg object-fit-contain"
+                          [src]="'https://logo.clearbit.com/' + getDisplayedCompanyDomain(item) + '?size=100'"
+                          alt="img"
+                          (error)="onImageError($event)"
+                          style="margin-right: 8px; width: 40px; height: auto; background-color: rgb(255, 255, 255); flex-shrink: 0;">                      
+                        <div style="display: flex; flex-direction: column; flex: 1; overflow: hidden; min-width: 0;">
+                          <div style="display: flex; align-items: center; overflow: hidden;">
+                            <p style="margin: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                              <span>{{ getDisplayedCompanyName(item) }}</span>
+                            </p>
+                            <ng-container *ngIf="buyingIntentData && buyingIntentData.common_company_names.length > 0">
+                              <ng-container *ngIf="getDisplayedCompanyName(item) === buyingIntentData.common_company_names[0].company_name">
+                                <div style="margin-left: 8px;">
+                                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="4" cy="16" r="2" fill="#00EAA6"/>
+                                    <rect x="9" y="12" width="4" height="8" fill="#00EAA6"/>
+                                    <rect x="16" y="8" width="4" height="12" fill="#00EAA6"/>
+                                  </svg>
+                                  
+                                </div>
+                              </ng-container>
+                            </ng-container>
+                          </div>
+                          
+                          <div style="display: flex; margin-top: 4px;">
+                            <ng-container>
+                              <a    href="https://www.{{ item.company_domain }}"><svg   class="h-6 w-6 text-slate-500" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"> 
+                                <path stroke="none" d="M0 0h24v24H0z"/> 
+                                <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5"/> 
+                                <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5"/> 
+                              </svg> </a> 
+                              <a href="{{ item.company_link }}">  <svg fill="#0549f5" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve"> 
+                                <g> 
+                                  <path d="M80.667,14H19.315C16.381,14,14,16.325,14,19.188v61.617C14,83.672,16.381,86,19.315,86h61.352 C83.603,86,86,83.672,86,80.805V19.188C86,16.325,83.603,14,80.667,14z M35.354,75.354H24.67V40.995h10.684V75.354z M30.012,36.297 c-3.423,0-6.19-2.774-6.19-6.194c0-3.415,2.767-6.189,6.19-6.189c3.415,0,6.189,2.774,6.189,6.189 C36.201,33.523,33.427,36.297,30.012,36.297z M75.35,75.354H64.683V58.646c0-3.986-0.078-9.111-5.551-9.111 c-5.558,0-6.405,4.341-6.405,8.822v16.998H42.052V40.995h10.245v4.692h0.146c1.426-2.7,4.91-5.549,10.106-5.549 c10.806,0,12.802,7.114,12.802,16.369V75.354z"/> 
+                                </g> 
+                              </svg></a>  
+                            </ng-container>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                     <td data-column="Email" class="table-row__td">
+                    <div *ngIf="!item.showValidation">
+                      <button class="btn1" (click)="toggleValidation(item)">
+                        <span role="status" aria-hidden="false"></span>
+                        <span aria-hidden="true"  style="display: inline-flex; flex-direction: row;">
+                          <!-- <img src="https://app.datagateway.in/image/letter.png" width="32px" height="50px" alt=""> -->
+                          <img src="../assets/email-deliverable.svg" alt="deliverable" style="max-width: 32px; max-height: 50px;"> Access Email
+                        </span>
+                      </button>
+                      <div *ngIf="item.loading" class="loader"></div>
+                    </div>
+                    <div *ngIf="item.showValidation">
+                      <div style="display: flex; border: 1px solid #ccc; position: relative;">
+                        <div style="padding: 10px; border-right: 1px solid #ccc; display: flex; align-items: center; justify-content: flex-start; cursor: pointer;" (click)="toggleDialog(item.id, item.email_address)">
+                          <ng-container *ngIf="item.email_validation === 'Deliverable'">
+                            <img src="../assets/email-deliverable.svg" alt="deliverable" style="max-width: 20px; max-height: 20px;">
+                          </ng-container>
+                          <ng-container *ngIf="item.email_validation === 'undeliverable'">
+                            <img src="https://app.datagateway.in/image/unverfied.svg" alt="undeliverable" style="max-width: 20px; max-height: 20px;">
+                          </ng-container>
+                          <ng-container *ngIf="item.email_validation === null">
+                            <img src="../assets/email-unavailable.svg" alt="unknown" style="max-width: 20px; max-height: 20px;">
+                          </ng-container>
+                          <ng-container *ngIf="item.email_validation === 'Accept all' || item.email_validation === 'Unknown'">
+                            <img src="../assets/email-unknown.svg" alt="accept_all" style="max-width: 20px; max-height: 20px;">
+                          </ng-container>
+                        </div>
+                    
+                        <div style="padding: 10px; border-right: 1px solid #ccc; display: flex; align-items: center; justify-content: flex-start; cursor: pointer;" (click)="togglePhoneDialog(item.id, item.telephone_number)">
+                          <img src="../assets/phone.svg" alt="phone" style="max-width: 20px; max-height: 20px;">
+                        </div>
+                    
+                        <div style="padding: 10px; border-right: 1px solid #ccc; display: flex; align-items: center; justify-content: flex-start; cursor: pointer;">
+                          <img src="../assets/list.svg" alt="list" style="max-width: 20px; max-height: 20px;">
+                        </div>
+                    
+                        <div style="padding: 10px; display: flex; align-items: center; justify-content: flex-start; cursor: pointer;">
+                          <img src="../assets/dropdown.svg" alt="dropdown" style="max-width: 20px; max-height: 20px;">
+                        </div>
+                    
+                <!-- Email Dialog -->
+                <div *ngIf="isDialogOpen && selectedEmail && selectedRowId === item.id" class="email-dialog">
+                  <div *ngIf="item.email_validation === 'deliverable' || item.email_validation === 'accept_all'" style="background-color: #e0f7e9; padding: 5px; border-radius: 5px; display: flex; align-items: center; margin-bottom: 5px;">
+                    <img src="../assets/verify-email.svg" alt="Verified" style="width: 14px; height: 14px; margin-right: 5px;" />
+                    <span style="color: #008000; font-size: 12px; font-weight: bold;">Verified</span>
+                  </div>
+                  <div style="font-size: 14px; font-weight: bold; margin-bottom: 0px; display: flex; justify-content: center;">
+                    <a>{{ item.email_address }}</a>
+                    <img src="../assets/copy.svg" alt="Copy" style="cursor: pointer; margin-left: 5px; width: 14px; height: 14px; vertical-align: middle;" (click)="copyToClipboard(item.email_address)" />
+                  </div>
+                  <div style="font-size: 12px; color: gray; margin-bottom: 10px;">Business | Primary</div>
+                  <hr class="divider">
+                  <div class="button-container">
+                    <button class="send-email-button" (click)="sendEmail(item.email_address, item.first_name, item.last_name)">Send Email</button>
+                    <button class="create-sequence-button">Create Sequence</button>
+                  </div>
+                </div>
+                            
+  
+                <!-- Phone Dialog -->
+                <div *ngIf="isDialogOpenPhone && selectedPhone && selectedRowId === item.id" class="email-dialog">
+                  <div style="font-size: 14px; font-weight: bold; margin-bottom: 0px; display: flex; justify-content: center;">
+                    <a>{{ item.telephone_number }}</a>
+                    <img src="../assets/copy.svg" alt="Copy" style="cursor: pointer; margin-left: 5px; width: 14px; height: 14px; vertical-align: middle;" (click)="copyToClipboard(item.telephone_number)" />
+                  </div>
+                  <div style="font-size: 12px; color: gray; margin-bottom: 10px;">HQ Number</div>
+                  <hr class="divider">
+                  <div class="button-container">
+                    <button class="call-hq-btn">
+                      <img src="../assets/phone-white.svg" alt="Phone" class="phone-icon" />
+                      Call HQ
+                    </button>
+                  </div>
+                </div>
+  
+                <!-- Copied Message -->
+                <div *ngIf="isCopiedMessageVisible" style="font-size: 15px; position: fixed; top: 40px; right: 50px; margin-top: 40px; margin-left: 40px; margin-right: 40px; padding: 10px; background: rgba(255, 255, 255, 0.904); color: rgb(0, 0, 0); border-radius: 5px; display: flex; align-items: center;">
+                  <img src="../assets/right-svg.svg" alt="Copied Icon" style="margin-right: 7px;" />
+                  Copied to clipboard!
+                </div>
+                      </div>
+                    </div>
+                  </td>
+                  
+                  
+                  
+                  <td data-column="Job Title" class="table-row__td" style="width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" (click)="openUserDialog(item.prospect_link)">
+                    {{ item.job_title }}
+                  </td>
+                  <td data-column="Job Title" class="table-row__td" style="width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" (click)="openUserDialog(item.prospect_link)">
+                    {{ item.state }}<ng-container *ngIf="item.state && item.country">, </ng-container>{{ item.country }}
+                  </td>                  
+                  <td data-column="Employee Size" class="table-row__td" style="width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                    <p class="">
+                      {{ item.employee_size }}
+                    </p>
+                  </td>
+                  <td class="table-row__td" data-column="Industry" style="width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                    {{ item.industry }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="flex items-center space-x-2 text-sm border-t border-gray-500 w-full" style="border-top-width: 2px; border-top-color: #c2c2c2;">
+      <span>{{ startRecord }} - {{ endRecord }} of {{ totalRecords }}</span>
+      <button 
+        class="px-2 py-1 text-gray-500 hover:text-gray-700" 
+        [disabled]="currentPage === 1"
+        (click)="goToPage(currentPage - 1)">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+        </svg>
+      </button>
+      <div class="relative">
+        <select 
+          class="appearance-none pl-3 pr-8 py-1 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-700" 
+          [(ngModel)]="currentPage" 
+          (change)="goToPage(currentPage)" >
+          <option *ngFor="let page of getPages()" [value]="page">{{ page }}</option>
+        </select>
+        <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+          <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </div>
+      </div>
+      <button 
+        class="px-2 py-1 text-gray-500 hover:text-gray-700" 
+        [disabled]="currentPage === totalPages"
+        (click)="goToPage(currentPage + 1)">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+        </svg>
+      </button>
+    </div>
+     
+      </div>
+  </div>
+
+  <ng-container> <router-outlet></router-outlet> </ng-container>
+  <ng-template #blankTable>
+    <div style="margin-left: 235px; margin-top: 90px">
+      <img src="./assets/contact.png" alt="dfas" />
+      <span style="margin-left: 15px; padding-left: 0px">
+        Initiate your people search by utilizing
+       
+      </span>
+      <div style="margin-left: 20px">filters available in the left panel.</div>
+    </div>
+    <div style="margin-top: 20px">
+      <img  style="width: 20px; padding-left: 5px;" src="https://app.datagateway.in/image/next.png  " alt="img">
+      <p>Try to add filters to initiate your search.</p>
+    </div>
+   
+  </ng-template>
+</div>

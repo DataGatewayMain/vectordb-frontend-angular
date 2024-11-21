@@ -1,0 +1,10 @@
+ .nav-link{
+    color: rgb(114, 113, 113);
+}
+.search{
+    color: #0c4471;
+     font-weight:bold ;
+  }
+  .search:hover{
+    color: rgb(139, 138, 138);
+  }

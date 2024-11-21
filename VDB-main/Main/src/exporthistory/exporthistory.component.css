@@ -1,0 +1,93 @@
+/* Container styling */
+.container {
+  max-width: 1000px;
+  margin-top: 50px;
+  max-height: 800px;
+}
+
+/* Table styling */
+.custom-table {
+  font-family: Arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+/* Header and cell styling */
+.custom-table th,
+.custom-table td {
+  padding: 14px 20px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+/* Alternating row colors */
+.custom-table tbody tr:nth-child(even) {
+  background-color: #f8f9fa;
+}
+
+.custom-table tbody tr:nth-child(odd) {
+  background-color: #ffffff;
+}
+
+/* Row hover effect */
+.custom-table tbody tr:hover {
+  background-color: #e9ecef;
+  transition: background-color 0.2s ease;
+}
+
+.custom-table tbody td {
+  border-bottom: 1px solid #dee2e6;
+}
+
+/* Sticky header styling */
+.custom-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background-color: #495057; /* Dark background for header */
+  color: #ffffff;
+  font-weight: bold;
+}
+
+/* Button styling */
+.custom-button {
+  padding: 8px 16px;
+  font-size: 14px;
+  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid #d1d5db;
+  background-color: white;
+  color: #333;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.custom-button:hover {
+  background-color: #304974;
+  border-color: #273450;
+  color: white;
+}
+
+/* Checkbox styling */
+input[type="checkbox"] {
+  transform: scale(1.2);
+  cursor: pointer;
+}
+
+/* Company logo and LinkedIn icon adjustments */
+.company-logo {
+  margin-right: 8px;
+}
+
+.linkedin-icon {
+  margin-left: 8px;
+}
+
+/* Table responsive container */
+.table-responsive {
+  max-height: 500px; /* Set a max height for scrolling */
+  overflow-y: auto;
+}

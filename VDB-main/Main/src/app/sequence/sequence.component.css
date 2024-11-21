@@ -1,0 +1,38 @@
+/* Main Component */
+.main-sequence-container {
+    padding: 20px;
+  }
+  
+  .steps-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .step {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+  }
+  
+  .step-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .step-content {
+    margin-top: 10px;
+  }
+  
+  /* Dialog */
+  .mat-dialog-content {
+    max-height: 400px;
+    overflow-y: auto;
+  }
+  
+  .mat-dialog-actions {
+    justify-content: flex-end;
+  }
+  

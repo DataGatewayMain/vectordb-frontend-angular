@@ -1,0 +1,24 @@
+<div class="chat-header">
+    <div class="header-content" (click)="openChat()" *ngIf="!showInput">
+        <img src="path_to_avatar_image" alt="Avatar" class="avatar">
+        <span>VectorDB</span>
+    </div>
+    <p *ngIf="!showInput">Hey there <span class="emoji">😊</span> Please let us know how we can assist you today</p>
+</div>
+<div class="chat-container">
+    <div class="chat-box">
+        <div class="message" *ngFor="let message of messages" [ngClass]="{'question': message.type === 'question', 'answer': message.type === 'answer'}">
+            <div class="text" [innerHTML]="message.text"></div>
+        </div>
+    </div>
+    <div class="options" *ngIf="currentOptions.length > 0 && !showInput">
+        <button *ngFor="let option of currentOptions" (click)="selectOption(option)">
+            {{ option.text }}
+        </button>
+    </div>
+    <div *ngIf="showInput" class="input-container">
+        <input type="text" [(ngModel)]="userMessage" placeholder="Enter your message...">
+        <button (click)="handleUserInput()">Send</button>
+    </div>
+      
+</div>

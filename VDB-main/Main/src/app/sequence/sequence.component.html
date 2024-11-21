@@ -1,0 +1,30 @@
+<div class="main-sequence-container">
+  <h2>Email Sequence</h2>
+
+  <button (click)="openDialog()" class="btn btn-primary">Create Sequence</button>
+
+  <div *ngIf="sequenceSteps.length > 0; else noSteps" class="steps-list">
+    <div *ngFor="let step of sequenceSteps; let i = index" class="step">
+      <div class="step-header">
+        <h4>Sequence {{ i + 1 }}: {{ step.type }}</h4>
+        <p>Day {{ step.day }}</p>
+      </div>
+      <div class="step-content">
+        <strong>Subject:</strong> {{ step.subject || 'No Subject' }}
+        <p>{{ step.content }}</p>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noSteps>
+    <p>No sequences found. You can create a new sequence by clicking the button above.</p>
+  </ng-template>
+
+  <h3>Preformatted Email Templates</h3>
+  <ul class="preformatted-list">
+    <li *ngFor="let email of preformattedEmails">
+      <strong>Subject - {{ email.subject }}</strong>
+      <p>{{ email.content }}</p>
+    </li>
+  </ul>
+</div>

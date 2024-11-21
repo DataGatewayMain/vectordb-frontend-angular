@@ -1,0 +1,71 @@
+<div style="margin: 20px;">
+
+
+ 
+<!-- <div class="chatbot-container">
+  <div class="chatbot-header">
+     <h1>Chatbot </h1>
+  </div>
+  <div class="chatbot-chat">
+    <div class="chat-messages">
+   
+      <div *ngFor="let message of messages" class="message" [ngClass]="{'user-message': message.role === 'user', 'bot-message': message.role === 'bot'}">
+        <div class="message-content">{{ message.content }}</div>
+      </div>
+    </div>
+   
+    <div *ngIf="predefinedQuestions.length > 0" class="question-list">
+      <div class="question-header">Select a question:</div>
+      <div class="questions">
+        <div *ngFor="let question of predefinedQuestions" class="question" (click)="askQuestion(question)">
+          {{ question }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+
+<div id="chatbot">
+  <div style="background-color: #0c4471;color: white; height: 30px;width: 100%;text-align: center; align-items: center; padding-top: 5px;">
+    Messages 
+    </div>
+  <div id="messages">
+    <div *ngFor="let message of messages" class="message">
+      <div class="message-content">
+        <strong>{{ message.role }}  :</strong> {{ message.content }}
+      </div>
+      <div *ngIf="message.options && message.role === 'Alisha'" class="options">
+        <button style="margin-bottom: 5px;" *ngFor="let option of message.options" (click)="selectOption(option)">
+          {{ option }}
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- <div class="input-area">
+    <input *ngIf="userMessageVisible" type="text" [(ngModel)]="userMessage" placeholder="Type your question here...">
+    <button *ngIf="userMessageVisible" (click)="sendMessage()">Send</button>
+  </div> -->
+
+
+  
+
+
+</div>
+
+
+
+
+
+
+</div>
+<div style="display: flex; flex-direction: row;margin-top: 20px; margin-left: 40px;margin-right: 10px;" >
+
+
+  <button class="btn  " style="background-color: #0c4471;color: white; width: 140px ;height: 35px;" (click)="toggleChatbot()"><i>Talk to alisha</i></button>
+
+
+<button (click)="tourGuide()"  style="background-color: #0c4471;color: white;" class="btn btn-light btn-outline-dark mx-6 "><i>Help?</i></button> <span></span>
+
+
+</div>

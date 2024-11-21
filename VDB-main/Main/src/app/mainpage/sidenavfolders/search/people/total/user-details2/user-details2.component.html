@@ -1,0 +1,76 @@
+user data/////////
+
+<div style="color: #759fe9; margin-top: 10px;"><mat-progress-bar *ngIf="isLoading" [value]="progressValue"></mat-progress-bar>
+</div>
+<div *ngIf="selectedUserDetails;">
+
+   <div style="border: 0.5px grey;margin: 20px;"class='shadow'>
+    <h2  class="h2" >{{ selectedUserDetails.userDetails.First_Name }} {{ selectedUserDetails.userDetails.last_name }} </h2>
+    <span class="span">  {{ selectedUserDetails.userDetails.job_title }} at 
+          <span style="color: blue;">{{ selectedUserDetails.userDetails.company_name }}</span>
+       </span>
+    <mat-divider></mat-divider>
+    <div class="div"> 
+      <div style="display:flex; flex-direction: row;" >  
+        <i class="fa-solid fa-envelope  fa-xs my-3 mx-2" style="color: #759fe9; "></i>{{ selectedUserDetails.userDetails.email_address }}</div>
+      <i class="fa-solid fa-phone  fa-xs mx-2" style="color: #759fe9;"></i>   
+      {{selectedUserDetails.userDetails.Telephone_Number }}</div>
+      <mat-divider></mat-divider>
+   </div>
+   <div class="shadow" style="border: 0.5px; margin: 20px;">
+   <span style="margin-top: 30px; margin-bottom: 30px; margin-left: 100px; font-weight: bold; color: rgb(68, 68, 196);"> {{ selectedUserDetails.userDetails.company_name  | uppercase }}</span>
+   <div class="span">
+   <span style=" padding-top: 2px; margin-left: 110px; ">
+    <span class="fa-stack fa-lg">
+
+      <a href="https://www.{{selectedUserDetails.userDetails.company_domain}}" target="_blank">  <i class="fa fa-square-o fa-stack-2x"></i>
+        <i class="fa-solid fa-link fa-l m-2" style="margin-left: 15px;" ></i></a>
+      
+      </span>
+      </span> 
+      <span class="fa-stack fa-lg " >
+        <a href="{{selectedUserDetails.userDetails.Company_Link}}"  >  <i class="fa fa-square-o fa-stack-2x"></i>
+          <i class="fa-brands fa-linkedin-in " style="color: #467bca; margin-left: 15px;"></i></a>
+      
+      </span>
+   </div>
+   <div class="row ">
+ <span style="font-weight: bold;" class="col-6" >  Industry 
+</span>
+  <span style="font-weight: bold;" class="col-6">  Employees</span>
+   </div>
+   <div class="row">
+    <span class="col-1" >  {{ selectedUserDetails.userDetails.Industry }} 
+   </span>
+     <span  class="col-6" style="margin-left: 162px;">  {{ selectedUserDetails.userDetails.Employee_Size }}</span>
+      </div>
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- <ul *ngIf="selectedUserDetails">
+        <li><strong>Name:</strong> {{ selectedUserDetails.userDetails.First_Name }} {{ selectedUserDetails.userDetails.last_name }}</li>
+        <li><strong>Email:</strong> {{ selectedUserDetails.userDetails.email_address }}</li>
+        <li><strong>Company:</strong> {{ selectedUserDetails.userDetails.company_name }}</li>
+        <li><strong>Job Title:</strong> {{ selectedUserDetails.userDetails.job_title }}</li>
+        <li><strong>Location:</strong> {{ selectedUserDetails.userDetails.city }}, {{ selectedUserDetails.userDetails.country }}</li>
+        <li><strong>Employee Size:</strong> {{ selectedUserDetails.userDetails.Employee_Size }}</li>
+        <li><strong>Industry:</strong> {{ selectedUserDetails.userDetails.Industry }}</li>
+      
+    </ul> -->

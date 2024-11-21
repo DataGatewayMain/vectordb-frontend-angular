@@ -1,0 +1,114 @@
+<div class="row">
+  <div class="sidebar col-2 shadow">
+ <ul class="nav mb-3 searchSavedSearches" id="ex1" role="tablist">
+      <li class="nav-item" role="presentation">
+        <a
+          class="nav-link active  search"
+          id="ex1-tab-1"
+          data-mdb-toggle="tab"
+          routerLink="right/total"
+          [routerLinkActive]="['active']"
+          role="tab"
+          aria-controls="ex1-tabs-1"
+          aria-selected="true"
+       
+          >Search</a
+        >
+      </li>
+      <li class="nav-item" role="presentation">
+        <a
+          class="nav-link active search"
+          id="ex1-tab-1"
+          data-mdb-toggle="tab"
+          [routerLinkActive]="['active']"
+          routerLink="left/savedSearches"
+          role="tab"
+          aria-controls="ex1-tabs-1"
+          aria-selected="true"
+          >Saved searches</a
+        >
+      </li>
+    </ul>
+  
+            <!-- left side content of filter -->
+    <!-- important code  -->
+
+  <!-- <div class="col-lg-6 col-md-12 col-sm-12">
+     
+  <h2>Include Search</h2>
+  <label for="include_First_Name">First Name:</label>
+  <input type="text" [(ngModel)]="filters.include_First_Name" name="include_First_Name">
+
+  <label for="include_last_name">Last Name:</label>
+  <input type="text" [(ngModel)]="filters.include_last_name" name="include_last_name">
+
+  <label for="include_company_name">company_name:</label>
+  <input type="text" [(ngModel)]="filters.include_company_name" name="include_company_name">
+
+  <label for="include_company_domain">company_domain:</label>
+  <input type="text" [(ngModel)]="filters.include_company_domain" name="include_company_domain">
+
+  <label for="include_job_title">job_title:</label>
+  <input type="text" [(ngModel)]="filters.include_job_title" name="include_job_title">
+
+  <label for="include_job_function">job_function:</label>
+  <input type="text" [(ngModel)]="filters.include_job_function" name="include_job_function">
+
+  <label for="include_job_level">job_level:</label>
+  <input type="text" [(ngModel)]="filters.include_job_level" name="include_job_level">
+
+  <h2>Exclude Search</h2>
+
+  <label for="exclude_company_name">company_name:</label>
+  <input type="text" [(ngModel)]="filters.exclude_company_name" name="exclude_company_name">
+
+  <label for="exclude_company_domain">company_domain:</label>
+  <input type="text" [(ngModel)]="filters.exclude_company_domain" name="exclude_company_domain">
+
+  <label for="exclude_job_title">job_title:</label>
+  <input type="text" [(ngModel)]="filters.exclude_job_title" name="exclude_job_title">
+
+  <label for="exclude_job_function">job_function:</label>
+  <input type="text" [(ngModel)]="filters.exclude_job_function" name="exclude_job_function">
+
+  <label for="exclude_job_level">job_level:</label>
+  <input type="text" [(ngModel)]="filters.exclude_job_level" name="exclude_job_level">
+
+  <button (click)="search()">Search</button>
+  </div> -->
+
+  <div class="tab-content" id="ex1-content">
+      <div
+        class="tab-pane fade show active "
+        id="ex1-tabs-1"
+        role="tabpanel"
+        aria-labelledby="ex1-tab-1"
+      >
+      <app-filters></app-filters> 
+
+      </div>
+      
+    </div>
+  </div>
+  <div class="maincontent col-6 col-lg-6 col-md-12 col-sm-12 shadow shadow">
+ 
+    <app-rigth-sidenetnew-saved-total></app-rigth-sidenetnew-saved-total>
+
+    <button class="btn btn-dark" title="help" style="margin-left: 900px; margin-top: 80px; 
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #2c2929;
+    border: 1px solid #ddd;
+    padding: 10px 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transform: translate(-50%, -50%); 
+    color: wheat;
+   " (click)="openGuideDialog()"> ?
+   </button>
+  </div>
+</div>    
+
+
+
+

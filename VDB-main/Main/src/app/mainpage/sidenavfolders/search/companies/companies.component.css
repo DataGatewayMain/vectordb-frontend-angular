@@ -1,0 +1,59 @@
+/* Default styles */
+.sidebar {
+    border: 1px solid rgb(241, 239, 239);
+    width: 25%;
+}
+
+.table-fixed {
+    width: 100%;
+    overflow-y: auto;
+}
+
+.table-fixed thead th,
+.cls {
+    position: sticky;
+    position: -webkit-sticky;
+    top: 0;
+    background: rgb(238, 234, 234);
+    color: rgb(11, 10, 10);
+    font-family: 'Times New Roman', Times, serif;
+    z-index: 1; /* Add z-index to ensure the header appears above other elements */
+}
+
+th,
+tr,
+td,
+tbody,
+thead,
+table {
+    border: 1px solid black;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+.maincontent {
+    width: 70%;
+}
+
+.btn {
+    color: black;
+    background-color: rgb(193, 193, 197);
+}
+
+.btn:hover {
+    background-color: rgb(228, 233, 235);
+}
+
+/* Responsive styles */
+@media (max-width: 1130px) {
+    .maincontent {
+        width: 100%; /* Adjust the width for smaller screens */
+    }
+    .sidebar{
+        width: 100%;
+    }
+}
+/* 
+.sidebarMainContent{
+    height: 500px;
+} */

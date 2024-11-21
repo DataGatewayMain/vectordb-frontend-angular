@@ -1,0 +1,89 @@
+<!-- src/app/search/search.component.html -->
+<app-filters></app-filters>
+<div>
+    <!-- Add input fields for each column -->
+    <label for="First_Name">First Name:</label>
+    <input type="text" [(ngModel)]="filters.First_Name" name="First_Name">
+  
+    <label for="last_name">Last Name:</label>
+    <input type="text" [(ngModel)]="filters.last_name" name="last_name">
+
+    <label for="company_name">company_name:</label>
+    <input type="text" [(ngModel)]="filters.company_name" name="company_name">
+
+    <label for="company_domain">company_domain:</label>
+    <input type="text" [(ngModel)]="filters.company_domain" name="company_domain">
+
+    <label for="job_title">job_title:</label>
+    <input type="text" [(ngModel)]="filters.job_title" name="job_title">
+
+
+    <label for="job_function">job_function:</label>
+    <input type="text" [(ngModel)]="filters.job_function" name="job_function">
+
+    <label for="city">city:</label>
+    <input type="text" [(ngModel)]="filters.city" name="city">
+
+
+    <label for="job_level">job_level:</label>
+    <input type="text" [(ngModel)]="filters.job_level" name="job_level">
+
+    <label for="job_level">job_level:</label>
+    <input type="text" [(ngModel)]="filters.job_level" name="job_level">
+
+    <label for="job_level">job_level:</label>
+    <input type="text" [(ngModel)]="filters.job_level" name="job_level">
+
+  
+    <!-- Add more input fields for other columns -->
+  
+    <button class="btn " (click)="search()">Search</button>
+  </div>
+   
+  <div class="container">
+    <h1>Data List</h1> 
+    <div style="margin-bottom: 10px;">
+    
+<div style="margin-bottom: 10px;">
+    <p>Page {{ currentPage }} of {{ results.total_pages }}</p>
+    <button *ngIf="currentPage > 1" (click)="goToPage(currentPage - 1)">Previous</button>
+    <button *ngIf="currentPage < results.total_pages" (click)="goToPage(currentPage + 1)">Next</button>
+  </div>
+  </div> 
+    <div *ngIf="results.data.length > 0; else blankTable">
+        <table class="table table-bordered table-hover table-responsive{-sm|-md|-lg|-xl} table-fixed">
+          <thead>
+            <tr>
+              <!-- Your table headers -->
+              <th>Name</th>
+              <th>Company</th>
+              <th>Title</th>
+              <th>Job Function</th>
+              <th>Location</th>
+              <th>Employee Size</th>
+              <th>Industry</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of results.data">
+              <!-- Your table data -->
+              <td>{{ item.First_Name }} {{ item.last_name }}</td>
+              <td>{{ item.company_name }}</td>
+              <td>{{ item.job_title }}</td>
+              <td>{{ item.job_function }}</td>
+              <td>{{ item.city }} {{ item.country }}</td>
+              <td>{{ item.Employee_Size }}</td>
+              <td>{{ item.Industry }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+  </div> 
+ 
+  <ng-template #blankTable> 
+     <p>No data available.</p>
+  </ng-template>
+  
+   
+
+

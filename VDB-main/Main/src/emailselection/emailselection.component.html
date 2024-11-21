@@ -1,0 +1,142 @@
+
+
+
+<body>
+    <div class="dialog" *ngIf="!currentView">
+      <h1>Create a Sequence</h1>
+      <div class="options">
+        <div class="option" (click)="openView('AI-assisted')">
+          <img src="../assets/service-icon-hover-01.png" alt="AI-assisted" />
+          <h3>AI-assisted</h3>
+          <p>Create a simple outbound sequence with one click.</p>
+        </div>
+        <div class="option" (click)="openView('Pre-formatted')">
+          <img src="../assets/service-icon-hover-01.png" alt="Pre-formatted" />
+          <h3>Pre-formatted</h3>
+          <p>Start with one of our sequence templates.</p>
+        </div>
+      </div>
+    </div>
+  
+   
+    <div class="dialog email-list template-details" *ngIf="currentView === 'AI-assisted'">
+        <h2>AI-Generated Email Templates</h2>
+      
+        <!-- Loading Spinner -->
+        <div *ngIf="isLoading">
+          <!-- <p  class=" ">Generating email, please wait...</p> -->
+           <p @fadeInOut class="fade-in-out">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" style="width: 100px; height: 100px;">
+                <rect fill="#030350" stroke="#030350" stroke-width="15" width="30" height="30" x="25" y="85">
+                  <animate attributeName="opacity" calcMode="spline" dur="2" values="1;0;1;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="-.4"></animate>
+                </rect>
+                <rect fill="#030350" stroke="#030350" stroke-width="15" width="30" height="30" x="85" y="85">
+                  <animate attributeName="opacity" calcMode="spline" dur="2" values="1;0;1;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="-.2"></animate>
+                </rect>
+                <rect fill="#030350" stroke="#030350" stroke-width="15" width="30" height="30" x="145" y="85">
+                  <animate attributeName="opacity" calcMode="spline" dur="2" values="1;0;1;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="0"></animate>
+                </rect>
+              </svg>
+        </p>
+        </div>
+        <button (click)="goBack()" class="back-btn">Back</button>
+
+        <!-- Generate Email Button -->
+        <button (click)="generateAIEmail()" class="add-btn " >Generate New AI Email</button>
+      
+        <!-- Display Generated Emails -->
+        <ul *ngIf="aiGeneratedEmails.length > 0">
+          <li *ngFor="let email of aiGeneratedEmails; let i = index">
+            <div *ngIf="editingEmailIndex !== i; else editEmail">
+              <strong>{{ email.subject }}</strong>
+              <p>{{ email.content }}</p>
+              <button (click)="startEditing(i)" class="edit-btn">Edit</button>
+              <button class="back-btn" (click)="sendDataofai(email)">Add to Sequence</button> <!-- Pass email to sendData -->
+            </div>
+      
+            <!-- Editable Email Form -->
+            <ng-template #editEmail>
+              <div class="email-edit-form">
+                <label>
+                  Subject:
+                  <input
+                    type="text"
+                    [(ngModel)]="editableEmail.subject"
+                  />
+                </label>
+                <label>
+                  Content:
+                  <textarea
+                    [(ngModel)]="editableEmail.content"
+                  ></textarea>
+                </label>
+                <div class="form-buttons">
+                  <button (click)="saveEmail(i)">Save</button>
+                  <button (click)="cancelEditing()">Cancel</button>
+                </div>
+              </div>
+            </ng-template>
+          </li>
+        </ul>
+      </div>
+      
+      
+    <!-- Preformatted Emails -->
+    <div class="email-list  template-details" *ngIf="currentView === 'Pre-formatted'">
+      <h2>Preformatted Email Templates</h2>
+      <button (click)="goBack()" class="back-btn">Back</button>
+      
+      <div >
+       <!-- Loop through each sequenceStep and call the function for each -->
+<div *ngFor="let sequence of sequenceSteps">
+<!-- Pass the sequence inside an array -->
+<!-- Example of ensuring sequence is available -->
+<button *ngIf="sequence" (click)="assignContactsToSequence([sequence], recipientData)">
+  Add Contact to Sequence
+</button>
+
+</div>
+
+      </div>
+      
+      
+      <ul>
+        <li *ngFor="let email of preformattedEmails; let i = index">
+          <div *ngIf="editingPreformattedIndex !== i; else editPreformatted">
+            <strong>{{ email.subject }}</strong>
+            <p>{{ email.content }}</p>
+            <button (click)="startEditingPreformatted(i)" class="edit-btn">Edit</button>
+            <button class="back-btn" (click)="sendData(email)">Add to Sequence</button> <!-- Pass email to sendData -->
+          </div>
+      
+          <!-- Editable Preformatted Email Form -->
+          <ng-template #editPreformatted>
+            <div class="email-edit-form">
+              <label>
+                Subject:
+                <input
+                  type="text"
+                  [(ngModel)]="editablePreformattedEmail.subject"
+                />
+              </label>
+              <label>
+                Content:
+                <textarea
+                  [(ngModel)]="editablePreformattedEmail.content"
+                ></textarea>
+              </label>
+              <div class="form-buttons">
+                <button (click)="savePreformattedEmail(i)">Save</button>
+                <button (click)="cancelEditingPreformatted()">Cancel</button>
+              </div>
+            </div>
+          </ng-template>
+        </li>
+      </ul>
+      
+      
+     
+    </div>
+  
+  </body>
+  

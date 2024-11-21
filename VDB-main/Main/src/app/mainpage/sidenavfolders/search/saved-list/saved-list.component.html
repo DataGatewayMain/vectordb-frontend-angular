@@ -1,0 +1,48 @@
+
+<div class="relative font-inter antialiased">
+
+  <main class="relative min-h-screen flex flex-col justify-center bg-slate-50 overflow-hidden">
+    <div class="w-full max-w-4xl mx-auto px-2 md:px-4">
+      <div class="flex justify-center">
+        <div class="w-full max-w-xl bg-white shadow-xl rounded-2xl">
+          <header class="px-2 py-2 border-b border-slate-200">
+            <h2 class="font-semibold text-slate-900 text-lg ">Saved-list</h2>
+          </header>
+          <div class="p-2">
+
+            <!-- Table -->
+            <div class="overflow-x-auto">
+              <table class="table-auto w-full">
+                <!-- Table header -->
+                <thead class="text-[12px] text-slate-500/70">
+                  <tr>
+                    <th class="px-3 py-2 first:pl-2 last:pr-2 bg-slate-100 first:rounded-l last:rounded-r">
+                      <div class="font-medium text-left">Saved List Name</div>
+                    </th>
+                    <th class="px-3 py-2 first:pl-2 last:pr-2 bg-slate-100 first:rounded-l last:rounded-r">
+                      <div class="font-medium text-left">Created At</div>
+                    </th>              
+                  </tr>
+                </thead>
+                <!-- Table body -->
+                <tbody class="text-sm font-medium">
+                  <!-- Row -->
+                  <tr *ngFor="let savedFilter of dataofsaved" (click)="navigateToFilter(savedFilter)" >
+                    <td class="px-3 py-2 border-b border-slate-200 first:pl-2 last:pr-2">
+                      <div class="flex items-center">
+                        <div class="text-slate-900">{{ savedFilter.filter_name | titlecase }}</div>
+                      </div>
+                    </td>
+                    <td class="px-3 py-2 border-b border-slate-200 first:pl-2 last:pr-2">
+                      <div class="text-slate-500">{{ savedFilter.created_at }}</div>
+                    </td>  
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

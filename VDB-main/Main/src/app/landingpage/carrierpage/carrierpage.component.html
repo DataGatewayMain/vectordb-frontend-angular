@@ -1,0 +1,48 @@
+<div>
+  <div class="carrier">
+    <h1 style="font-size: 50px;">Open positions</h1>
+    <h2 style="padding-left: 40px; padding-top: 10px;">Browse Our Open positions</h2>
+    <div class="dropdown" style="padding-left: 44px;" >
+      
+
+      <mat-form-field appearance="fill">
+        <mat-label>All Departments</mat-label>
+        <mat-select [(ngModel)]="searchTerm" placeholder="Select a department">
+          <mat-option *ngFor="let country of job" [value]="country.title">{{ country.title }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      
+
+      <!-- <mat-form-field style="padding:15px;">
+        <mat-select [(ngModel)]="selectedLocation" placeholder="All Locations">
+          <mat-option *ngFor="let city of location" [value]="city.location">{{ city.location }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+       -->
+    </div>
+  </div>
+  <div style=" padding-top: 50px; padding-left:50px; margin-right: 50px;">
+    <table class="table shadow" >
+      <thead>
+        <tr >
+          <th>Positions</th>
+          <th>Opening</th>
+          <th>Experience</th>
+          <th>Location</th>
+          <th>More details</th>
+          <th>Apply here</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let t of job | filter: searchTerm" style="height: 50px; ">
+          <td>{{ t.title }}</td>
+          <td>{{ t.opening }}</td>
+          <td>{{ t.experience }} years</td>
+          <td>{{ t.location }}</td>
+          <td><a [routerLink]="['/jobdetails', t.id]">More Info </a></td>
+          <td (click)="openDialog()"> Apply </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,21 @@
+<button class="btn  my-3" style="background-color: #0c4471;color: white;" (click)="toggleChatbot()">Talk to alisha</button>
+<div id="chatbot">
+  <div id="messages">
+    <div *ngFor="let message of messages" class="message">
+      <div class="message-content">
+        <strong>{{ message.role }}  :</strong> {{ message.content }}
+      </div>
+      <div *ngIf="message.options && message.role === 'Alisha'" class="options">
+        <button style="margin-bottom: 5px;" *ngFor="let option of message.options" (click)="selectOption(option)">
+          {{ option }}
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- <div class="input-area">
+    <input *ngIf="userMessageVisible" type="text" [(ngModel)]="userMessage" placeholder="Type your question here...">
+    <button *ngIf="userMessageVisible" (click)="sendMessage()">Send</button>
+  </div> -->
+
+
+</div>

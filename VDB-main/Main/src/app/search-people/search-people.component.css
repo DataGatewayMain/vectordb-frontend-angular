@@ -1,0 +1,76 @@
+/* src/app/search/search.component.css */
+
+/* Style the container */
+div {
+    margin: 20px;
+  }
+  
+  /* Style the input fields and labels */
+  label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  input {
+    width: 200px;
+    margin-bottom: 10px;
+  }
+  
+  /* Style the search button */
+  .btn-check {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+  }
+  
+  /* Style the data list container */
+  .container {
+    margin-top: 20px;
+  }
+  
+  /* Style the pagination buttons */
+  button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    margin-right: 5px;
+    cursor: pointer;
+  }
+  
+  /* Style the table */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  th, td {
+    border: 1px solid #000000;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  /* Style the table headers */
+  th {
+    background-color: #847ab3;
+    color: #fff;
+  }
+  
+  /* Style alternating rows */
+  tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  /* Style the "No data available" message */
+  p {
+    color: #777;
+  }
+  
+  /* Add a bit of spacing for the page navigation */
+  div > div {
+    margin-top: 10px;
+  }
+  

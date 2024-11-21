@@ -1,0 +1,28 @@
+<div class=" row ">
+ 
+    <div class="shadow col-6">
+      <h1 class="">Request a demo</h1>
+        <form [formGroup]="myReactiveForm" (ngSubmit)="OnSubmit()">
+            <div class="form-group">
+                <label for="exampleInputPassword1">Full Name</label>
+                <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Name" formControlName="name">
+              </div>
+            <div class="form-group">
+              <label for="exampleInputEmail1">Email address</label>
+              <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" formControlName="email"> 
+              <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            </div>
+            <div class="form-group">
+              <label for="exampleInputPassword1">Password</label>
+              <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" formControlName="password">
+            </div>
+        
+              <div class="form-group">
+                <label for="exampleInputPassword1">Company Name</label>
+                <input type="text" class="form-control" id="exampleInputPassword1" placeholder="company name" formControlName="companyName">
+              </div>
+           
+            <button type="submit" class="btn btn-dark">Submit</button>
+          </form>
+    </div>
+</div>

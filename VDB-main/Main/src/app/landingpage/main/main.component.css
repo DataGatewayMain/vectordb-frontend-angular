@@ -1,0 +1,17 @@
+
+.grid{
+  display: grid;
+  grid-template-columns: 40% 70%;
+  grid-template-rows: 1fr;
+  column-gap: 0px;
+}
+
+
+@media screen and (max-width: 1992px){
+  .grid{
+     grid-template-columns: repeat(2, 1fr);
+  }
+}
+.rightsideContent{
+  background-color:whitesmoke;
+}

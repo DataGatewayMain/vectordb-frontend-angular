@@ -1,0 +1,116 @@
+<div *ngIf="formVisible" class="container mx-auto max-w-md p-4">
+  <h2 class="text-2xl font-semibold mb-6 text-center">Email Configuration</h2>
+  <div>
+    <form #emailForm="ngForm" class="mb-6">
+      <div class="mb-4">
+        <label for="email" class="block text-sm font-medium text-gray-700">Email:</label>
+        <input type="email" id="email" name="email" [(ngModel)]="email"
+               class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+               placeholder="Enter your email" required>
+      </div>
+
+      <button *ngIf="!otpSent" type="button" (click)="verifyEmail()"
+              class="w-full bg-[#1a2a48] text-white font-semibold py-2 my-2 px-4 rounded-lg hover:bg-[#16203a] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#1a2a48]">
+        Send OTP
+      </button>
+    </form>
+
+    <div *ngIf="otpSent" class="mb-6">
+      <form (ngSubmit)="verifyOtp()" #otpForm="ngForm">
+        <div class="mb-4">
+          <label for="otp" class="block text-sm font-medium text-gray-700">Enter OTP:</label>
+          <input type="text" id="otp" name="otp" [(ngModel)]="otp" required
+                 class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                 placeholder="Enter OTP">
+        </div>
+        <button type="submit"
+                class="w-full bg-[#1a2a48] text-white font-semibold py-2 px-4 rounded-lg hover:bg-[#16203a] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#1a2a48]">
+          Verify OTP
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+  <body *ngIf="!formVisible && otpSent" class="bg-gray-100 flex align-items-center justify-content-center mt-0">
+    <div class="bg-white p-4 rounded-lg shadow-md max-w-md w-full">
+      <form action="#" [formGroup]="emailForm" (ngSubmit)="onSubmit()" method="post" >
+          <div>
+            <label for="firstName" class="block text-sm font-medium text-gray-700">First Name (optional)</label>
+            <input
+              type="text"
+              id="firstName"
+              formControlName="firstName"
+              placeholder="{{ firstName }}"
+              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            />
+          </div>
+          <div>
+            <label for="lastName" class="block text-sm font-medium text-gray-700">Last Name</label>
+            <input
+              type="text"
+              id="lastName"
+              formControlName="lastName"
+              placeholder="{{ lastName }}"
+              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            />
+          </div>
+          <div>
+            <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+            <input
+            type="email"
+            id="email"
+            formControlName="email"
+            placeholder="{{ email }}"
+            [readonly]="otpSent"  
+            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            required
+          />
+
+          </div>
+          <div>
+            <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+            <input
+              type="password"
+              id="password"
+              formControlName="password"
+              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              required
+            />
+            <div *ngIf="emailForm.get('password')?.invalid && (emailForm.get('password')?.dirty || emailForm.get('password')?.touched)">
+              <p *ngIf="emailForm.get('password')?.errors?.['required']" class="text-red-600">Password is required.</p>
+            </div>
+          </div>
+            <div>
+                <label for="service_provider" class="block text-sm font-medium text-gray-700">Enter Email Service Provider</label>
+                <div>
+                    <input type="text" [(ngModel)]="searchTerm" #search    class="mt-1 block w-full px-3 py-2 my-4 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" id="provider" placeholder="e.g., Zoho" />
+                    <button (click)="searchServiceProvider(search.value)" class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Search</button>
+                  </div>
+                  
+                  <div *ngIf="errorMessage" class="error">
+                    <p>{{ errorMessage }}</p>
+
+                 
+                    <a routerLink="/email">   Go to linking another one</a>
+                  </div>
+                  
+                  <div *ngIf="serviceProviders.length > 0">
+                    <h2>Service Providers:</h2>
+                    <ul>
+                      <li *ngFor="let provider of serviceProviders"  (click)="selectProvider(provider)">
+                        <strong>{{ provider.service_provider }}</strong><br>
+                      </li>
+                    </ul>
+                  </div>
+                  
+                  <div *ngIf="serviceProviders.length === 0 && searchTerm && !errorMessage">
+                    <p>No service providers found for "{{ searchTerm }}"</p>
+                  </div>
+            </div>
+        </form>
+    </div>
+</body>
+
+
+

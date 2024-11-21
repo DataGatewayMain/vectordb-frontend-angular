@@ -1,0 +1,68 @@
+{
+  "data": [
+    {
+      "data": {
+        "result": "undeliverable",
+        "message": "Emails sent to this address will bounce.",
+        "email": "ichire@xchair.com",
+        "user": "ichire",
+        "domain": "xchair.com",
+        "accept_all": 2,
+        "role": 0,
+        "free_email": 0,
+        "disposable": 0,
+        "spamtrap": 0,
+        "success": true
+      },
+      "id": 1
+    },
+    {
+      "data": {
+        "result": "accept all",
+        "message": "As domain is accept-all, this address cannot be verified definitively.",
+        "email": "ani.boniadi@woodbury.edu",
+        "user": "ani.boniadi",
+        "domain": "woodbury.edu",
+        "accept_all": 1,
+        "role": 0,
+        "free_email": 0,
+        "disposable": 0,
+        "spamtrap": 0,
+        "success": true
+      },
+      "id": 2
+    },
+    {
+      "data": {
+        "result": "accept all",
+        "message": "As domain is accept-all, this address cannot be verified definitively.",
+        "email": "rick.britton@wnco.com",
+        "user": "rick.britton",
+        "domain": "wnco.com",
+        "accept_all": 1,
+        "role": 0,
+        "free_email": 0,
+        "disposable": 0,
+        "spamtrap": 0,
+        "success": true
+      },
+      "id": 3
+    },
+    {
+      "data": {
+        "result": "deliverable",
+        "message": "This address can receive emails.",
+        "email": "jennifer.ruckel@3-form.com",
+        "user": "jennifer.ruckel",
+        "domain": "3-form.com",
+        "accept_all": 2,
+        "role": 0,
+        "free_email": 0,
+        "disposable": 0,
+        "spamtrap": 0,
+        "success": true
+      },
+      "id": 4
+    }
+  ]
+}

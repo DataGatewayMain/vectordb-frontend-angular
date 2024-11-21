@@ -1,0 +1,74 @@
+<div class="profile-card ">
+    <div class="profile-header">
+      <h1 class="name">{{ selectedUserDetails?.userDetails?.First_Name }} {{ selectedUserDetails?.userDetails?.last_name }} <a href="{{selectedUserDetails?.userDetails?.Company_Link}}" class="linkedin" style="text-decoration: none; color: #808080;"><i class="fab fa-linkedin"></i></a></h1>
+      <h2 class="job-title">{{ selectedUserDetails?.userDetails?.job_title }} &#64; {{ selectedUserDetails?.userDetails?.company_name }}</h2>
+      <p class="location" style="color: #000000; font-size: 14px;  margin-top: 10px;"><i class="fas fa-map-marker-alt" style="color: #808080; font-size: 14px; margin-top: 10px;"></i> {{ selectedUserDetails?.userDetails?.State }} {{ selectedUserDetails?.userDetails?.country }}</p>
+    </div>
+    <div class="div"    >
+        <div *ngIf="!selectedUserDetails?.userDetails?.showValidation">
+            <button class="btn" (click)="toggleValidation(selectedUserDetails)" >
+              <span role="status" aria-hidden="false"></span>
+              <span aria-hidden="true" style="padding-right: 23px;" style="display: inline-flex; flex-direction: row;">
+                <img src="https://app.datagateway.in/image/letter.png" width="22px" height="40px" alt=""> Access Email
+              </span>
+            </button>
+            <!-- <button (click)="toggleValidation(item)">Access Email</button> -->
+            <div *ngIf="selectedUserDetails?.userDetails?.loading" class="loader"></div> 
+          </div>
+          <div *ngIf="selectedUserDetails?.userDetails?.showValidation">
+            <div>
+              <div style="width: 200px">
+                <!-- Display the validation status based on the stored value -->
+                <p class="table-row__p-status status--green status" *ngIf="selectedUserDetails?.userDetails?.email_validation === 'deliverable'">
+                  <img src="https://app.datagateway.in/image/darkgreen2.svg" width="27px" height="50px" alt="">   <span style="font-weight: bold; margin-left: 5px;"> Verified email {{ selectedUserDetails?.userDetails?.email_address }} </span>
+                </p>
+                <p class="table-row__p-status status--red  status" *ngIf="selectedUserDetails?.userDetails?.email_validation === 'undeliverable'">
+                
+                 <img src="https://app.datagateway.in/image/unverfied.svg" width="31px" height="50px" alt="">    <span  style="font-weight: bold; margin-left: 7px;">Unverified email {{ selectedUserDetails?.userDetails?.email_address }} </span>
+                </p>
+                <p class="table-row__p-status status--blue status" *ngIf="selectedUserDetails?.userDetails?.email_validation === 'unknown'">
+                  <img src="https://app.datagateway.in/image/unknown.svg" width="35px" height="50px" alt="">   <span style="margin-left: 10px; font-weight: bold;">Unknown {{ selectedUserDetails?.userDetails?.email_address }} </span>
+                </p>
+                <p class="table-row__p-status status--yellow status" *ngIf="selectedUserDetails?.userDetails?.email_validation === 'accept_all'">
+                  <img src="https://app.datagateway.in/image/yellow.svg" width="34px" height="50px" alt="">    <span style="font-weight: bold;"> Accept all {{ selectedUserDetails?.userDetails?.email_address }}</span>
+                </p>
+               
+            </div>
+            
+            </div>
+          </div>
+        <mat-divider></mat-divider>
+    </div>
+    <hr class="divider"> 
+    <p style="margin-top: 5px; margin-bottom: 15px;"><strong>Company</strong></p>
+    <div class="company-logo-and-name" style="margin-top: 5px;">
+      <div class="logo-container">
+        <img src="https://logo.clearbit.com/{{selectedUserDetails?.userDetails?.company_domain}}?size=150" alt="Company Logo" class="logo">
+        <div class="company-name">
+          <p style="font-size: 18px; margin-left: 5px;  color: #000; "><strong>  {{ selectedUserDetails?.userDetails?.company_name }}</strong></p>
+          <p style="color: rgb(43, 43, 107); cursor: pointer; margin-top: 5px; margin-left: 5px;">
+            <strong>{{ selectedUserDetails?.userDetails?.company_domain }}</strong>
+          </p>
+          
+        </div>
+      </div>
+    </div>
+    <div class="company-details">
+      <div class="company-detail" style="margin-top: 15px;">
+        <i class="fas fa-industry icon"></i>
+        <p style="margin-left: 15px; margin-top: 15px;"><strong></strong>  {{ selectedUserDetails?.userDetails?.Industry }}</p>
+      </div>
+      <div class="company-detail">
+        <i class="fas fa-users icon"></i>
+        <p style="margin-left: 15px; margin-top: 15px;"><strong></strong> {{ selectedUserDetails?.userDetails?.employee_size }}</p>
+      </div>
+      <div class="company-detail">
+        <i class="fas fa-globe-americas icon"></i>
+        <p style="margin-left: 15px; margin-top: 15px;"><strong></strong> {{ selectedUserDetails?.userDetails?.region }}</p>
+      </div>
+      <div class="company-detail">
+        <i class="fas fa-handshake icon"></i>
+        <p style="margin-left: 15px; margin-top: 15px;"><strong></strong> {{ selectedUserDetails?.userDetails?.job_level }}</p>
+      </div>
+    </div>
+  </div>

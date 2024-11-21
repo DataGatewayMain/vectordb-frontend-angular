@@ -1,0 +1,77 @@
+/* Container for the form fields */
+.email-form-container {
+    padding: 16px;
+    max-width: 600px;
+    margin: auto;
+  }
+  
+  /* Full-width form fields */
+  .full-width-form-field {
+    width: 100%;
+    margin-bottom: 16px;
+  }
+  
+  /* Full-width select component */
+  .full-width-select {
+    width: 100%;
+  }
+  
+  /* Recipients container to align input and button */
+  .recipients-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  
+  .recipients-container input {
+    flex: 1;
+    margin-right: 8px;
+  }
+  
+  /* Recipients list with scrollbar */
+  .recipients-list {
+    max-height: 300px; /* Adjust as needed */
+    overflow-y: auto; /* Enable vertical scrolling */
+    margin-top: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 8px;
+  }
+  
+  .recipient-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+  
+  /* CKEditor styling */
+  .ckeditor {
+    margin-top: 16px;
+  }
+  
+  /* Button styling for different screen sizes */
+  button {
+    margin-top: 16px;
+    width: 100%;
+  }
+  
+  @media (max-width: 600px) {
+    .email-form-container {
+      padding: 8px;
+    }
+  
+    .recipients-container input {
+      font-size: 14px;
+    }
+  
+    .recipient-item {
+      font-size: 14px;
+    }
+  }
+  .loading-container {
+    text-align: center;
+    font-size: 18px;
+    margin: 20px;
+  }
+  

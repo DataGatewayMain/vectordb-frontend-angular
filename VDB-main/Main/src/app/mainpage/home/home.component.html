@@ -1,0 +1,95 @@
+<mat-sidenav-container style="font-family: Calibri;">
+  <mat-sidenav mode="side"  class="topbar" #mysidebar    #sidenav  [(opened)]="opened" class="sidenav" [fixedInViewport]="true">
+    <div class="sidebar">
+      <div class="sidebar-content">
+        <div class="sidebar-logo" style="margin-top: 0px; margin-bottom: 15px;">
+          <img src="../assets/favicon.png" alt="Logo" />
+        </div>
+        <nav class="sidebar-nav">
+          <a routerLink="firstPage" class="nav-link">
+            <img src="../assets/home.svg" alt="Home Icon" />
+          </a>
+          <hr />
+          <a routerLink="search/people/right/total" class="nav-link">
+            <img src="../assets/search.svg" alt="Search Icon" />
+          </a>
+          <a routerLink="dataEnrichment" class="nav-link">
+            <img src="../assets/data-enrichment.svg" alt="Data Enrichment Icon" />
+          </a>
+          <hr />
+          <a routerLink="sequence" class="nav-link">
+            <img src="../assets/sequence.svg" alt="Sequence Icon" />
+          </a>
+          <a routerLink="email" class="nav-link">
+            <img src="../assets/email.svg" alt="Email Icon" />
+          </a>
+          <a class="nav-link">
+            <img src="../assets/call.svg" alt="Call Icon" />
+          </a>
+          <div class="sidebar-footer">
+            <a class="nav-link">
+              <img src="../assets/list.svg" alt="List Icon" />
+            </a>
+            <a routerLink="profile" class="nav-link">
+              <img src="../assets/setting.svg" alt="Profile Icon" />
+            </a>
+          </div>
+        </nav>
+      </div>
+    </div>
+  </mat-sidenav>
+  <mat-sidenav-content id="content" name="main_content" class="main">
+    <div id="main">
+      <header class="header">
+        <div class="header-left">
+          <button class="header-btn" (click)="sidenav.toggle()">
+            <img src="../assets/expand.svg" alt="Expand Icon" />
+          </button>
+        </div>
+        <div class="header-right">
+          <div class="header-buttons">
+            <button class="header-btn">
+              <img src="../assets/sequence.svg" alt="Sequence Icon" />
+            </button>
+            <button class="header-btn">
+              <img src="../assets/call.svg" alt="Call Icon" />
+            </button>
+            <button class="header-btn" (click)="openUserDialog()">
+              <img src="../assets/notification.svg" alt="Notification Icon" />
+            </button>
+          </div>
+          <div class="upgrade-btn">
+            <button>Upgrade</button>
+          </div>
+          <div class="avatar-menu" [matMenuTriggerFor]="avatarMenu">
+            <span>{{ userFirstName[0] | titlecase}}{{ userLastName[0] | titlecase }}</span>
+          </div>
+          <mat-menu #avatarMenu="matMenu">
+            <span>{{ userFirstName | titlecase }} {{ userLastName | titlecase }}</span>
+            <div>
+              <span mat-button disabled>Admin</span>
+            </div>
+            <button mat-menu-item routerLink="myProfile">
+              <span class="material-symbols-outlined">account_circle</span>
+              My profile
+            </button>
+            <button mat-menu-item routerLink="setting">
+              <span class="material-symbols-outlined">settings</span>Settings
+            </button>
+            <button mat-menu-item (click)="logout()">
+              <span class="material-symbols-outlined">logout</span>Logout
+            </button>
+          </mat-menu>
+        </div>
+      </header>
+      <mat-divider></mat-divider>
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+
+
+
+
+

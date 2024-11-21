@@ -1,0 +1,827 @@
+<mat-card style="max-height: 900px; overflow-y: auto" class="matcard">
+  <div style="height: 100%; overflow-y: auto" class="allFilters" style="font-family: Calibri;">
+    <mat-card-title  class="searchfilter" style="color: #0c4471;">
+  
+      <div style="display: inline-flex; flex-direction: row; margin-left: 0px;"  >
+        <span *ngIf="getAppliedFiltersCount() > 0" style="padding-left: 10px; padding-right: 9px; margin: 35px; border: 1px solid black; border-radius: 12px;">
+          {{ getAppliedFiltersCount() }} <a  (click)="removeAllFilters()">×</a>
+        </span>
+      </div>
+    </mat-card-title>
+    <mat-expansion-panel  class="companyFilter">
+      <mat-expansion-panel-header>
+        <div style="display: inline-flex; flex-direction: row;">
+          <span *ngIf="includeCompanyName.length > 0" style="padding-left: 10px; padding-right: 9px; margin: 35px; border: 1px solid black; border-radius: 12px;">
+           {{ includeCompanyName.length }} <a  (click)="removeAllCompanyNames()">×</a>
+          </span>
+        </div>
+        <mat-panel-title> Company Name
+        </mat-panel-title>
+        <button class="btn  mx-4 px-2" style="border-radius: 22px;font-weight: bolder;" (click)="tourGuide()">?</button>
+      </mat-expansion-panel-header>     
+      <div style="display: flex; align-items: center;font-size: 12px;">
+      <!-- Show input field if filter is applied -->
+<!-- <input  type="text" [(ngModel)]="filters.include_company_name" placeholder="Company Name"> -->
+    <div style="display: flex; flex-direction: column; margin-top: 10px; width: 100%;">
+      <mat-form-field style="width: 100%;">
+        <mat-label>Company Name</mat-label>       
+        <!-- Conditionally bind the ngModel based on whether filters are applied -->
+        <textarea matInput [(ngModel)]="companyNameListText"
+                  placeholder="Enter company name" 
+                  style="min-height: 50px; max-height: 100px; overflow-y: auto;">
+        </textarea>
+      </mat-form-field>
+      <!-- Search button -->
+      <div style="display: flex; justify-content: center; margin-top: 10px; margin-bottom: 20px;">
+        <button mat-raised-button color="primary" style="width: 100%;" (click)="saveAndSearchForCname()">
+          Search
+        </button>
+      </div>
+  </div>
+      </div>
+      <!-- <div style="margin-bottom: 30px; margin-left: 20px;">Exclude Company Name
+        <input type="checkbox" (click)="ifclick()"> </div> -->
+        <div style="margin-top: 10px;margin-bottom: 10px;">
+          <label  style="margin-left: 15px;">Is not any of
+            <input type="checkbox"  (click)="ifclick()" name="job-title-filter" value="is-not-any" style="margin-right: 0px;"> 
+          </label>
+        </div>
+      <mat-expansion-panel *ngIf="checked">
+        <mat-expansion-panel-header>
+          <div style="display: inline-flex; flex-direction: row;">
+            <mat-panel-title >Exclude Company</mat-panel-title>
+            <span *ngIf="excludeCompanyName.length > 0" style="padding-left: 10px; padding-right: 9px; margin: 35px; border: 1px solid black; border-radius: 12px;">
+             {{ excludeCompanyName.length }} <a  (click)="removeExcludeCompanyNames()">×</a>
+            </span>
+           
+          </div>
+        
+        </mat-expansion-panel-header>
+              <div style="display: flex; flex-direction: column; margin-top: 10px; width: 100%;">
+                <mat-form-field style="width: 100%;">
+                  <mat-label>Exclude Company Name</mat-label>
+                  <textarea matInput [(ngModel)]="excludecompanyNameListText" placeholder="Enter company name"
+                            style="min-height: 50px; max-height: 100px; overflow-y: auto;">
+                  </textarea>
+                </mat-form-field>
+              
+                <div style="display: flex; justify-content: center; margin-top: 10px; margin-bottom: 20px;">
+                  <button mat-raised-button color="primary" style="width: 100%; " (click)="saveAndSearchForExcludeCname()">
+                    Search
+                  </button>
+                </div>
+              </div>
+      
+        
+
+      </mat-expansion-panel> 
+      <div *ngIf="isLoading" class="loader-overlay">
+        <mat-spinner></mat-spinner>
+      </div>
+   
+      <!-- Textarea-based input for company domains -->
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Company domain</mat-panel-title>
+          <!-- <span *ngIf="includeCompanyDomain.length > 0" 
+                style="padding-left: 10px; padding-right: 13px; margin: 35px; border: 1px solid black; border-radius: 12px;">
+            {{ includeCompanyDomain.length }} 
+            <a (click)="removeAllCompanyDomain()">×</a> 
+          </span>-->
+        </mat-expansion-panel-header>
+      
+
+
+        <mat-expansion-panel >
+          <mat-expansion-panel-header>
+            <mat-panel-title>Include Domain</mat-panel-title>
+            <span *ngIf="includeCompanyDomain.length > 0" 
+                  style="padding-left: 10px; padding-right: 13px; margin: 35px; border: 1px solid black; border-radius: 12px;">
+              {{ includeCompanyDomain.length }} 
+              <a (click)="removeAllCompanyDomain()">×</a>
+            </span>
+          </mat-expansion-panel-header>
+          <div style="display: flex; flex-direction: column; margin-top: 10px; width: 100%;">
+            <mat-form-field style="width: 100%;">
+              <mat-label>Company Domain</mat-label>
+              <textarea matInput [(ngModel)]=" filters.include_company_domain || companyListText" placeholder="Enter domains"
+                        style="min-height: 50px; max-height: 100px; overflow-y: auto;">
+              </textarea>
+            </mat-form-field>
+        
+            <!-- Save and Search button -->
+            <div style="display: flex; justify-content: center; margin-top: 10px; margin-bottom: 20px;">
+              <button mat-raised-button color="primary" style="width: 100%; " (click)="saveAndSearch()">
+                 Search
+              </button>
+            </div>
+          </div>
+        </mat-expansion-panel>
+      
+          <div style="margin-top: 10px;margin-bottom: 10px;">
+            <label  style="margin-left: 15px;">Is not any of
+              <input type="checkbox"   (click)="ifclickk()" name="job-title-filter" value="is-not-any" style="margin-right: 0px;">
+              
+            </label>
+          </div>
+          <!-- excludecompanydomainlist -->
+        <mat-expansion-panel *ngIf="checkedd">
+          <mat-expansion-panel-header>
+            <div style="display: inline-flex; flex-direction: row;">
+              <span *ngIf="excludeCompanyDomain.length > 0" style="padding-left: 0px; padding-right: 3px; margin: 35px; border: 1px solid black; border-radius: 12px;">
+               {{ excludeCompanyDomain.length }} <a  (click)="removeExcludeCompanyDomainCount()">×</a>
+              </span>
+            </div>
+            <mat-panel-title>Exclude Domain</mat-panel-title>
+          </mat-expansion-panel-header>
+          <div style="display: flex; flex-direction: column; margin-top: 10px; width: 100%;">
+            <mat-form-field style="width: 100%;">
+              <mat-label>Exclude Company Domain</mat-label>
+              <textarea matInput [(ngModel)]="excludecompanydomainlist"    [matAutocomplete]="autoJobTitle" placeholder="Enter exclude company domain"
+                        style="min-height: 50px; max-height: 100px; overflow-y: auto;">
+              </textarea>
+            </mat-form-field>
+            <mat-autocomplete #autoJobTitle="matAutocomplete" (optionSelected)="addJobtitleNameFromAuto($event)">
+              <mat-option *ngFor="let suggestion of filteredJobTitleSuggestions" [value]="suggestion">
+                {{ suggestion }}
+              </mat-option>
+            </mat-autocomplete>
+            <!-- Save and Search button -->
+            <div style="display: flex; justify-content: center; margin-top: 10px; margin-bottom: 20px;">
+              <button mat-raised-button color="primary" style="width: 100%; " (click)="saveAndSearchforexcludedomain()">
+                Search
+              </button>
+            </div>
+          </div>
+ 
+        </mat-expansion-panel>
+
+      </mat-expansion-panel>
+     
+    
+      
+      
+ 
+      
+    </mat-expansion-panel>
+    <mat-expansion-panel class="jobtitleGuide">
+      <mat-expansion-panel-header>
+        <mat-panel-title>  Job Title</mat-panel-title><button class="btn  mx-4 px-2" style="border-radius: 22px; font-weight: bolder;" (click)="jobTitleGuide()">?</button>
+      </mat-expansion-panel-header>
+
+      <mat-expansion-panel>
+
+        <mat-expansion-panel-header>
+
+          
+          <div style="display: inline-flex; flex-direction: row;">
+            <span *ngIf="includeJobTitles.length > 0 || excludeJobTitles.length > 0" 
+              style="padding-left: 10px; padding-right: 9px; margin: 35px; border: 1px solid black; border-radius: 12px;">
+          {{ includeJobTitles.length + excludeJobTitles.length }} 
+          <a (click)="removeallJobTitles()">×</a>
+        </span>
+        
+          </div>
+          <mat-panel-title>Job title</mat-panel-title>
+        </mat-expansion-panel-header>
+          <!-- <div style="border: 1px solid #ccc; border-radius: 8px; padding: 5px; display: flex; flex-wrap: wrap; min-height: 40px;">
+            <div class="chip" *ngFor="let jobTitle of includeJobTitles" 
+                 style="background-color: #f1f1f1; padding: 5px 10px; margin: 2px; border-radius: 16px; display: inline-flex; align-items: center;">
+              {{ jobTitle }}
+              <button type="button" (click)="removeJobTitle(jobTitle)" style="background: none; border: none; font-weight: bold; margin-left: 5px;">×</button>
+            </div>
+            <input id="job-title-search" placeholder="Enter job title" 
+                   style="border: none; outline: none; flex: 1; padding: 5px;" 
+                   [(ngModel)]="currentInput" 
+                   (keyup)="handleKeyUp($event)" 
+                   [matAutocomplete]="autoJobTitle"/>
+            <mat-autocomplete #autoJobTitle="matAutocomplete" (optionSelected)="addJobtitleNameFromAuto($event)">
+              <mat-option *ngFor="let suggestion of filteredJobTitleSuggestions" [value]="suggestion">
+                {{ suggestion }}
+              </mat-option>
+            </mat-autocomplete>
+          </div> -->
+      
+
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <div style="display: inline-flex; flex-direction: row;">
+                <mat-panel-title>Include Job Title</mat-panel-title>
+                <span *ngIf="includeJobTitles.length > 0" style="padding-left: 10px; padding-right: 9px; margin: 35px; border: 1px solid black; border-radius: 12px;">
+                  {{ includeJobTitles.length }} 
+                  <a (click)="removeincludeJobTitles()">×</a>
+                </span>
+              </div>
+            </mat-expansion-panel-header>
+          
+            <!-- Dynamic height when job titles increase -->
+            <!-- <div style="border: 1px solid #ccc; border-radius: 8px; padding: 5px; display: flex; flex-wrap: wrap; min-height: 40px; max-height: 200px; overflow-y: auto;">
+              <div class="chip" *ngFor="let jobTitle of includeJobTitles" 
+                   style="background-color: #f1f1f1; padding: 5px 10px; margin: 2px; border-radius: 16px; display: inline-flex; align-items: center;">
+                {{ jobTitle }}
+                <button type="button" (click)="removeJobTitle(jobTitle)" style="background: none; border: none; font-weight: bold; margin-left: 5px;">×</button>
+              </div>
+              <!-- Input for adding job titles -->
+              <!-- <input id="job-title-search" placeholder="Enter job title" 
+                     style="border: none; outline: none; flex: 1; padding: 5px;" 
+                     [(ngModel)]="currentInput" 
+                     (keyup)="handleKeyUp($event)" 
+                     [matAutocomplete]="autoJobTitle"/>         
+            
+              <mat-autocomplete #autoJobTitle="matAutocomplete" (optionSelected)="addJobtitleNameFromAuto($event)">
+                <mat-option *ngFor="let suggestion of filteredJobTitleSuggestions" [value]="suggestion">
+                  {{ suggestion }}
+                </mat-option>
+              </mat-autocomplete>
+            </div> --> 
+        
+            <div style="display: flex; flex-direction: column; margin-top: 10px; width: 100%;">
+              <mat-form-field style="width: 100%;">
+                <textarea
+                    matInput
+                    #jobTitleInput
+                    [(ngModel)]="  filters.include_job_title || IncludejobTitleListText "
+                    placeholder="Enter job titles"
+                  
+                    style="min-height: 50px; max-height: 100px; overflow-y: auto;">
+                </textarea>
+            </mat-form-field>
+            
+          
+              <!-- Save and Search button -->
+              <div style="display: flex; justify-content: center; margin-top: 10px; margin-bottom: 20px;">
+                  <button mat-raised-button color="primary" style="width: 100%;" (click)="saveAndSearchForJobtitle()">
+                      Search
+                  </button>
+              </div>
+          </div>
+          
+
+          </mat-expansion-panel>
+          
+<div style="margin-top: 10px;margin-bottom: 10px;">
+  <label  style="margin-left: 15px;">Is not any of
+    <input type="checkbox"  (click)="ifclickjobtitle()" name="job-title-filter" value="is-not-any" style="margin-right: 0px;">
+    
+  </label>
+</div>
+
+        <!-- <div style="display: flex; align-items: center"  >
+         <mat-form-field class="example-chip-list">
+            <mat-label>Job Title</mat-label>
+            <mat-chip-grid #jobTitleChipGrid aria-label="Enter job title">
+              <mat-chip-row *ngFor="let jobTitle of includeJobTitles"
+                            (removed)="removeJobTitle(jobTitle)">
+                {{ jobTitle }}
+                <button matChipRemove><b>×</b></button>
+              </mat-chip-row>
+              <input #input4 placeholder="Add job title..." class="excludeJobTitle"
+       [matChipInputFor]="jobTitleChipGrid"
+       [matChipInputSeparatorKeyCodes]="separatorKeysCodes2"
+       [matChipInputAddOnBlur]="addOnBlur"
+       (matChipInputTokenEnd)="addJobTitle1($event.value)"
+       [matAutocomplete]="autoJobTitle1"
+       (input)="filterJobTitleSuggestions(input4.value)">
+
+       <mat-autocomplete #autoJobTitle1="matAutocomplete"  (optionSelected)="addJobtitleNameFromAuto($event)">
+        <mat-option *ngFor="let jobTitle of filteredJobTitleSuggestions" [value]="jobTitle">
+          {{ jobTitle }}
+        </mat-option>
+      </mat-autocomplete>
+
+            </mat-chip-grid>
+          </mat-form-field>
+        </div> -->
+        <!-- <div style="margin-bottom: 30px; margin-left: 25px;">Exclude Job Title
+          <input type="checkbox" (click)="ifclickjobtitle()"> </div> -->
+          <mat-expansion-panel *ngIf="checkforjobtitle">
+            <mat-expansion-panel-header>
+              <div style="display: inline-flex; flex-direction: row;">
+                <mat-panel-title>Exclude Job Title</mat-panel-title>
+                <span *ngIf="excludeJobTitles.length > 0" style="padding-left: 10px; padding-right: 9px; margin: 35px; border: 1px solid black; border-radius: 12px;">
+                  {{ excludeJobTitles.length }} 
+                  <a (click)="removeExcludeJobTitles()">×</a>
+                </span>
+              </div>
+            </mat-expansion-panel-header>
+          
+            <!-- Container for Chips and Input -->
+            <!-- <div  style="border: 1px solid #ccc; border-radius: 8px; padding: 5px; display: flex; flex-wrap: wrap; min-height: 40px; max-height: 200px; overflow-y: auto;"> -->
+              <!-- Display Chips for Excluded Job Titles -->
+              <!-- <mat-chip-list>
+                <mat-chip *ngFor="let jobTitle of excludeJobTitles" 
+                          [removable]="true" 
+                          (removed)="removeExcludeJobTitle(jobTitle)">
+                  {{ jobTitle }}
+                  <mat-icon matChipRemove>×</mat-icon>
+                </mat-chip>
+              </mat-chip-list> -->
+              <!-- <div class="chip" *ngFor="let jobTitle of excludeJobTitles" 
+              style="background-color: #f1f1f1; padding: 5px 10px; margin: 2px; border-radius: 16px; display: inline-flex; align-items: center;">
+           {{ jobTitle }}
+           <button type="button" (click)="removeExcludeJobTitle(jobTitle)" style="background: none; border: none; font-weight: bold; margin-left: 5px;">×</button>
+         </div> -->
+            
+              <!-- <input id="job-title-search" placeholder="Enter job title" 
+                     style="border: none; outline: none; flex: 1; padding: 5px;" 
+                     [(ngModel)]="currentInput1" 
+                     (keyup)="handleKeyUp1($event)" 
+                     [matAutocomplete]="autoJobTitle1"/>
+        
+              <mat-autocomplete #autoJobTitle1="matAutocomplete" (optionSelected)="addExcludeJobtitleNameFromAuto($event)">
+                <mat-option *ngFor="let suggestion of filteredJobTitleSuggestions" [value]="suggestion">
+                  {{ suggestion }}
+                </mat-option>
+              </mat-autocomplete> -->
+           
+           
+              <div style="display: flex; flex-direction: column; margin-top: 10px; width: 100%;">
+                <mat-form-field style="width: 100%;">
+                  
+                  <textarea matInput [(ngModel)]="excludejobTitleListText" placeholder="Enter job title"
+                            style="min-height: 50px; max-height: 100px; overflow-y: auto;">
+                  </textarea>
+                </mat-form-field>
+            
+                <!-- Save and Search button -->
+                <div style="display: flex; justify-content: center; margin-top: 10px; margin-bottom: 20px;">
+                  <button mat-raised-button color="primary" style="width: 100%; " (click)="saveAndSearchForexcludeJobtitle()">
+                     Search
+                  </button>
+                </div>
+              <!-- </div> -->
+            </div>
+          </mat-expansion-panel>
+
+      </mat-expansion-panel>
+
+
+<mat-expansion-panel>
+  <mat-expansion-panel-header>
+    <div style="display: inline-flex; flex-direction: row;">
+      <span *ngIf="selectedJobLevels.length > 0" style="padding-left: 10px; padding-right: 9px; margin: 35px; border: 1px solid black; border-radius: 12px;">
+       {{ selectedJobLevels.length }} <a  (click)="removeAllselectedJobLevels()">×</a>
+      </span>
+    </div>
+    <mat-panel-title>Job Level</mat-panel-title>
+  </mat-expansion-panel-header>
+
+  <div class="panel-content" id="panel2">
+    <mat-form-field appearance="fill" class="jobLevel">
+      <mat-label>Job Level</mat-label>
+      <mat-select [formControl]="jobLevelControl" multiple>
+        <mat-select-trigger>
+          <mat-chip-list>
+            <mat-chip *ngFor="let level of selectedJobLevels" [removable]="true" (removed)="removeJobLevel(level)">
+              {{ level }}
+              <mat-icon matChipRemove><b>×</b></mat-icon>
+            </mat-chip>
+          </mat-chip-list>
+        </mat-select-trigger>
+        <mat-option *ngFor="let level of jobLevelOptions" [value]="level">{{ level }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    
+  </div>
+</mat-expansion-panel>
+
+
+
+<!-- dropdown chips Job function-->
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <div style="display: inline-flex; flex-direction: row;">
+            <span *ngIf="selectedJobFunctions.length > 0" style="padding-left: 10px; padding-right: 9px; margin: 35px; border: 1px solid black; border-radius: 12px;">
+             {{ selectedJobFunctions.length }} <a  (click)="removeAllselectedJobFunctions()">×</a>
+            </span>
+          </div>
+          <mat-panel-title>Job function</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="panel-content" id="panel3">
+          <mat-form-field class="jobFunction" >
+            <mat-label>Job Functions</mat-label>
+            <mat-select [formControl]="jobFunctionControl" multiple>
+              <mat-select-trigger>
+                <mat-chip-list>
+                  <mat-chip *ngFor="let function of selectedJobFunctions" [removable]="true" (removed)="removeFunction(function)">
+                    {{ function }}
+                    <mat-icon matChipRemove><b>×</b></mat-icon>
+                  </mat-chip>
+                </mat-chip-list>
+              </mat-select-trigger>
+              <mat-option *ngFor="let function of jobFunctionOptions" [value]="function">{{ function }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      
+      </mat-expansion-panel>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel class="countryGuide">
+      <mat-expansion-panel-header>
+        <mat-panel-title>  Location </mat-panel-title><button class="btn  mx-4 px-2" style="border-radius: 22px; font-weight: bolder;" (click)="countryGuide()">?</button>
+      </mat-expansion-panel-header>
+      
+      
+
+
+
+
+
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <div style="display: inline-flex; flex-direction: row;">
+            <span *ngIf="includecountry.length > 0" 
+              style="padding-left: 10px; padding-right: 9px; margin: 35px; border: 1px solid black; border-radius: 12px;">
+             {{ includecountry.length }} <a  (click)="removeincludeCountry()">×</a>
+            </span>
+          </div>
+          <mat-panel-title>Country</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div style="display: flex; align-items: center">
+          <mat-form-field class="example-chip-list">
+            <mat-label>Country</mat-label>
+            <mat-chip-grid #countryChipGrid aria-label="Enter country">
+              <mat-chip-row *ngFor="let country of includecountry" (removed)="removeCountryChip(country)">
+                {{ country }}
+                <button matChipRemove><b>×</b></button>
+              </mat-chip-row>
+              <input  #input2 placeholder="Add country..."
+         [matChipInputFor]="countryChipGrid"
+         [matChipInputSeparatorKeyCodes]="separatorKeysCodes1"
+         [matChipInputAddOnBlur]="addOnBlur"
+         (matChipInputTokenEnd)="addCountry($event.value)"
+         [matAutocomplete]="autoCountry"
+        
+         (input)="filterCountrySuggestions(input2.value)">
+         
+  <mat-autocomplete #autoCountry="matAutocomplete" (optionSelected)="addCountryNameFromAuto($event)">
+    <mat-option *ngFor="let country of filteredCountrySuggestions" [value]="country">
+      {{ country }}
+    </mat-option>
+  </mat-autocomplete>
+  
+            </mat-chip-grid>
+          </mat-form-field>
+        </div>
+      </mat-expansion-panel>
+
+      <div style="margin-bottom: 30px; margin-left: 20px;">Exclude Country
+        <input type="checkbox" (click)="ifclickoncountry()"> </div>
+      <mat-expansion-panel *ngIf="checkforcountry">
+        <mat-expansion-panel-header>
+          <div style="display: inline-flex; flex-direction: row;">
+            <span *ngIf="excludeCountry.length > 0" style="padding-left: 10px; padding-right: 9px; margin: 35px; border: 1px solid black; border-radius: 12px;">
+             {{ excludeCountry.length }} <a  (click)="removeExcludecountry()">×</a>
+            </span>
+          </div>
+          <mat-panel-title>Exclude-Country</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div style="display: flex; align-items: center">
+          <mat-form-field style="flex: 1">
+            <mat-chip-grid #excludeCountryChipGrid aria-label="Enter excluded job title">
+              <mat-chip-row *ngFor="let country of excludeCountry" (removed)="removeExcludeCountry(country)">
+                {{ country }}
+                <button matChipRemove><b>×</b></button>
+              </mat-chip-row>
+              <input #input3 placeholder="Add country..."
+         [matChipInputFor]="excludeCountryChipGrid"
+         [matChipInputSeparatorKeyCodes]="separatorKeysCodes1"
+         [matChipInputAddOnBlur]="addOnBlur"
+         (matChipInputTokenEnd)="addExcludecountry($event.value)"
+         [matAutocomplete]="autoCountry"
+        
+         (input)="filterexcludecountrySuggestions(input3.value)">
+         
+  <mat-autocomplete #autoCountry="matAutocomplete" (optionSelected)="addExcludecountryNameFromAuto($event)">
+    <mat-option *ngFor="let country of filteredexlcudecountrySuggestions" [value]="country">
+      {{ country }}
+    </mat-option>
+  </mat-autocomplete>
+            </mat-chip-grid>
+          </mat-form-field>
+        </div>
+      </mat-expansion-panel>
+
+ 
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <div style="display: inline-flex; flex-direction: row;">
+            <span *ngIf="includeCity.length > 0" 
+              style="padding-left: 10px; padding-right: 9px; margin: 35px; border: 1px solid black; border-radius: 12px;">
+             {{ includeCity.length }} <a  (click)="removeincludeCity()">×</a>
+            </span>
+          </div>
+          <mat-panel-title>City</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div style="display: flex; align-items: center">
+          <mat-form-field class="example-chip-list">
+            <mat-label>City</mat-label>
+            <mat-chip-grid #cityChipGrid aria-label="Enter city">
+                <mat-chip-row *ngFor="let city of includeCity" (removed)="removeCityChip(city)">
+                    {{ city }}
+                    <button matChipRemove><b>×</b></button>
+                </mat-chip-row>
+                <input #input7 placeholder="Add city..."
+                    [matChipInputFor]="cityChipGrid"
+                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes1"
+                    [matChipInputAddOnBlur]="addOnBlur"
+                    (matChipInputTokenEnd)="addCity($event.value)"
+                    [matAutocomplete]="autoCity"
+                    (input)="filterCitySuggestions(input7.value)">
+    
+                <mat-autocomplete #autoCity="matAutocomplete" (optionSelected)="addCityNameFromAuto($event)">
+                    <mat-option *ngFor="let city of filteredCitySuggestions" [value]="city">
+                        {{ city }}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-chip-grid>
+        </mat-form-field>
+          
+        </div>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+         <!-- removeincludeState -->
+         <div style="display: inline-flex; flex-direction: row;">
+          <span *ngIf="includeState.length > 0" 
+            style="padding-left: 10px; padding-right: 9px; margin: 35px; border: 1px solid black; border-radius: 12px;">
+           {{ includeState.length }} <a  (click)="removeincludeState()">×</a>
+          </span>
+        </div>
+          <mat-panel-title>State</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div style="display: flex; align-items: center">
+          <mat-form-field class="example-chip-list">
+            <mat-label>State</mat-label>
+            <mat-chip-grid #stateChipGrid aria-label="Enter city">
+                <mat-chip-row *ngFor="let State of includeState" (removed)="removeStateChip(State)">
+                    {{ State }}
+                    <button matChipRemove><b>×</b></button>
+                </mat-chip-row>
+                <input #input8 placeholder="Add State..."
+                    [matChipInputFor]="stateChipGrid"
+                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes1"
+                    [matChipInputAddOnBlur]="addOnBlur"
+                    (matChipInputTokenEnd)="addState($event.value)"
+                    [matAutocomplete]="autoState"
+                    (input)="filterStateSuggestions(input8.value)">
+    
+                <mat-autocomplete #autoState="matAutocomplete" (optionSelected)="addStateNameFromAuto($event)">
+                    <mat-option *ngFor="let state of filteredStateSuggestions" [value]="state">
+                        {{ state }}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-chip-grid>
+        </mat-form-field>
+          
+        </div>
+      </mat-expansion-panel>
+       
+     
+      <mat-expansion-panel class="zipCodeGuide" >
+        <mat-expansion-panel-header>
+          <div style="display: inline-flex; flex-direction: row;">
+            <span *ngIf="includeZipcode.length > 0">
+             {{ includeZipcode.length }} <a  (click)="removeincludeZipCode()">×</a>
+            </span>
+          </div>
+          <mat-panel-title>
+         Zip Code</mat-panel-title>
+       
+        </mat-expansion-panel-header>
+        <mat-form-field class="example-chip-list">
+          <mat-label>Zip code</mat-label>
+          <mat-chip-grid #zipcodeChipGrid aria-label="Enter Zip Code">
+              <mat-chip-row *ngFor="let zipcode of includeZipcode" (removed)="removeZipCodeChip(zipcode)">
+                  {{ zipcode }}
+                  <button matChipRemove><b>×</b></button>
+              </mat-chip-row>
+              <input #input10 placeholder="Add Zip Code..."
+                  [matChipInputFor]="zipcodeChipGrid"
+                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes1"
+                  [matChipInputAddOnBlur]="addOnBlur"
+                  (matChipInputTokenEnd)="addZipCode($event.value)"
+                  [matAutocomplete]="autoZipCode"
+                  (input)="filterZipCodeSuggestions(input10.value)">
+  
+              <mat-autocomplete #autoZipCode="matAutocomplete" (optionSelected)="addZipCodeFromAuto($event)">
+                  <mat-option *ngFor="let ZipCode of filteredzipSuggestions" [value]="ZipCode">
+                      {{ ZipCode }}
+                  </mat-option>
+              </mat-autocomplete>
+          </mat-chip-grid>
+      </mat-form-field>
+        
+      </mat-expansion-panel>
+
+    </mat-expansion-panel>
+
+    
+  
+   <!-- dropdown with chips for employee size -->
+    <mat-expansion-panel class="empSize" >
+      <mat-expansion-panel-header>
+        <div style="display: inline-flex; flex-direction: row;">
+          <span *ngIf="selectedEmployeeSizes.length > 0">
+           {{ selectedEmployeeSizes.length }} <a  (click)="removeselectedEmployeeSizes()">×</a>
+          </span>
+        </div>
+        <mat-panel-title>
+       Employee_Size</mat-panel-title>
+       <button class="btn  mx-4 px-2" style="border-radius: 22px;font-weight: bolder;" (click)="empSizeGuide()">?</button>
+      </mat-expansion-panel-header>
+      <mat-form-field >
+        <mat-label>Employee Size</mat-label>
+        <mat-select [formControl]="employeeSizeControl" multiple>
+          <mat-select-trigger>
+            <mat-chip-list>
+              <mat-chip *ngFor="let size of selectedEmployeeSizes" [removable]="true" (removed)="removeSize(size)">
+                {{ size }}
+                <mat-icon matChipRemove><b>×</b></mat-icon>
+              </mat-chip>
+            </mat-chip-list>
+          </mat-select-trigger>
+          <mat-option *ngFor="let size of employeeSizeOptions" [value]="size">{{ size }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </mat-expansion-panel>
+
+
+
+
+
+
+    <mat-expansion-panel class="industryGuide">
+      <mat-expansion-panel-header>
+        <div style="display: inline-flex; flex-direction: row;">
+          <span *ngIf="includeIndustry.length > 0" 
+            style="padding-left: 10px; padding-right: 9px; margin: 35px; border: 1px solid black; border-radius: 12px;">
+           {{ includeIndustry.length }} <a  (click)="removeincludeIndustry()">×</a>
+          </span>
+        </div>
+        <mat-panel-title>Industry</mat-panel-title>
+        <button class="btn  mx-4 px-2" style="border-radius: 22px;font-weight: bolder;" (click)="industryGuide()">?</button>
+
+      </mat-expansion-panel-header>
+      <div style="display: flex; align-items: center">
+        <mat-form-field class="example-chip-list">
+          <mat-label>Industry</mat-label>
+          <mat-chip-grid #industryChipGrid aria-label="Enter industry">
+              <mat-chip-row *ngFor="let industry of includeIndustry" (removed)="removeIndustryChip(industry)">
+                  {{ industry }}
+                  <button matChipRemove><b>×</b></button>
+              </mat-chip-row>
+              <input #input11 placeholder="Add Industry..."
+                  [matChipInputFor]="industryChipGrid"
+                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes1"
+                  [matChipInputAddOnBlur]="addOnBlur"
+                  (matChipInputTokenEnd)="addIndustry($event.value)"
+                  [matAutocomplete]="autoIndustry"
+                  (input)="filterIndustrySuggestions(input11.value)">
+  
+              <mat-autocomplete #autoIndustry="matAutocomplete" (optionSelected)="addIndustryNameFromAuto($event)">
+                  <mat-option *ngFor="let industry of filteredIndustrySuggestions" [value]="industry">
+                      {{ industry }}
+                  </mat-option>
+              </mat-autocomplete>
+          </mat-chip-grid>
+      </mat-form-field>
+        
+      </div>
+
+      <div style="margin-bottom: 30px; margin-left: 20px;">Exclude Industry
+        <input type="checkbox" (click)="ifclickoncountry()"> </div>
+      <div *ngIf="checkforcountry">
+        <mat-expansion-panel-header>
+          <div style="display: inline-flex; flex-direction: row;">
+            <span *ngIf="excludeIndustry.length > 0" style="padding-left: 10px; padding-right: 9px; margin: 35px; border: 1px solid black; border-radius: 12px;">
+             {{ excludeIndustry.length }} <a  (click)="removeExcludeIndustry()">×</a>
+            </span>
+          </div>
+          <mat-panel-title>Exclude-Industry</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div style="display: flex; align-items: center">
+          <mat-form-field style="flex: 1">
+            <mat-chip-grid #excludeindustryChipGrid aria-label="Enter excluded job title">
+              <mat-chip-row *ngFor="let country of excludeIndustry" (removed)="removeExcludeIndustryChip(country)">
+                {{ country }}
+                <button matChipRemove><b>×</b></button>
+              </mat-chip-row>
+              <input #input12 placeholder="Add exclude industry..."
+         [matChipInputFor]="excludeindustryChipGrid"
+         [matChipInputSeparatorKeyCodes]="separatorKeysCodes1"
+         [matChipInputAddOnBlur]="addOnBlur"
+         (matChipInputTokenEnd)="addExcludeIndustry($event.value)"
+         [matAutocomplete]="autoExcludeIndustry"
+        
+         (input)="filterExcludeIndustrySuggestions(input12.value)">
+         
+  <mat-autocomplete #autoExcludeIndustry="matAutocomplete" (optionSelected)="addExcludeIndustryNameFromAuto($event)">
+    <mat-option *ngFor="let country of filteredexcludeIndustrySuggestions" [value]="country">
+      {{ country }}
+    </mat-option>
+  </mat-autocomplete>
+            </mat-chip-grid>
+          </mat-form-field>
+        </div>
+      </div>
+
+
+
+
+
+
+
+    </mat-expansion-panel>
+
+    <mat-expansion-panel class="zipCodeGuide" >
+      <mat-expansion-panel-header>
+        <div style="display: inline-flex; flex-direction: row;">
+          <span *ngIf="includeZipcode.length > 0">
+           {{ includeZipcode.length }} <a  (click)="removeincludeZipCode()">×</a>
+          </span>
+        </div>
+        <mat-panel-title>
+          Sic code</mat-panel-title>
+     
+      </mat-expansion-panel-header>
+      <mat-form-field class="example-chip-list">
+        <mat-label>Sic code</mat-label>
+        <mat-chip-grid #sicChipGrid aria-label="Enter sic Code">
+            <mat-chip-row *ngFor="let Siccode of includeSiccode" (removed)="removeSicCodeChip(Siccode)">
+                {{ Siccode }}
+                <button matChipRemove><b>×</b></button>
+            </mat-chip-row>
+            <input #input13 placeholder="Add Zip Code..."
+                [matChipInputFor]="sicChipGrid"
+                [matChipInputSeparatorKeyCodes]="separatorKeysCodes1"
+                [matChipInputAddOnBlur]="addOnBlur"
+                (matChipInputTokenEnd)="addSicCode($event.value)"
+                [matAutocomplete]="autoZipCode"
+                (input)="filterZipCodeSuggestions(input13.value)">
+
+            <mat-autocomplete #autoZipCode="matAutocomplete" (optionSelected)="addSicCodeFromAuto($event)">
+                <mat-option *ngFor="let ZipCode of filteredzipSuggestions" [value]="ZipCode">
+                    {{ ZipCode }}
+                </mat-option>
+            </mat-autocomplete>
+        </mat-chip-grid>
+    </mat-form-field>
+      
+    </mat-expansion-panel>
+
+    <mat-expansion-panel class="zipCodeGuide" >
+      <mat-expansion-panel-header>
+        <div style="display: inline-flex; flex-direction: row;">
+          <span *ngIf="includeZipcode.length > 0">
+           {{ includeZipcode.length }} <a  (click)="removeincludeZipCode()">×</a>
+          </span>
+        </div>
+        <mat-panel-title>
+          Naic code</mat-panel-title>
+     
+      </mat-expansion-panel-header>
+      <mat-form-field class="example-chip-list">
+        <mat-label>Naic code</mat-label>
+        <mat-chip-grid #naicChipGrid aria-label="Enter Naic Code">
+            <mat-chip-row *ngFor="let Naiccode of includeNaiccode" (removed)="removeNaicCodeChip(Naiccode)">
+                {{ Naiccode }}
+                <button matChipRemove><b>×</b></button>
+            </mat-chip-row>
+            <input #input14 placeholder="Add Naic Code..."
+                [matChipInputFor]="naicChipGrid"
+                [matChipInputSeparatorKeyCodes]="separatorKeysCodes1"
+                [matChipInputAddOnBlur]="addOnBlur"
+                (matChipInputTokenEnd)="addNaicCode($event.value)"
+                [matAutocomplete]="autoZipCode"
+                (input)="filterZipCodeSuggestions(input14.value)">
+
+            <mat-autocomplete #autoZipCode="matAutocomplete" (optionSelected)="addNaicCodeFromAuto($event)">
+                <mat-option *ngFor="let ZipCode of filteredzipSuggestions" [value]="ZipCode">
+                    {{ ZipCode }}
+                </mat-option>
+            </mat-autocomplete>
+        </mat-chip-grid>
+    </mat-form-field>
+      
+    </mat-expansion-panel>
+
+    <div class="save-search-container">
+      
+      <button mat-raised-button  style="width: 100%; margin: px; background-color: #0c4471; color: white;" (click)="openDialog()">Save Search</button>
+  </div>
+
+ 
+  </div>
+ 
+ 
+
+
+ 
+
+
+
+
+
