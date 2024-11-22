@@ -167,7 +167,7 @@ export class TotalComponent {
         this.results = data.total_data;
         this.loading = false;
         this.count = data.total_count;
-        this.totalPages = data.total_pages.total_pages_total;
+        // this.totalPages = data.total_pages.total_pages_total;
         this.paginationTotal = this.calculatePaginationDetails(
           this.currentPage,
           data.total_count
