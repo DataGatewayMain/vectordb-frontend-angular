@@ -1,7 +1,7 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FilterService } from './filter.service';
 import { GetDataService } from '../people/get-data.service';
-import {MatChipInputEvent} from '@angular/material/chips';
+import { MatChipInputEvent } from '@angular/material/chips';
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { HttpClient } from '@angular/common/http';
@@ -11,7 +11,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { driver } from 'driver.js';
 import { NameSavedsearchComponent } from 'src/app/name-savedsearch/name-savedsearch.component';
 import { ChangeDetectionStrategy } from '@angular/core';
-
 
 @Component({
   selector: 'app-filters',
@@ -107,7 +106,7 @@ export class FiltersComponent {
   ];
   selectedJobFunctions: string[] = [];
   // Method to remove a selected job function chip
-  jobLevelControl = new FormControl<string[]>([]);  // Specify the type as string[]
+  jobLevelControl = new FormControl<string[]>([]); // Specify the type as string[]
   // Initialize as an empty array
   jobLevelOptions: string[] = [
     'Director',
@@ -137,30 +136,30 @@ export class FiltersComponent {
   @ViewChild('input14') inputElementNaiccode!: ElementRef;
   @ViewChild('input11') inputElementIndustry!: ElementRef;
   @ViewChild('input12') inputElementExcludeIndustry!: ElementRef;
-// suggestion for country
-countrySuggestions: string[] = [];
-filteredCountrySuggestions: string[] = [];
-filteredCitySuggestions: string[] = [];
-stateSuggestions: string[] = [];
-filteredStateSuggestions: string[] = [];
-citySuggestions: string[] = [];
-regionSuggestions: string[] = [];
-filteredRegionSuggestions: string[] = [];
-zipSuggestions: string[] = [];
-filteredzipSuggestions: string[] = [];
-industrySuggestions: string[] = [];
-filteredIndustrySuggestions: string[] = [];
-excludeindustrySuggestions: string[] = [];
-filteredexcludeIndustrySuggestions: string[] = [];
-excludecompanySuggestions: string[] = [];
-filteredexcludecompanySuggestions: string[] = [];
-panelOpenState: boolean = false;
-companyNameSuggestions: string[] = [];
-filteredSuggestions: string[] = [];
-excludejobTitleSuggestions: string[] = [];
-filteredexlcudeJobTitleSuggestions: string[] = [];
-jobTitleSuggestions: string[] = [];
-filteredJobTitleSuggestions: string[] = [];
+  // suggestion for country
+  countrySuggestions: string[] = [];
+  filteredCountrySuggestions: string[] = [];
+  filteredCitySuggestions: string[] = [];
+  stateSuggestions: string[] = [];
+  filteredStateSuggestions: string[] = [];
+  citySuggestions: string[] = [];
+  regionSuggestions: string[] = [];
+  filteredRegionSuggestions: string[] = [];
+  zipSuggestions: string[] = [];
+  filteredzipSuggestions: string[] = [];
+  industrySuggestions: string[] = [];
+  filteredIndustrySuggestions: string[] = [];
+  excludeindustrySuggestions: string[] = [];
+  filteredexcludeIndustrySuggestions: string[] = [];
+  excludecompanySuggestions: string[] = [];
+  filteredexcludecompanySuggestions: string[] = [];
+  panelOpenState: boolean = false;
+  companyNameSuggestions: string[] = [];
+  filteredSuggestions: string[] = [];
+  excludejobTitleSuggestions: string[] = [];
+  filteredexlcudeJobTitleSuggestions: string[] = [];
+  jobTitleSuggestions: string[] = [];
+  filteredJobTitleSuggestions: string[] = [];
   filters: any = {
     include_country: '',
     include_city: '',
@@ -185,8 +184,6 @@ filteredJobTitleSuggestions: string[] = [];
     include_naic: '',
   };
 
-  
-
   getCheckboxKeys(): string[] {
     return Object.keys(this.checkboxValues);
   }
@@ -206,7 +203,6 @@ filteredJobTitleSuggestions: string[] = [];
     return storedFilters ? JSON.parse(storedFilters) : {};
   }
   retrieveAndApplyFiltersFromLocalStorage(): void {
-    
     const savedFilters = localStorage.getItem('savedFilters');
     if (savedFilters) {
       const parsedFilters = JSON.parse(savedFilters);
@@ -218,22 +214,27 @@ filteredJobTitleSuggestions: string[] = [];
       // Set the respective properties based on the saved filter
       // this.includeCompanyName = parsedFilter.include_company_name || '';
       // this.companyNameListText = this.includeCompanyName; // Bind to textarea for display
-      this.includeCompanyName = parsedFilter.include_company_name ? parsedFilter.include_company_name.split(',') : [];
-      this.companyNameListText = this.includeCompanyName.join(', ')
+      this.includeCompanyName = parsedFilter.include_company_name
+        ? parsedFilter.include_company_name.split(',')
+        : [];
+      this.companyNameListText = this.includeCompanyName.join(', ');
       // Handle company domains if applicable
       this.includeCompanyDomain = parsedFilter.include_company_domain || '';
       // this.companyListText = this.includeCompanyDomain.join(', '); // If it's an array, join for display
 
       // Handle exclusion lists
-      this.excludeCompanyName = parsedFilter.exclude_company_name ? parsedFilter.exclude_company_name.split(',') : [];
+      this.excludeCompanyName = parsedFilter.exclude_company_name
+        ? parsedFilter.exclude_company_name.split(',')
+        : [];
       this.excludecompanyNameListText = this.excludeCompanyName.join(', '); // For display in textarea
 
-      this.excludeCompanyDomain = parsedFilter.exclude_company_domain ? parsedFilter.exclude_company_domain.split(',') : [];
+      this.excludeCompanyDomain = parsedFilter.exclude_company_domain
+        ? parsedFilter.exclude_company_domain.split(',')
+        : [];
       this.excludecompanydomainlist = this.excludeCompanyDomain.join(', '); // For display in textarea
     }
   }
 
- 
   constructor(
     private apiService: GetDataService,
     private filterService: FilterService,
@@ -255,20 +256,16 @@ filteredJobTitleSuggestions: string[] = [];
       this.updateFilters();
     });
   }
-//   onFilterChange(filterName: string, value: string): void {
-//     this.filterService.updateFilters({ [filterName]: value });
-// }
+  //   onFilterChange(filterName: string, value: string): void {
+  //     this.filterService.updateFilters({ [filterName]: value });
+  // }
 
   ngOnInit(): void {
-    this.filterService.filters$.subscribe(filters => {
+    this.filterService.filters$.subscribe((filters) => {
       this.filters = filters;
-      /// this.applyFilter(); // Apply the filters to the data
-
-      // Update your component's state based on the filters
-      console.log('Current filters:', this.filters);
     });
     this.retrieveAndApplyFiltersFromLocalStorage();
-    
+
     this.filters = this.retrieveFiltersFromLocal();
     this.filters = {};
     this.filterService.filters$.subscribe((filters) => {
@@ -309,15 +306,16 @@ filteredJobTitleSuggestions: string[] = [];
     this.fetchexcludeCompanySuggestions();
     this.fetchCitySuggestions();
     this.fetchIndustrySuggestions();
-    this.fetchRegionSuggestions();
     this.fetchStateSuggestions();
     this.fetchZipCodeSuggestions();
 
     const storedCompanyName = localStorage.getItem('companyNameFilter');
-    
+
     const storedcountry = localStorage.getItem('country');
     const storedCompanyDomain = localStorage.getItem('companyDomain');
-    const storedExkludeCompanyDomain = localStorage.getItem('excludeCompanyDomain' );
+    const storedExkludeCompanyDomain = localStorage.getItem(
+      'excludeCompanyDomain'
+    );
     const firstName = localStorage.getItem('include_First_Name');
     const storedJobTitle = localStorage.getItem('jobtitle');
     const storedExcludeJobTitle = localStorage.getItem('excludeJobtitle');
@@ -351,7 +349,9 @@ filteredJobTitleSuggestions: string[] = [];
       this.includeCompanyName = JSON.parse(storedCompanyName);
       this.companyNameListText = this.includeCompanyName.join(', ');
     }
-    const storedExlcudeCompanyName = localStorage.getItem('ExcludecompanyNameFilter');
+    const storedExlcudeCompanyName = localStorage.getItem(
+      'ExcludecompanyNameFilter'
+    );
     if (storedExlcudeCompanyName) {
       this.excludeCompanyName = JSON.parse(storedExlcudeCompanyName);
       this.excludecompanyNameListText = this.excludeCompanyName.join(', ');
@@ -361,7 +361,7 @@ filteredJobTitleSuggestions: string[] = [];
     }
     if (storedCompanyDomain) {
       this.includeCompanyDomain = JSON.parse(storedCompanyDomain);
-      this.companyListText=this.includeCompanyDomain.join(', ')
+      this.companyListText = this.includeCompanyDomain.join(', ');
     }
     if (storedExkludeCompanyDomain) {
       this.excludeCompanyDomain = JSON.parse(storedExkludeCompanyDomain);
@@ -419,7 +419,6 @@ filteredJobTitleSuggestions: string[] = [];
     const savedFilters = localStorage.getItem('savedFilters');
     if (savedFilters) {
       this.filters = JSON.parse(savedFilters);
-      console.log('Retrieved filters from local storage:', this.filters);
       this.applyFilter();
     }
 
@@ -431,7 +430,6 @@ filteredJobTitleSuggestions: string[] = [];
       this.applyStoredFilters(storedFilters);
     }
 
-  
     if (savedFilters) {
       this.filters = JSON.parse(savedFilters); // Load saved filters
       this.companyNameListText = this.filters.include_company_name || ''; // Initialize textarea value
@@ -443,7 +441,7 @@ filteredJobTitleSuggestions: string[] = [];
       this.companyNameListText = filters.include_company_name; // Sync textarea with filters
       this.companyListText = this.filters.include_company_domain;
     });
-  
+
     // Perform initial searches and suggestions fetch
     if (this.filters.include_company_name) {
       this.companyNameListText = this.filters.include_company_name;
@@ -453,7 +451,7 @@ filteredJobTitleSuggestions: string[] = [];
     if (this.filters.include_company_domain) {
       this.companyListText = this.filters.include_company_domain;
     }
-    this.retrieveAndApplySpecificFilters(); 
+    this.retrieveAndApplySpecificFilters();
     this.fetchSuggestions();
     this.fetchCountrySuggestions();
     this.fetchJobTitleSuggestions();
@@ -468,15 +466,14 @@ filteredJobTitleSuggestions: string[] = [];
     this.fetchZipCodeSuggestions();
     // Retrieve and apply specific filters from local storage
     this.retrieveAndApplySpecificFilters();
-    this.companyNameListText = this.filters.include_company_name.join(', ') || '';
+    this.companyNameListText =
+      this.filters.include_company_name.join(', ') || '';
     this.companyListText = this.filters.include_company_domain.join(', ') || '';
 
     // Apply saved filters
     // this.updateCompanyNameListText();
     this.applyFilter();
   }
-  
-
 
   toggleCheckbox(value: string, type: string): void {
     // Use the appropriate property based on the type
@@ -547,33 +544,32 @@ filteredJobTitleSuggestions: string[] = [];
     this.filters.include_Zip_Code = this.includeZipcode.join(', ');
     this.filters.include_sic = this.includeSiccode.join(', ');
     this.filters.include_naic = this.includeNaiccode.join(', ');
-  
+
     // Apply the filter on the table data
     this.filters.include_employee_size = this.selectedEmployeeSizes.join(', ');
     this.filters.include_job_function = this.selectedJobFunctions.join(', ');
     this.filters.include_job_level = this.selectedJobLevels.join(', ');
-  
+
     // Update the filters in the service
     this.filterService.updateFilters(this.filters);
-  
+
     // Retrieve saved filters from local storage
     const savedFilters = localStorage.getItem('savedFilters');
     if (savedFilters) {
       const parsedFilters = JSON.parse(savedFilters);
       this.filterService.updateFilters(parsedFilters);
     }
-  
+
     // Save the updated filters to local storage
     localStorage.setItem('savedFilters', JSON.stringify(this.filters));
-  
+
     // Execute the search with the applied filters
     this.search();
-  
+
     // Update local storage after applying filters
     this.updateLocalStorage();
   }
-  
-  
+
   search(): void {
     const userEmail = this.authService.getUserEmail();
 
@@ -590,42 +586,79 @@ filteredJobTitleSuggestions: string[] = [];
     }
   }
   private updateFilters(): void {
-    console.log('Filters applied:', {
-      includeCompanyName: this.includeCompanyName,
-    });
-    console.log('this is the include company count',this.includeCompanyName.length);
-    
-  
     // Safely join arrays if they are arrays, or default to an empty string
-    this.filters.include_job_title = Array.isArray(this.includeJobTitles) ? this.includeJobTitles.join(', ') : '';
-    this.filters.include_country = Array.isArray(this.includecountry) ? this.includecountry.join(', ') : '';
-    this.filters.include_company_name = Array.isArray(this.includeCompanyName) ? this.includeCompanyName.join(', ') : '';
-    this.filters.include_city = Array.isArray(this.includeCity) ? this.includeCity.join(', ') : '';
-    this.filters.include_region = Array.isArray(this.includeRegion) ? this.includeRegion.join(', ') : '';
-    this.filters.include_Industry = Array.isArray(this.includeIndustry) ? this.includeIndustry.join(', ') : '';
-    this.filters.include_state = Array.isArray(this.includeState) ? this.includeState.join(', ') : '';
-    this.filters.include_Zip_Code = Array.isArray(this.includeZipcode) ? this.includeZipcode.join(', ') : '';
-    this.filters.include_sic = Array.isArray(this.includeSiccode) ? this.includeSiccode.join(', ') : '';
-    this.filters.include_naic = Array.isArray(this.includeNaiccode) ? this.includeNaiccode.join(', ') : '';
-    this.filters.include_company_domain = Array.isArray(this.includeCompanyDomain) ? this.includeCompanyDomain.join(', ') : '';
-    this.filters.exclude_job_title = Array.isArray(this.excludeJobTitles) ? this.excludeJobTitles.join(', ') : '';
-    this.filters.exclude_industry = Array.isArray(this.excludeIndustry) ? this.excludeIndustry.join(', ') : '';
-    this.filters.exclude_company_name = Array.isArray(this.excludeCompanyName) ? this.excludeCompanyName.join(', ') : '';
-    this.filters.exclude_country = Array.isArray(this.excludeCountry) ? this.excludeCountry.join(', ') : '';
-    this.filters.exclude_company_domain = Array.isArray(this.excludeCompanyDomain) ? this.excludeCompanyDomain.join(', ') : '';
-  
+    this.filters.include_job_title = Array.isArray(this.includeJobTitles)
+      ? this.includeJobTitles.join(', ')
+      : '';
+    this.filters.include_country = Array.isArray(this.includecountry)
+      ? this.includecountry.join(', ')
+      : '';
+    this.filters.include_company_name = Array.isArray(this.includeCompanyName)
+      ? this.includeCompanyName.join(', ')
+      : '';
+    this.filters.include_city = Array.isArray(this.includeCity)
+      ? this.includeCity.join(', ')
+      : '';
+    this.filters.include_region = Array.isArray(this.includeRegion)
+      ? this.includeRegion.join(', ')
+      : '';
+    this.filters.include_Industry = Array.isArray(this.includeIndustry)
+      ? this.includeIndustry.join(', ')
+      : '';
+    this.filters.include_state = Array.isArray(this.includeState)
+      ? this.includeState.join(', ')
+      : '';
+    this.filters.include_Zip_Code = Array.isArray(this.includeZipcode)
+      ? this.includeZipcode.join(', ')
+      : '';
+    this.filters.include_sic = Array.isArray(this.includeSiccode)
+      ? this.includeSiccode.join(', ')
+      : '';
+    this.filters.include_naic = Array.isArray(this.includeNaiccode)
+      ? this.includeNaiccode.join(', ')
+      : '';
+    this.filters.include_company_domain = Array.isArray(
+      this.includeCompanyDomain
+    )
+      ? this.includeCompanyDomain.join(', ')
+      : '';
+    this.filters.exclude_job_title = Array.isArray(this.excludeJobTitles)
+      ? this.excludeJobTitles.join(', ')
+      : '';
+    this.filters.exclude_industry = Array.isArray(this.excludeIndustry)
+      ? this.excludeIndustry.join(', ')
+      : '';
+    this.filters.exclude_company_name = Array.isArray(this.excludeCompanyName)
+      ? this.excludeCompanyName.join(', ')
+      : '';
+    this.filters.exclude_country = Array.isArray(this.excludeCountry)
+      ? this.excludeCountry.join(', ')
+      : '';
+    this.filters.exclude_company_domain = Array.isArray(
+      this.excludeCompanyDomain
+    )
+      ? this.excludeCompanyDomain.join(', ')
+      : '';
+
     // Update include_employee_size filter
-    this.filters.include_employee_size = Array.isArray(this.selectedEmployeeSizes) ? this.selectedEmployeeSizes.join(', ') : '';
-    this.filters.include_job_function = Array.isArray(this.selectedJobFunctions) ? this.selectedJobFunctions.join(', ') : '';
-    this.filters.include_job_level = Array.isArray(this.selectedJobLevels) ? this.selectedJobLevels.join(', ') : '';
-  
+    this.filters.include_employee_size = Array.isArray(
+      this.selectedEmployeeSizes
+    )
+      ? this.selectedEmployeeSizes.join(', ')
+      : '';
+    this.filters.include_job_function = Array.isArray(this.selectedJobFunctions)
+      ? this.selectedJobFunctions.join(', ')
+      : '';
+    this.filters.include_job_level = Array.isArray(this.selectedJobLevels)
+      ? this.selectedJobLevels.join(', ')
+      : '';
+
     // Apply filter and update UI/local storage
     this.applyFilter();
     this.formatChipsData();
     this.updateLocalStorage();
   }
-  
-  
+
   formatChipsData(): void {
     this.filters.include_job_title = this.includeJobTitles.join(', ');
     this.filters.include_country = this.includecountry.join(', ');
@@ -676,7 +709,6 @@ filteredJobTitleSuggestions: string[] = [];
     if (storedFilters.include_job_title) {
       this.includeJobTitles = storedFilters.include_job_title.split(', ');
       this.IncludejobTitleListText = this.includeJobTitles.join(', ');
-      
     }
 
     if (storedFilters.include_country) {
@@ -728,38 +760,34 @@ filteredJobTitleSuggestions: string[] = [];
 
     if (storedFilters.selected_job_levels) {
       this.selectedJobLevels = storedFilters.selected_job_levels.split(', ');
-      
+
       // Make sure jobLevelControl reflects the selected job levels
       this.jobLevelControl.setValue(this.selectedJobLevels);
     }
-    
-// Exclude Filters (Handling missing logic for exclude filters)
-if (storedFilters.exclude_company_name) {
-  this.excludeCompanyName = storedFilters.exclude_company_name.split(', ');
-}
 
-if (storedFilters.exclude_job_title) {
-  this.excludeJobTitles = storedFilters.exclude_job_title.split(', ');
-  this.excludejobTitleListText = this.excludeJobTitles.join(', ');
-}
+    // Exclude Filters (Handling missing logic for exclude filters)
+    if (storedFilters.exclude_company_name) {
+      this.excludeCompanyName = storedFilters.exclude_company_name.split(', ');
+    }
 
-if (storedFilters.exclude_country) {
-  this.excludeCountry = storedFilters.exclude_country.split(', ');
-}
+    if (storedFilters.exclude_job_title) {
+      this.excludeJobTitles = storedFilters.exclude_job_title.split(', ');
+      this.excludejobTitleListText = this.excludeJobTitles.join(', ');
+    }
 
-if (storedFilters.exclude_company_domain) {
-  this.excludeCompanyDomain = storedFilters.exclude_company_domain.split(', ');
-}
+    if (storedFilters.exclude_country) {
+      this.excludeCountry = storedFilters.exclude_country.split(', ');
+    }
+
+    if (storedFilters.exclude_company_domain) {
+      this.excludeCompanyDomain =
+        storedFilters.exclude_company_domain.split(', ');
+    }
     // Update the filters in the service
     this.filterService.updateFilters(this.filters);
   }
 
-
-
   filterSuggestions(query: string): void {
-    // Filter the suggestions based on the search query
-    console.log(query, 'company');
-
     this.filteredSuggestions = this.companyNameSuggestions
       .filter((suggestion) =>
         suggestion.toLowerCase().includes(query.toLowerCase())
@@ -776,9 +804,7 @@ if (storedFilters.exclude_company_domain) {
 
         this.companyNameSuggestions = response;
       },
-      (error) => {
-        console.error('Error fetching suggestions:', error);
-      }
+      (error) => {}
     );
   }
   // addCompanyNameFromAuto(event: MatAutocompleteSelectedEvent): void {
@@ -797,7 +823,7 @@ if (storedFilters.exclude_company_domain) {
   // }
 
   // exclude company name
- 
+
   fetchexcludeCompanySuggestions(): void {
     const url = 'https://api.vectordb.app/v1/auto/company/?';
 
@@ -807,9 +833,7 @@ if (storedFilters.exclude_company_domain) {
 
         this.excludecompanySuggestions = response;
       },
-      (error) => {
-        console.error('Error fetching country suggestions:', error);
-      }
+      (error) => {}
     );
   }
 
@@ -845,17 +869,11 @@ if (storedFilters.exclude_company_domain) {
   }
 
   filterexcludeCompanySuggestions(query: string): void {
-    console.log('Query:', query);
     this.filteredexcludecompanySuggestions = this.excludecompanySuggestions
       .filter((company) => company.toLowerCase().includes(query.toLowerCase()))
       .slice(0, 10);
-    console.log(
-      'Filtered Suggestions:',
-      this.filteredexcludecompanySuggestions
-    );
   }
 
-  
   fetchCountrySuggestions(): void {
     const url = 'https://api.vectordb.app/v1/auto/country/?';
 
@@ -863,9 +881,7 @@ if (storedFilters.exclude_company_domain) {
       (response: string[]) => {
         this.countrySuggestions = response;
       },
-      (error) => {
-        console.error('Error fetching country suggestions:', error);
-      }
+      (error) => {}
     );
   }
 
@@ -911,7 +927,7 @@ if (storedFilters.exclude_company_domain) {
   }
 
   // job title suggestions
-  
+
   fetchJobTitleSuggestions(): void {
     const url = 'https://api.vectordb.app/v1/auto/job/?';
 
@@ -919,13 +935,9 @@ if (storedFilters.exclude_company_domain) {
       (response: string[]) => {
         this.jobTitleSuggestions = response;
       },
-      (error) => {
-        console.error('Error fetching job title suggestions:', error);
-      }
+      (error) => {}
     );
   }
-
-
 
   addExcludeJobTitle(value: string): void {
     const names = value.split(',');
@@ -962,9 +974,7 @@ if (storedFilters.exclude_company_domain) {
       (response: string[]) => {
         this.excludejobTitleSuggestions = response;
       },
-      (error) => {
-        console.error('Error fetching job title suggestions:', error);
-      }
+      (error) => {}
     );
   }
   filterexcludeJobTitleSuggestions(query: string): void {
@@ -1013,9 +1023,7 @@ if (storedFilters.exclude_company_domain) {
       (response: string[]) => {
         this.excludecountrySuggestions = response;
       },
-      (error) => {
-        console.error('Error fetching job title suggestions:', error);
-      }
+      (error) => {}
     );
   }
   filterexcludecountrySuggestions(query: string): void {
@@ -1069,11 +1077,8 @@ if (storedFilters.exclude_company_domain) {
     this.applyFilter();
   }
 
-
-
   // Function to update localStorage with current filter values
   updateLocalStorage(): void {
-    console.log('Updating local storage...');
     const filtersToSave = {
       include_company_name: this.includeCompanyName,
       include_company_domain: this.includeCompanyDomain,
@@ -1092,16 +1097,13 @@ if (storedFilters.exclude_company_domain) {
       zipcode: this.includeZipcode || [],
       excludeCountry: this.excludeCountry || [],
     };
-  
-    console.log('Saving filters to localStorage:', filtersToSave);
+
     localStorage.setItem('savedFilters', JSON.stringify(filtersToSave));
     localStorage.setItem(
       'ExcludecompanyNameFilter',
       JSON.stringify(this.excludeCompanyName)
     );
-  
-    // Log the stored exclude company names
-    console.log('Exclude Company Names Saved:', this.excludeCompanyName);
+
     localStorage.setItem(
       'companyNameFilter',
       JSON.stringify(this.includeCompanyName)
@@ -1150,8 +1152,7 @@ if (storedFilters.exclude_company_domain) {
     const savedFilters = localStorage.getItem('savedFilters');
     if (savedFilters) {
       const parsedFilters = JSON.parse(savedFilters);
-      console.log('Loaded filters from localStorage:', parsedFilters);
-  
+
       this.includeCompanyName = parsedFilters.include_company_name || [];
       this.includeCompanyDomain = parsedFilters.include_company_domain || [];
       this.excludeCompanyName = parsedFilters.exclude_company_name || [];
@@ -1168,14 +1169,12 @@ if (storedFilters.exclude_company_domain) {
       this.includeIndustry = parsedFilters.industry || [];
       this.includeZipcode = parsedFilters.zipcode || [];
       this.excludeCountry = parsedFilters.excludeCountry || [];
-  
+
       // Reapply form controls
       this.reapplyFormControls();
     } else {
-      console.log('No saved filters found in localStorage.');
     }
   }
-  
 
   // Reapply form control values to reflect the stored filters
   reapplyFormControls(): void {
@@ -1241,7 +1240,6 @@ if (storedFilters.exclude_company_domain) {
   }
 
   // Function to remove city
- 
 
   // Function to add city from autocomplete
   addCityNameFromAuto(event: any): void {
@@ -1255,9 +1253,7 @@ if (storedFilters.exclude_company_domain) {
       (response: string[]) => {
         this.citySuggestions = response;
       },
-      (error) => {
-        console.error('Error fetching country suggestions:', error);
-      }
+      (error) => {}
     );
   }
 
@@ -1283,8 +1279,6 @@ if (storedFilters.exclude_company_domain) {
     this.updateFilters();
   }
 
- 
-
   // Function to add city from autocomplete
   addStateNameFromAuto(event: any): void {
     this.addState(event.option.value);
@@ -1297,9 +1291,7 @@ if (storedFilters.exclude_company_domain) {
       (response: string[]) => {
         this.stateSuggestions = response;
       },
-      (error) => {
-        console.error('Error fetching country suggestions:', error);
-      }
+      (error) => {}
     );
   }
 
@@ -1340,9 +1332,7 @@ if (storedFilters.exclude_company_domain) {
       (response: string[]) => {
         this.regionSuggestions = response;
       },
-      (error) => {
-        console.error('Error fetching country suggestions:', error);
-      }
+      (error) => {}
     );
   }
 
@@ -1381,9 +1371,7 @@ if (storedFilters.exclude_company_domain) {
       (response: string[]) => {
         this.zipSuggestions = response;
       },
-      (error) => {
-        console.error('Error fetching zip code suggestions:', error);
-      }
+      (error) => {}
     );
   }
   filterZipCodeSuggestions(query: string): void {
@@ -1420,8 +1408,6 @@ if (storedFilters.exclude_company_domain) {
   debounceTimeout: any = null; // Timeout for debouncing
   // Handle key up events for input (with debouncing)
   handleKeyUp(event: KeyboardEvent): void {
-    // console.log('Key pressed:', event.key); // Log the pressed key
-
     // Add title on Enter or comma
     if (event.key === 'Enter' || event.key === ',') {
       event.preventDefault(); // Prevent default behavior (like form submission)
@@ -1454,15 +1440,12 @@ if (storedFilters.exclude_company_domain) {
     const titles = input
       .split(',')
       .map((title) => title.trim())
-      .filter((title) => title); // Trim spaces and filter empty titles
-    console.log('Titles to add:', titles); // Log the titles that will be added
+      .filter((title) => title);
 
     titles.forEach((title) => {
       if (title && !this.includeJobTitles.includes(title)) {
-        this.includeJobTitles.push(title); // Add the title if not already present
-        console.log(`Added title: ${title}`); // Log the title added
+        this.includeJobTitles.push(title);
       } else {
-        console.log(`Title already exists: ${title}`); // Log if the title already exists
       }
     });
 
@@ -1609,8 +1592,6 @@ if (storedFilters.exclude_company_domain) {
     this.updateFilters();
   }
 
-  
-
   addNaicCodeFromAuto(event: any): void {
     this.addNaicCode(event.option.value);
   }
@@ -1633,7 +1614,6 @@ if (storedFilters.exclude_company_domain) {
     this.updateFilters();
   }
 
-  
   // Function to add city from autocomplete
   addIndustryNameFromAuto(event: any): void {
     this.addIndustry(event.option.value);
@@ -1646,9 +1626,7 @@ if (storedFilters.exclude_company_domain) {
       (response: string[]) => {
         this.industrySuggestions = response;
       },
-      (error) => {
-        console.error('Error fetching country suggestions:', error);
-      }
+      (error) => {}
     );
   }
 
@@ -1702,9 +1680,7 @@ if (storedFilters.exclude_company_domain) {
       (response: string[]) => {
         this.excludeindustrySuggestions = response;
       },
-      (error) => {
-        console.error('Error fetching job title suggestions:', error);
-      }
+      (error) => {}
     );
   }
 
@@ -1733,9 +1709,9 @@ if (storedFilters.exclude_company_domain) {
   //     this.updateFilters();
   //   }
   // }
-// In your FiltersComponent class
+  // In your FiltersComponent class
 
-companyNameListText: string = '';
+  companyNameListText: string = '';
 
   companyListText: string = '';
   saveAndSearch(): void {
@@ -1749,35 +1725,30 @@ companyNameListText: string = '';
     this.updateLocalStorage();
     this.updateFilters();
   }
-  isFilterApplied: boolean = false; 
+  isFilterApplied: boolean = false;
   saveAndSearchForCname(): void {
     this.includeCompanyName = this.companyNameListText
       .split(',')
       .map((name) => name.trim())
       .filter((name) => name);
-      
+
     // this.isFilterApplied = this.includeCompanyName.length > 0; // Set flag based on active filters
     this.updateLocalStorage();
     this.updateFilters(); // Ensure this function updates the table's data source
   }
-  
 
-  
   loadSavedFilters(): void {
     const savedFilters = localStorage.getItem('savedFilters');
     if (savedFilters) {
       const parsedFilters = JSON.parse(savedFilters);
-      console.log('Loaded filters from localStorage:', parsedFilters);
       this.includeCompanyName = parsedFilters.include_company_name || [];
       // this.companyNameListText = this.includeCompanyName.join(', '); // Update the text area as well
 
-      this.includeCompanyDomain=parsedFilters.include_company_domain || [];
+      this.includeCompanyDomain = parsedFilters.include_company_domain || [];
       // this.companyListText=this.includeCompanyDomain.join(', ')
     } else {
-      console.log('No saved filters found in localStorage.');
     }
   }
-  
 
   excludecompanyNameListText: string = '';
   saveAndSearchForExcludeCname(): void {
@@ -1790,7 +1761,6 @@ companyNameListText: string = '';
     this.updateLocalStorage();
     this.updateFilters();
   }
-  
 
   // job title
   IncludejobTitleListText: string = '';
@@ -1894,7 +1864,7 @@ companyNameListText: string = '';
       this.updateFilters();
     }
   }
-  
+
   excludecompanydomainlist: string = '';
   saveAndSearchforexcludedomain(): void {
     // Split the textarea input by commas and clean up spaces
@@ -2085,8 +2055,9 @@ companyNameListText: string = '';
     driverObj.drive();
   }
   value: any;
-  savedFilters: { include_company_name?: string[] ,
-    include_company_domain?:string[]
+  savedFilters: {
+    include_company_name?: string[];
+    include_company_domain?: string[];
   } = {};
   getstoredvalue() {
     localStorage.getItem('savedFilters');
@@ -2094,8 +2065,6 @@ companyNameListText: string = '';
   }
 
   onSaveSearch(name: string): void {
-    console.log('Save button clicked. Search name:', name);
-
     const filters = {
       includeCompanyName: this.includeCompanyName,
       includeCity: this.includeCity,
@@ -2110,19 +2079,14 @@ companyNameListText: string = '';
       excludeCompanyDomain: this.excludeCompanyDomain,
     };
 
-    console.log('Filters to be saved:', filters);
-
     this.apiService.saveSearch(name, filters).subscribe(
       () => {
-        console.log('Search saved successfully!');
         // Reset the filter notification flag to true
         this.apiService.triggerNotification();
         // Optionally, clear the local storage if you want the notification to show regardless
         localStorage.removeItem('filterNotificationClosed');
       },
-      (error: any) => {
-        console.error('Error saving search:', error);
-      }
+      (error: any) => {}
     );
   }
 
@@ -2131,9 +2095,7 @@ companyNameListText: string = '';
       data: {},
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
-    });
+    dialogRef.afterClosed().subscribe((result) => {});
   }
 
   handlePaste(event: ClipboardEvent, type: string): void {
@@ -2153,11 +2115,6 @@ companyNameListText: string = '';
       }
     }
   }
-
-
-
-  
-
 
   // REMOVE THE COUNT
   removeAllCompanyNames(): void {
@@ -2201,8 +2158,8 @@ companyNameListText: string = '';
     this.updateLocalStorage();
   }
   removeallJobTitles(): void {
-    this.excludeJobTitles=[]
-    this.includeJobTitles=[]
+    this.excludeJobTitles = [];
+    this.includeJobTitles = [];
     // this.currentInput1 = '';
     // this.currentInput = '';
     this.IncludejobTitleListText = '';
@@ -2476,12 +2433,6 @@ companyNameListText: string = '';
     }
   }
 
-
-
-
-
-
-
   removeExcludeCompanyDomain(companyDomain: string): void {
     const index = this.excludeCompanyDomain.indexOf(companyDomain);
     if (index !== -1) {
@@ -2490,92 +2441,88 @@ companyNameListText: string = '';
       this.updateFilters(); // Update filters after removing the domain
     }
   }
-// Function to remove city
-removeIndustryChip(stateName: string): void {
-  const index = this.includeIndustry.indexOf(stateName);
-  if (index >= 0) {
-    this.includeIndustry.splice(index, 1);
-    this.updateLocalStorage();
+  // Function to remove city
+  removeIndustryChip(stateName: string): void {
+    const index = this.includeIndustry.indexOf(stateName);
+    if (index >= 0) {
+      this.includeIndustry.splice(index, 1);
+      this.updateLocalStorage();
+    }
   }
-}
-removeExcludeIndustryChip(stateName: string): void {
-  const index = this.excludeIndustry.indexOf(stateName);
-  if (index >= 0) {
-    this.excludeIndustry.splice(index, 1);
-    this.updateLocalStorage();
+  removeExcludeIndustryChip(stateName: string): void {
+    const index = this.excludeIndustry.indexOf(stateName);
+    if (index >= 0) {
+      this.excludeIndustry.splice(index, 1);
+      this.updateLocalStorage();
+    }
   }
-}
-removeNaicCodeChip(zipCode: string): void {
-  const index = this.includeNaiccode.indexOf(zipCode);
-  if (index >= 0) {
-    this.includeNaiccode.splice(index, 1);
-    this.updateLocalStorage();
+  removeNaicCodeChip(zipCode: string): void {
+    const index = this.includeNaiccode.indexOf(zipCode);
+    if (index >= 0) {
+      this.includeNaiccode.splice(index, 1);
+      this.updateLocalStorage();
+    }
   }
-}
-// Remove a specific job title from the list
-removeJobTitle(jobtitle: string): void {
-  const index = this.includeJobTitles.indexOf(jobtitle);
-  if (index !== -1) {
-    this.includeJobTitles.splice(index, 1); // Remove the title from the list
-    this.updateLocalStorage(); // Update localStorage after removal
-    this.updateFilters(); // Update filters after removal
+  // Remove a specific job title from the list
+  removeJobTitle(jobtitle: string): void {
+    const index = this.includeJobTitles.indexOf(jobtitle);
+    if (index !== -1) {
+      this.includeJobTitles.splice(index, 1); // Remove the title from the list
+      this.updateLocalStorage(); // Update localStorage after removal
+      this.updateFilters(); // Update filters after removal
+    }
   }
-}
-removeZipCodeChip(zipCode: string): void {
-  const index = this.includeZipcode.indexOf(zipCode);
-  if (index >= 0) {
-    this.includeZipcode.splice(index, 1);
-    this.updateLocalStorage();
+  removeZipCodeChip(zipCode: string): void {
+    const index = this.includeZipcode.indexOf(zipCode);
+    if (index >= 0) {
+      this.includeZipcode.splice(index, 1);
+      this.updateLocalStorage();
+    }
   }
-}  removeRegionChip(regionName: string): void {
-  const index = this.includeRegion.indexOf(regionName);
-  if (index >= 0) {
-    this.includeRegion.splice(index, 1);
-    this.updateLocalStorage();
+  removeRegionChip(regionName: string): void {
+    const index = this.includeRegion.indexOf(regionName);
+    if (index >= 0) {
+      this.includeRegion.splice(index, 1);
+      this.updateLocalStorage();
+    }
   }
-}
-// Function to remove city
-removeStateChip(stateName: string): void {
-const index = this.includeState.indexOf(stateName);
-if (index >= 0) {
-  this.includeState.splice(index, 1);
-  this.updateLocalStorage();
-}
-}
-removeCityChip(cityName: string): void {
-const index = this.includeCity.indexOf(cityName);
-if (index >= 0) {
-  this.includeCity.splice(index, 1);
-  this.updateLocalStorage();
-}
-}  removeCountryChip(companyName: string): void {
-const index = this.includecountry.indexOf(companyName);
-if (index >= 0) {
-  this.includecountry.splice(index, 1);
-  this.updateLocalStorage();
-}
-}
-excludecountrySuggestions: string[] = [];
-filteredexlcudecountrySuggestions: string[] = [];
-// Function to remove CompanyName filter
-removeCompanyName(companyName: string): void {
-const index = this.includeCompanyName.indexOf(companyName);
-if (index >= 0) {
-  this.includeCompanyName.splice(index, 1);
-  this.updateLocalStorage(); // Update localStorage after removing a filter
-}
-}
-removeSicCodeChip(zipCode: string): void {
-  const index = this.includeSiccode.indexOf(zipCode);
-  if (index >= 0) {
-    this.includeSiccode.splice(index, 1);
-    this.updateLocalStorage();
+  // Function to remove city
+  removeStateChip(stateName: string): void {
+    const index = this.includeState.indexOf(stateName);
+    if (index >= 0) {
+      this.includeState.splice(index, 1);
+      this.updateLocalStorage();
+    }
   }
-}
-
-
-
-
-
-
+  removeCityChip(cityName: string): void {
+    const index = this.includeCity.indexOf(cityName);
+    if (index >= 0) {
+      this.includeCity.splice(index, 1);
+      this.updateLocalStorage();
+    }
+  }
+  removeCountryChip(companyName: string): void {
+    const index = this.includecountry.indexOf(companyName);
+    if (index >= 0) {
+      this.includecountry.splice(index, 1);
+      this.updateLocalStorage();
+    }
+  }
+  excludecountrySuggestions: string[] = [];
+  filteredexlcudecountrySuggestions: string[] = [];
+  // Function to remove CompanyName filter
+  removeCompanyName(companyName: string): void {
+    const index = this.includeCompanyName.indexOf(companyName);
+    if (index >= 0) {
+      this.includeCompanyName.splice(index, 1);
+      this.updateLocalStorage(); // Update localStorage after removing a filter
+    }
+  }
+  removeSicCodeChip(zipCode: string): void {
+    const index = this.includeSiccode.indexOf(zipCode);
+    if (index >= 0) {
+      this.includeSiccode.splice(index, 1);
+      this.updateLocalStorage();
+    }
+  }
 }

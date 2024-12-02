@@ -21,7 +21,7 @@ export class RigthSidenetnewSavedTotalComponent implements OnInit {
   savedData: any;
   total_records = 0;
   itemsPerPage: number = 50;
-  private currentFilters: any = {}; 
+  private currentFilters: any = {};
   displayedData: any;
   total_count1: any;
   net_new_count1: any;
@@ -36,14 +36,10 @@ export class RigthSidenetnewSavedTotalComponent implements OnInit {
   ngOnInit(): void {
     const userEmail = localStorage.getItem('email');
     if (userEmail) {
-  
     }
 
     this.filterService.filters$
-      .pipe(
-        debounceTime(300), 
-        distinctUntilChanged() 
-      )
+      .pipe(debounceTime(300), distinctUntilChanged())
       .subscribe((filters) => {
         if (!this.filtersAreEqual(filters, this.currentFilters)) {
           this.currentFilters = filters;
@@ -51,8 +47,7 @@ export class RigthSidenetnewSavedTotalComponent implements OnInit {
         }
       });
 
-      console.log(this.savedRecordsCount,'this is the saverecords count');
-      
+    console.log(this.savedRecordsCount, 'this is the saverecords count');
   }
   isPeopleRoute(): boolean {
     const segments: string[] = this.router.url.split('/');
@@ -61,15 +56,15 @@ export class RigthSidenetnewSavedTotalComponent implements OnInit {
 
   getDataForCurrentPage(): void {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    const endIndex = Math.min(startIndex + this.itemsPerPage, this.savedData.length);
+    const endIndex = Math.min(
+      startIndex + this.itemsPerPage,
+      this.savedData.length
+    );
     this.displayedData = this.savedData.slice(startIndex, endIndex);
   }
 
- 
-
   private filtersAreEqual(filters1: any, filters2: any): boolean {
-   
-    return false; 
+    return false;
   }
 
   openGuideDialog() {
@@ -82,39 +77,44 @@ export class RigthSidenetnewSavedTotalComponent implements OnInit {
   }
 
   fetchCounts(): void {
-  this.fetchSavedCount(this.currentFilters);
-  this.fetchtotalCount(this.currentFilters);
-  this.fetchnewCount(this.currentFilters);
-}
+    this.fetchSavedCount(this.currentFilters);
+    this.fetchtotalCount(this.currentFilters);
+    this.fetchnewCount(this.currentFilters);
+  }
 
-fetchSavedCount(filters: any): void {
-  this.apiService.savedsearch(filters).subscribe((response) => {
-    if (response && response.saved_count ) {
-      this.savedRecordsCount = response.saved_count;
-    } else {
-      console.warn('Unexpected server response. No saved_count property found.');
-    }
-  });
-}
+  fetchSavedCount(filters: any): void {
+    this.apiService.savedsearch(filters).subscribe((response) => {
+      if (response && response.saved_count) {
+        this.savedRecordsCount = response.saved_count;
+      } else {
+        console.warn(
+          'Unexpected server response. No saved_count property found.'
+        );
+      }
+    });
+  }
 
+  fetchtotalCount(filters: any): void {
+    this.apiService.totalsearch(filters).subscribe((response) => {
+      if (response && response.total_count) {
+        this.total_count1 = response.total_count;
+      } else {
+        console.warn(
+          'Unexpected server response. No saved_count property found.'
+        );
+      }
+    });
+  }
 
-fetchtotalCount(filters: any): void {
-  this.apiService.totalsearch(filters).subscribe((response) => {
-    if (response && response.total_count) {
-       this.total_count1 = response.total_count;
-    } else {
-      console.warn('Unexpected server response. No saved_count property found.');
-    }
-  });
-}
-
-fetchnewCount(filters: any): void {
-  this.apiService.net_new_search(filters).subscribe((response) => {
-    if (response && response.net_new_count) {
+  fetchnewCount(filters: any): void {
+    this.apiService.net_new_search(filters).subscribe((response) => {
+      if (response && response.net_new_count) {
         this.net_new_count1 = response.net_new_count;
-    } else {
-      console.warn('Unexpected server response. No saved_count property found.');
-    }
-  });
-}
+      } else {
+        console.warn(
+          'Unexpected server response. No saved_count property found.'
+        );
+      }
+    });
+  }
 }

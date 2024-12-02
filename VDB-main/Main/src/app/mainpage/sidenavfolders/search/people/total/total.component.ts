@@ -44,9 +44,9 @@ export class TotalComponent {
   recordsPerPage: number = 10;
   totalPages: number = 0;
   items: any;
-  loader:any
-  isLoading:boolean=true 
-   displayedData: any[] | undefined;
+  loader: any;
+  isLoading: boolean = true;
+  displayedData: any[] | undefined;
   itemsPerPage: number = 50;
   isExporting: boolean = false;
   isDialogOpen: boolean = false;
@@ -65,7 +65,7 @@ export class TotalComponent {
     private dialog: MatDialog,
     private router: Router,
     private loadingBar: LoadingBarService,
-    private validationService:NewService
+    private validationService: NewService
   ) {}
   ngOnInit(): void {
     this.filterService.filters$.subscribe((filters) => {
@@ -75,10 +75,7 @@ export class TotalComponent {
     });
     this.saveDataToUserAccount();
     this.filters = this.retrieveFiltersFromLocal();
-    console.log(this.retrieveFiltersFromLocal(),'this is the retrivefiltersfromlocal');
     this.fetchBuyingIntentData(1, this.filters);
-    
-    
   }
 
   onUserNameClick(prospectLink: string): void {
@@ -90,9 +87,7 @@ export class TotalComponent {
       (data) => {
         this.selectedUserDetails = data.userDetails;
       },
-      (error) => {
-        console.error('Error fetching user details:', error);
-      }
+      (error) => {}
     );
   }
 
@@ -101,58 +96,49 @@ export class TotalComponent {
     this.router.navigate(['userDetails', prospectLink]);
   }
 
-  
   saveData(): void {
-    console.log('Selected Rows in Component:', this.selectedRows);
-  
-    this.apiService.saveDataToUserAccount1(this.selectedRows)
-      .subscribe(
-        (response) => {
-          console.log('Response:', response);
-          this.selectedRows = []; // Clear selected rows on successful save
-          // Optionally, show success message or perform other actions
-          this.snackBar.open('Data saved successfully','',{
-          duration:1000
-          }
-          )
-        },
-        (error) => {
-          console.error('Error:', error);
-          if (error.status === 409) {
-            // Handle duplicate entry error
-          } else if (error.status === 500) {
-            // Handle other server errors
-          } else {
-            // Handle other specific errors as needed
-          }
+    this.apiService.saveDataToUserAccount1(this.selectedRows).subscribe(
+      (response) => {
+        this.selectedRows = []; // Clear selected rows on successful save
+        // Optionally, show success message or perform other actions
+        this.snackBar.open('Data saved successfully', '', {
+          duration: 1000,
+        });
+      },
+      (error) => {
+        if (error.status === 409) {
+          // Handle duplicate entry error
+        } else if (error.status === 500) {
+          // Handle other server errors
+        } else {
+          // Handle other specific errors as needed
         }
-      );
+      }
+    );
   }
   removeCompanyName(): void {
     // Remove the company name filter
     this.filters.companyName = null;
-  
+
     // Save updated filters to local storage
     this.saveFiltersToLocal();
-  
+
     // Call search with resetPage: true to reset pagination and fetch new data
     this.search(true);
   }
-  
 
   search(resetPage: boolean = true): void {
     this.loading = true;
-  
+
     // Reset currentPage to 1 for a new search if resetPage is true
     if (resetPage) {
       this.currentPage = 1;
     }
-  
+
     const filtersApplied = Object.values(this.filters).some(
       (value) => value !== null && value !== undefined && value !== ''
     );
-    console.log('applied Filters:', this.filters);
-  
+
     if (!filtersApplied) {
       this.results = [];
       this.progressValue = 0;
@@ -161,176 +147,161 @@ export class TotalComponent {
       this.selectedRows = [];
       return;
     }
-  
+
     this.apiService.totalsearch(this.filters, this.currentPage).subscribe(
       (data: any) => {
         this.results = data.total_data;
         this.loading = false;
         this.count = data.total_count;
-        // this.totalPages = data.total_pages.total_pages_total;
+        this.totalPages = data.total_pages.total_pages_total;
         this.paginationTotal = this.calculatePaginationDetails(
           this.currentPage,
           data.total_count
         );
         this.saveFiltersToLocal();
-        console.log('Retrieved Filters:', this.retrieveFiltersFromLocal());
       },
       (error) => {
-        console.error('Error fetching data:', error);
         this.loading = false;
       }
     );
   }
   // 29-10-24
- buyingIntentData: any;
- fetchBuyingIntentData(page: number, filters: any): void {
-   this.apiService.getBuyingIntentData(page, filters).subscribe(
-     (response) => {
-       this.buyingIntentData = response;
-       console.log('Data received Saved Component:', this.buyingIntentData);
-     },
-     (error) => {
-       console.error('Error fetching data', error);
-     }
-   );
- }
- jobChangesData: any[] = [];
- updatedCount: number = 0;
- updatedPids: any;
- fetchJobChanges() {
-   this.apiService.jobChanges(this.filters).subscribe(
-     response => {
-       if (response) {
-         this.updatedCount = response.updated_count;
-         this.jobChangesData = response.updated_data;
- 
-         // Store the pids of updated records
-         this.updatedPids = this.jobChangesData.map(item => item.pid); // Assuming 'pid' is a property of the item
-       }
-     },
-     error => {
-       console.error('Error fetching job changes:', error);
-     }
-   );
- }
-
- 
- defaultImage = './assets/company.svg'; // Default image path
-
- onImageError(event: Event) {
-   const target = event.target as HTMLImageElement;
-   target.src = this.defaultImage;
- }
- getEmailAddress(item: any, job: any): string {
-  if (this.comparePIDs(item, job)) {
-    if (item.email_address !== job.email_address) {
-      return job.email_address; 
-    }
+  buyingIntentData: any;
+  fetchBuyingIntentData(page: number, filters: any): void {
+    this.apiService.getBuyingIntentData(page, filters).subscribe(
+      (response) => {
+        this.buyingIntentData = response;
+      },
+      (error) => {}
+    );
   }
-  return item.email_address;
-}
+  jobChangesData: any[] = [];
+  updatedCount: number = 0;
+  updatedPids: any;
+  fetchJobChanges() {
+    this.apiService.jobChanges(this.filters).subscribe(
+      (response) => {
+        if (response) {
+          this.updatedCount = response.updated_count;
+          this.jobChangesData = response.updated_data;
 
-getPid(item: any, job: any): string {
-  if (this.comparePIDs(item, job)) {
-    if (item.pid !== job.pid) {
-      return job.pid; 
-    }
+          // Store the pids of updated records
+          this.updatedPids = this.jobChangesData.map((item) => item.pid); // Assuming 'pid' is a property of the item
+        }
+      },
+      (error) => {}
+    );
   }
-  return item.pid;
-}
 
+  defaultImage = './assets/company.svg'; // Default image path
 
-getCompanyDomain(item: any, job: any): string {
-  if (this.comparePIDs(item, job)) {
-    if (item.company_domain !== job.company_domain) {
-      return job.company_domain; 
-    }
+  onImageError(event: Event) {
+    const target = event.target as HTMLImageElement;
+    target.src = this.defaultImage;
   }
-  return item.company_domain; 
-}
-
-getJobTitle(item: any, job: any): string {
-  if (this.comparePIDs(item, job)) {
-    if (item.job_title !== job.job_title) {
-      return job.job_title; 
+  getEmailAddress(item: any, job: any): string {
+    if (this.comparePIDs(item, job)) {
+      if (item.email_address !== job.email_address) {
+        return job.email_address;
+      }
     }
+    return item.email_address;
   }
-  return item.job_title; 
-}
-getDisplayedPid(item: any): string | void {
-  for (const job of this.jobChangesData) {
+
+  getPid(item: any, job: any): string {
+    if (this.comparePIDs(item, job)) {
+      if (item.pid !== job.pid) {
+        return job.pid;
+      }
+    }
+    return item.pid;
+  }
+
+  getCompanyDomain(item: any, job: any): string {
+    if (this.comparePIDs(item, job)) {
+      if (item.company_domain !== job.company_domain) {
+        return job.company_domain;
+      }
+    }
+    return item.company_domain;
+  }
+
+  getJobTitle(item: any, job: any): string {
+    if (this.comparePIDs(item, job)) {
+      if (item.job_title !== job.job_title) {
+        return job.job_title;
+      }
+    }
+    return item.job_title;
+  }
+  getDisplayedPid(item: any): string | void {
+    for (const job of this.jobChangesData) {
       if (this.getPid(item, job)) {
-          return this.getPid(item, job); 
+        return this.getPid(item, job);
       }
+    }
+    // No return statement when no match is found
   }
-  // No return statement when no match is found
-}
 
-
-getDisplayedCompanyDomain(item: any): string {
-  let foundMatch = false;
-  for (const job of this.jobChangesData) {
+  getDisplayedCompanyDomain(item: any): string {
+    let foundMatch = false;
+    for (const job of this.jobChangesData) {
       if (this.getCompanyDomain(item, job)) {
-          foundMatch = true;
-          return this.getCompanyDomain(item, job); // Return the job title if found
+        foundMatch = true;
+        return this.getCompanyDomain(item, job); // Return the job title if found
       }
+    }
+    return item.company_domain; // Return item.job_title if no match found
   }
-  return item.company_domain; // Return item.job_title if no match found
-}
 
-getDisplayedJobTitle(item: any): string {
-  let foundMatch = false;
-  for (const job of this.jobChangesData) {
+  getDisplayedJobTitle(item: any): string {
+    let foundMatch = false;
+    for (const job of this.jobChangesData) {
       if (this.comparePIDs(item, job)) {
-          foundMatch = true;
-          return this.getJobTitle(item, job); // Return the job title if found
+        foundMatch = true;
+        return this.getJobTitle(item, job); // Return the job title if found
       }
+    }
+    return item.job_title; // Return item.job_title if no match found
   }
-  return item.job_title; // Return item.job_title if no match found
-}
 
-
-
-
-getDisplayedEmailAddress(item: any): string {
-let foundMatch = false;
-for (const job of this.jobChangesData) {
-    if (this.getEmailAddress(item, job)) {
+  getDisplayedEmailAddress(item: any): string {
+    let foundMatch = false;
+    for (const job of this.jobChangesData) {
+      if (this.getEmailAddress(item, job)) {
         foundMatch = true;
         return this.getEmailAddress(item, job); // Return the job title if found
-    }
-}
-return item.email_address; // Return item.job_title if no match found
-}
-
-
- comparePIDs(item: any, job: any): boolean {
-  // console.log(`Comparing PIDs: item.pid = ${item.pid}, job.pid = ${job.pid}`); // Log the PIDs being compared
-  return item.pid === job.pid;
-}
-
- getCompanyName(item: any, job: any): string {
-  if (this.comparePIDs(item, job)) {
-    if (item.company_name !== job.company_name) {
-      return job.company_name; 
-    }
-  }
-  return item.company_name;
-}
- getDisplayedCompanyName(item: any): string {
-  let foundMatch = false;
-  for (const job of this.jobChangesData) {
-      if (this.getCompanyName(item, job)) {
-          foundMatch = true;
-          return this.getCompanyName(item, job); // Return the job title if found
       }
+    }
+    return item.email_address; // Return item.job_title if no match found
   }
-  return item.company_name; // Return item.job_title if no match found
-}
+
+  comparePIDs(item: any, job: any): boolean {
+    return item.pid === job.pid;
+  }
+
+  getCompanyName(item: any, job: any): string {
+    if (this.comparePIDs(item, job)) {
+      if (item.company_name !== job.company_name) {
+        return job.company_name;
+      }
+    }
+    return item.company_name;
+  }
+  getDisplayedCompanyName(item: any): string {
+    let foundMatch = false;
+    for (const job of this.jobChangesData) {
+      if (this.getCompanyName(item, job)) {
+        foundMatch = true;
+        return this.getCompanyName(item, job); // Return the job title if found
+      }
+    }
+    return item.company_name; // Return item.job_title if no match found
+  }
 
   sortCriteria: string = '';
   sortOrder: string = 'Ascending';
-  
+
   onSortCriteriaChange(event: any) {
     this.sortCriteria = event.target.value;
     this.sortData();
@@ -361,9 +332,9 @@ return item.email_address; // Return item.job_title if no match found
       case 'Industry':
         this.sortByIndustry();
         break;
-        case 'Employees':
-          this.sortByEmployees();
-          break;
+      case 'Employees':
+        this.sortByEmployees();
+        break;
       default:
         break;
     }
@@ -371,13 +342,14 @@ return item.email_address; // Return item.job_title if no match found
   sortByRelevance() {
     // Show the default table order
     this.results = [...this.originalResults];
-    console.log('Sorting by relevance');
   }
   sortByName() {
     this.results.sort((a: any, b: any) => {
       const nameA = a.first_name ? a.first_name : '';
       const nameB = b.first_name ? b.first_name : '';
-      return this.sortOrder === 'Ascending' ? nameA.localeCompare(nameB) : nameB.localeCompare(nameA);
+      return this.sortOrder === 'Ascending'
+        ? nameA.localeCompare(nameB)
+        : nameB.localeCompare(nameA);
     });
   }
 
@@ -385,7 +357,9 @@ return item.email_address; // Return item.job_title if no match found
     this.results.sort((a: any, b: any) => {
       const companyA = a.company_name ? a.company_name : '';
       const companyB = b.company_name ? b.company_name : '';
-      return this.sortOrder === 'Ascending' ? companyA.localeCompare(companyB) : companyB.localeCompare(companyA);
+      return this.sortOrder === 'Ascending'
+        ? companyA.localeCompare(companyB)
+        : companyB.localeCompare(companyA);
     });
   }
 
@@ -393,7 +367,9 @@ return item.email_address; // Return item.job_title if no match found
     this.results.sort((a: any, b: any) => {
       const combinedA = `${a.country || ''} ${a.city || ''}`.trim();
       const combinedB = `${b.country || ''} ${b.city || ''}`.trim();
-      return this.sortOrder === 'Ascending' ? combinedA.localeCompare(combinedB) : combinedB.localeCompare(combinedA);
+      return this.sortOrder === 'Ascending'
+        ? combinedA.localeCompare(combinedB)
+        : combinedB.localeCompare(combinedA);
     });
   }
 
@@ -401,7 +377,9 @@ return item.email_address; // Return item.job_title if no match found
     this.results.sort((a: any, b: any) => {
       const cityA = a.city ? a.city : '';
       const cityB = b.city ? b.city : '';
-      return this.sortOrder === 'Ascending' ? cityA.localeCompare(cityB) : cityB.localeCompare(cityA);
+      return this.sortOrder === 'Ascending'
+        ? cityA.localeCompare(cityB)
+        : cityB.localeCompare(cityA);
     });
   }
 
@@ -409,7 +387,9 @@ return item.email_address; // Return item.job_title if no match found
     this.results.sort((a: any, b: any) => {
       const industryA = a.industry ? a.industry : '';
       const industryB = b.industry ? b.industry : '';
-      return this.sortOrder === 'Ascending' ? industryA.localeCompare(industryB) : industryB.localeCompare(industryA);
+      return this.sortOrder === 'Ascending'
+        ? industryA.localeCompare(industryB)
+        : industryB.localeCompare(industryA);
     });
   }
 
@@ -417,39 +397,39 @@ return item.email_address; // Return item.job_title if no match found
     this.results.sort((a: any, b: any) => {
       const industryA = a.employee_size ? a.employee_size : '';
       const industryB = b.employee_size ? b.employee_size : '';
-      return this.sortOrder === 'Ascending' ? industryA.localeCompare(industryB) : industryB.localeCompare(industryA);
+      return this.sortOrder === 'Ascending'
+        ? industryA.localeCompare(industryB)
+        : industryB.localeCompare(industryA);
     });
   }
 
-
-//  ?****************************
+  //  ?****************************
   sortByNameAsc() {
-    this.results.sort((a:any, b:any) => {
+    this.results.sort((a: any, b: any) => {
       const nameA = a.first_name ? a.first_name : '';
       const nameB = b.first_name ? b.first_name : '';
       return nameA.localeCompare(nameB);
     });
   }
-  
+
   sortByNameDesc() {
-    this.results.sort((a:any, b:any) => {
+    this.results.sort((a: any, b: any) => {
       const nameA = a.first_name ? a.first_name : '';
       const nameB = b.first_name ? b.first_name : '';
       return nameB.localeCompare(nameA);
     });
   }
-  
 
   sortByCompanyAsc() {
-    this.results.sort((a:any, b:any) => {
+    this.results.sort((a: any, b: any) => {
       const nameA = a.company_name ? a.company_name : '';
       const nameB = b.company_name ? b.company_name : '';
       return nameA.localeCompare(nameB);
     });
   }
-  
+
   sortByCompanyDesc() {
-    this.results.sort((a:any, b:any) => {
+    this.results.sort((a: any, b: any) => {
       const nameA = a.company_name ? a.company_name : '';
       const nameB = b.company_name ? b.company_name : '';
       return nameB.localeCompare(nameA);
@@ -457,30 +437,30 @@ return item.email_address; // Return item.job_title if no match found
   }
 
   sortByEmailAsc() {
-    this.results.sort((a:any, b:any) => {
+    this.results.sort((a: any, b: any) => {
       const nameA = a.email_address ? a.email_address : '';
       const nameB = b.email_address ? b.email_address : '';
       return nameA.localeCompare(nameB);
     });
   }
-  
+
   sortByEmailDesc() {
-    this.results.sort((a:any, b:any) => {
+    this.results.sort((a: any, b: any) => {
       const nameA = a.email_address ? a.email_address : '';
       const nameB = b.email_address ? b.email_address : '';
       return nameB.localeCompare(nameA);
     });
   }
   sortByTitleAsc() {
-    this.results.sort((a:any, b:any) => {
+    this.results.sort((a: any, b: any) => {
       const nameA = a.job_title ? a.job_title : '';
       const nameB = b.job_title ? b.job_title : '';
       return nameA.localeCompare(nameB);
     });
   }
-  
+
   sortByTitleDesc() {
-    this.results.sort((a:any, b:any) => {
+    this.results.sort((a: any, b: any) => {
       const nameA = a.job_title ? a.job_title : '';
       const nameB = b.job_title ? b.job_title : '';
       return nameB.localeCompare(nameA);
@@ -494,7 +474,7 @@ return item.email_address; // Return item.job_title if no match found
       return combinedA.localeCompare(combinedB);
     });
   }
-  
+
   sortByCountryCityDesc() {
     this.results.sort((a: any, b: any) => {
       const combinedA = `${a.country || ''} ${a.city || ''}`.trim();
@@ -502,101 +482,100 @@ return item.email_address; // Return item.job_title if no match found
       return combinedB.localeCompare(combinedA);
     });
   }
-  
+
   sortByemployee_sizeAsc() {
-    this.results.sort((a:any, b:any) => {
+    this.results.sort((a: any, b: any) => {
       const nameA = a.employee_size ? a.employee_size : '';
       const nameB = b.employee_size ? b.employee_size : '';
       return nameA.localeCompare(nameB);
     });
   }
-  
+
   sortByemployee_sizeDesc() {
-    this.results.sort((a:any, b:any) => {
+    this.results.sort((a: any, b: any) => {
       const nameA = a.employee_size ? a.employee_size : '';
       const nameB = b.employee_size ? b.employee_size : '';
       return nameB.localeCompare(nameA);
     });
   }
-
 
   sortByindustryAsc() {
-    this.results.sort((a:any, b:any) => {
+    this.results.sort((a: any, b: any) => {
       const nameA = a.industry ? a.industry : '';
       const nameB = b.industry ? b.industry : '';
       return nameA.localeCompare(nameB);
     });
   }
-  
+
   sortByindustryDesc() {
-    this.results.sort((a:any, b:any) => {
+    this.results.sort((a: any, b: any) => {
       const nameA = a.industry ? a.industry : '';
       const nameB = b.industry ? b.industry : '';
       return nameB.localeCompare(nameA);
     });
   }
-
 
   // Function to save filters to local storage
   saveFiltersToLocal(): void {
     localStorage.setItem('appliedFilters', JSON.stringify(this.filters));
   }
-  
+
   // Function to retrieve filters from local storage
   retrieveFiltersFromLocal(): any {
     const storedFilters = localStorage.getItem('appliedFilters');
     return storedFilters ? JSON.parse(storedFilters) : {};
   }
-  
 
-  
   calculatePaginationDetails(currentPage: number, totalItems: number): any {
     const totalPages = Math.ceil(totalItems / this.recordsPerPage);
-  
+
     return {
       current_page_total: currentPage,
       total_pages_total: totalPages,
       records_per_page_total: this.recordsPerPage,
     };
   }
-  
+
   goToPage(page: number): void {
     if (page >= 1 && page <= this.totalPages) {
       this.currentPage = page;
       this.search(false); // Don't reset the page when navigating
     }
   }
-  
+
   getPages(): number[] {
     const pages: number[] = [];
     const maxVisiblePages = 5;
-    let startPage = Math.max(this.currentPage - Math.floor(maxVisiblePages / 2), 1);
+    let startPage = Math.max(
+      this.currentPage - Math.floor(maxVisiblePages / 2),
+      1
+    );
     let endPage = startPage + maxVisiblePages - 1;
-  
+
     if (endPage > this.totalPages) {
       endPage = this.totalPages;
       startPage = Math.max(endPage - maxVisiblePages + 1, 1);
     }
-  
+
     for (let page = startPage; page <= endPage; page++) {
       pages.push(page);
     }
-  
+
     return pages;
   }
-  
+
   toggleRowSelection(row: any): void {
     const index = this.selectedRows.findIndex(
       (selectedRow) => selectedRow.prospect_link === row.prospect_link
     );
-  
+
     if (index === -1) {
       this.selectedRows.push(row);
     } else {
       this.selectedRows.splice(index, 1);
     }
   }
-  
+
   get selectedRowsCount(): number {
     return this.selectedRows.length;
   }
@@ -609,7 +588,7 @@ return item.email_address; // Return item.job_title if no match found
   }
 
   get totalRecords(): number {
- return this.count;
+    return this.count;
   }
   isRowSelected(row: any): boolean {
     return this.selectedRows.some(
@@ -617,11 +596,11 @@ return item.email_address; // Return item.job_title if no match found
     );
   }
   exportToCSV(): void {
-      const api_key = localStorage.getItem('api_key');
+    const api_key = localStorage.getItem('api_key');
     if (api_key) {
       const filters = this.filters;
       const selectedRows = this.selectedRows;
-  
+
       this.apiService.exportToCSV(filters, selectedRows).subscribe(
         (data) => {
           const blob = new Blob([data], { type: 'text/csv;charset=utf-8' });
@@ -632,15 +611,11 @@ return item.email_address; // Return item.job_title if no match found
             panelClass: ['custom-snackbar', 'snackbar-success'],
           });
         },
-        (error) => {
-          console.error('Error exporting data:', error);
-        }
+        (error) => {}
       );
     } else {
-      console.error('User API key not found.');
     }
   }
-  
 
   saveDataToUserAccount(): void {
     const userEmail = localStorage.getItem('email');
@@ -656,17 +631,14 @@ return item.email_address; // Return item.job_title if no match found
           },
           (error) => {
             if (error.status === 501) {
-              console.error('Connection failed', error);
-            } else if (error.status === 409 ) {
+            } else if (error.status === 409) {
               this.snackBar.open('Already saved record', 'Close', {
                 duration: 1000,
-               
               });
             }
           }
         );
     } else {
-      console.error('User email not found.');
     }
   }
 
@@ -694,8 +666,6 @@ return item.email_address; // Return item.job_title if no match found
     const filters = this.filters;
     this.apiService.exportToCSV(filters, dataToExport).subscribe(
       (data) => {
-        
-  
         const blob = new Blob([data], { type: 'text/csv;charset=utf-8' });
         saveAs(blob, 'exported_data.csv');
         this.snackBar.open('Data has been exported', 'Close', {
@@ -705,7 +675,6 @@ return item.email_address; // Return item.job_title if no match found
         });
       },
       (error) => {
-        console.error('Error exporting data:', error);
         this.snackBar.open('Error exporting data', 'Close', {
           duration: 4000,
           verticalPosition: 'top',
@@ -716,32 +685,27 @@ return item.email_address; // Return item.job_title if no match found
   }
 
   openExportDialogue(): void {
-    
-  console.log("Selected Rows:", this.selectedRows); // Debugging to ensure rows are selected
+    if (this.selectedRows.length === 0) {
+      return; // Prevent further action if no rows are selected
+    }
 
-  if (this.selectedRows.length === 0) {
-    console.error('No rows selected for export');
-    return; // Prevent further action if no rows are selected
+    const unsavedRows = this.selectedRows.filter((row) => !row.saved);
+
+    if (unsavedRows.length > 0) {
+      const dialogRef = this.dialog.open(DialogueSaveComponent, {
+        data: { selectedRows: unsavedRows },
+        width: '400px',
+      });
+
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result) {
+          this.exportData(this.selectedRows);
+        }
+      });
+    } else {
+      this.exportData(this.selectedRows);
+    }
   }
-
-  const unsavedRows = this.selectedRows.filter(row => !row.saved);
-  
-  if (unsavedRows.length > 0) {
-    const dialogRef = this.dialog.open(DialogueSaveComponent, {
-      data: { selectedRows: unsavedRows },
-      width: '400px',
-    });
-
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.exportData(this.selectedRows);
-      }
-    });
-  } else {
-    this.exportData(this.selectedRows);
-  }
-}
 
   startProgressBar() {
     const interval = setInterval(() => {
@@ -753,7 +717,7 @@ return item.email_address; // Return item.job_title if no match found
       }
     }, 1000);
   }
-  
+
   openGuideDialog() {
     let dialogRef = this.dialog.open(GuideComponent, {
       data: {},
@@ -772,10 +736,8 @@ return item.email_address; // Return item.job_title if no match found
   showButton: boolean = true;
 
   validateEmail(email: string, item: any): void {
-   
     this.apiService.getlastBounce(email).subscribe(
       (data) => {
-        console.log(data.result, 'data of rebounce');
         this.isEmailValid = data.result;
         item.isValidEmail = data.result;
         item.clicked = true;
@@ -790,7 +752,6 @@ return item.email_address; // Return item.job_title if no match found
         this.showResult = true;
       },
       (error: any) => {
-        console.error('Error validating email:', error);
         this.snackBar.open('Error occurred while validating email', 'Close', {
           duration: 4000,
           verticalPosition: 'top',
@@ -813,9 +774,12 @@ return item.email_address; // Return item.job_title if no match found
   status!: string;
   buttonClicked: boolean = false;
 
-
   toggleDialog(rowId: number, email: string): void {
-    if (this.selectedRowId === rowId && this.selectedEmail === email && this.isDialogOpen) {
+    if (
+      this.selectedRowId === rowId &&
+      this.selectedEmail === email &&
+      this.isDialogOpen
+    ) {
       this.isDialogOpen = false;
       this.selectedEmail = null;
       this.selectedRowId = null;
@@ -828,9 +792,13 @@ return item.email_address; // Return item.job_title if no match found
       this.selectedPhone = null;
     }
   }
-  
+
   togglePhoneDialog(rowId: number, phone: string): void {
-    if (this.selectedRowId === rowId && this.selectedPhone === phone && this.isDialogOpenPhone) {
+    if (
+      this.selectedRowId === rowId &&
+      this.selectedPhone === phone &&
+      this.isDialogOpenPhone
+    ) {
       this.isDialogOpenPhone = false;
       this.selectedPhone = null;
       this.selectedRowId = null;
@@ -843,21 +811,20 @@ return item.email_address; // Return item.job_title if no match found
       this.selectedEmail = null;
     }
   }
-  
 
   copyToClipboard(text: string): void {
-
     if (navigator.clipboard) {
-      navigator.clipboard.writeText(text).then(() => {
-
-        this.isCopiedMessageVisible = true;
-        setTimeout(() => {
-          this.isCopiedMessageVisible = false;
-        }, 2000);
-      }).catch(err => {
-        console.error('Failed to copy: ', err);
-        alert('Failed to copy text.');
-      });
+      navigator.clipboard
+        .writeText(text)
+        .then(() => {
+          this.isCopiedMessageVisible = true;
+          setTimeout(() => {
+            this.isCopiedMessageVisible = false;
+          }, 2000);
+        })
+        .catch((err) => {
+          alert('Failed to copy text.');
+        });
     } else {
       const textArea = document.createElement('textarea');
       textArea.value = text;
@@ -870,15 +837,12 @@ return item.email_address; // Return item.job_title if no match found
           this.isCopiedMessageVisible = false;
         }, 2000);
       } catch (err) {
-        console.error('Fallback: Failed to copy: ', err);
         alert('Failed to copy text.');
       }
       document.body.removeChild(textArea);
-    }}
-    isSelected(): boolean {
-      return this.selectedRows.length > 0;
     }
-
-
-  
+  }
+  isSelected(): boolean {
+    return this.selectedRows.length > 0;
+  }
 }
